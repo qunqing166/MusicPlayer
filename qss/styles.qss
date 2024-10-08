@@ -1,0 +1,91 @@
+QWidget#title_bar
+{
+    background-color: red;
+}
+
+/* QMainWindow
+{
+    background-color: yellow;
+} */
+
+QLabel#title_label
+{
+    margin-left: 20px;
+}
+
+TitleBar#title_bar
+{
+    background-color: rgb(245, 152, 152);
+}
+
+SelectBar#select_bar
+{
+    background-color: aquamarine;
+}
+
+PlayerBar#player_bar
+{
+    background-color: rgb(255, 255, 255);
+}
+
+MainWidget#main_widget
+{
+    background-color: rgb(208, 167, 255);
+}
+
+
+QLabel#image
+{
+    /* border: 1px solid black; */
+    /* margin: 3px; */
+}
+
+QPushButton#player_bar_button
+{
+    background-color: transparent;
+    /* padding: 10px; */
+}
+
+QPushButton:hover#player_bar_button
+{
+    background-color: rgba(146, 146, 146, 0.411);      
+    border: none;
+    border-radius: 10px;
+}
+
+QPushButton:pressed#player_bar_button
+{
+    background-color: rgba(201, 83, 83, 0.411);      
+    border: none;
+    border-radius: 10px;      
+}
+
+/* QLabel#label_test
+{
+    border: 2px solid black;
+} */
+
+QPushButton#select_bar_button
+{
+    background-color: transparent;
+}
+
+QPushButton:hover#select_bar_button
+{
+    background-color: rgba(146, 146, 146, 0.411);         
+    border: none;
+    border-radius: 20px;
+}
+
+QPushButton:pressed#select_bar_button
+{
+    background-color: rgba(201, 83, 83, 0.411);      
+    border: none;
+    border-radius: 20px;
+}
+
+QLabel#select_bar_user_name
+{
+    color:#666666;
+    font-size: 16px;
+}

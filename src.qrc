@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qss/styles.qss</file>
+        <file>scr/icon/down.png</file>
+        <file>scr/icon/fullscreen.png</file>
+        <file>scr/icon/mti-暂停1.png</file>
+        <file>scr/icon/mute.png</file>
+        <file>scr/icon/up.png</file>
+        <file>scr/icon/volume.png</file>
+        <file>scr/icon/up_white.png</file>
+        <file>scr/icon/down_white.png</file>
+        <file>scr/icon/stopping.png</file>
+        <file>scr/icon/playing.png</file>
+        <file>scr/icon/to_last.png</file>
+        <file>scr/icon/to_next.png</file>
+        <file>scr/icon/one_loop.png</file>
+        <file>scr/icon/list_loop.png</file>
+        <file>scr/icon/list.png</file>
+        <file>scr/icon/arrow_left.png</file>
+        <file>scr/icon/arrow_right.png</file>
+    </qresource>
+</RCC>
