@@ -18,5 +18,8 @@
         <file>scr/icon/list.png</file>
         <file>scr/icon/arrow_left.png</file>
         <file>scr/icon/arrow_right.png</file>
+        <file>scr/icon/add.png</file>
+        <file>scr/icon/arrow_down.png</file>
+        <file>scr/icon/arrow_up.png</file>
     </qresource>
 </RCC>

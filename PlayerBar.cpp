@@ -29,8 +29,14 @@ void PlayerBar::SetMusicInfo(MusicInfo musicInfo)
     if(!musicInfo.singers.empty())
     {
         QString str = musicInfo.singers.at(0);
+        int t = 0;
         foreach (QString name, musicInfo.singers)
         {
+            if(t == 0)
+            {
+                t++;
+                continue;
+            }
             str = str + ", " + name;
         }
         this->labelSingers->setText(str);

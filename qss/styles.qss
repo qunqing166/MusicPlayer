@@ -89,3 +89,91 @@ QLabel#select_bar_user_name
     color:#666666;
     font-size: 16px;
 }
+
+QLabel#song_sheet_list_label
+{
+    color:#666666;
+    font-size: 15px;
+    font-family: "黑体";
+    align-content: center;
+    /* background-color: turquoise; */
+}
+
+QPushButton#song_sheet_list_button
+{
+    background-color: transparent;
+}
+
+QPushButton:hover#song_sheet_list_button
+{
+    background-color: rgba(146, 146, 146, 0.411);         
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton:pressed#song_sheet_list_button
+{
+    background-color: rgba(201, 83, 83, 0.411);      
+    border: none;
+    border-radius: 15px;
+}
+
+QListWidget#song_sheet_list_widget
+{
+    background-color: rgb(244, 183, 183);
+    border: none;
+}
+
+/* QListWidget::item#song_sheet_list_widget
+{
+    height: 30px;
+    font-size: 30px;
+    font-family: "黑体";
+    color: #666666;
+} */
+
+QListView#song_sheet_list_view
+{
+    background-color: rgb(255, 187, 187);
+    border: none;
+    border-radius: 10px;
+}
+
+QScrollArea#select_bar_scrollarea
+{
+    background-color: transparent;
+    border: none;
+    margin: 0px;
+}
+
+QWidget#song_sheet_list
+{
+    background-color: transparent;
+    margin: 0px;
+    border: none;
+}
+
+/* QListView:QScrollBar#song_sheet_list_view
+{
+    width: 0px;
+} */
+
+QWidget#scroll_widget
+{
+    background-color: transparent;
+    border: none;
+    border-width: 0px;
+}
+
+QWidget#song_sheet_bar
+{
+    background-color: transparent;
+}
+
+QWidget#select_bar
+{
+    background-color: transparent;
+    margin: 0px;
+    padding: 0px;
+}
+
