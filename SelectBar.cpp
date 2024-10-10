@@ -40,7 +40,7 @@ void SelectBar::WidgetInit()
     scrollArea->setWidget(widget);
     widget->setObjectName("scroll_widget");
 
-    SongSheetList *sl = new SongSheetList(this);
+    PlayList *sl = new PlayList(this);
     sl->setTitle("收藏");
     sl->setObjectName("song_sheet_list");
 
@@ -69,7 +69,7 @@ void SelectBar::ObjectInit()
     pbUserInfo->setObjectName("select_bar_button");
     pbUserInfo->setIcon(QIcon(":/scr/icon/arrow_right.png"));
 
-    songSheetList = new SongSheetList(this);
+    songSheetList = new PlayList(this);
     songSheetList->setTitle("自建");
     songSheetList->setObjectName("song_sheet_list");
 }

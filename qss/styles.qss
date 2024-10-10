@@ -95,7 +95,7 @@ QLabel#song_sheet_list_label
     color:#666666;
     font-size: 15px;
     font-family: "黑体";
-    align-content: center;
+    /* align-content: center; */
     /* background-color: turquoise; */
 }
 
@@ -177,3 +177,70 @@ QWidget#select_bar
     padding: 0px;
 }
 
+QWidget#song_sheet_content
+{
+    background-color: rgb(231, 169, 169);
+}
+
+QPushButton#sheet_button_play
+{
+    background-color: rgb(110, 178, 255);
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton:hover#sheet_button_play
+{
+    background-color: rgba(110, 178, 255, 0.8);
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton:pressed#sheet_button_play
+{
+    background-color: rgba(110, 178, 255, 0.6);
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton#sheet_button_edit
+{
+    background-color: rgba(207, 207, 207, 0.61);
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton:hover#sheet_button_edit
+{
+    background-color: rgba(173, 173, 173, 0.692);
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton:pressed#sheet_button_edit
+{
+    background-color: rgba(133, 133, 133, 0.76);
+    border: none;
+    border-radius: 15px;
+}
+
+QLabel#sheet_title_label
+{
+    color: #666666 ;
+    font-size: 25px;
+    font-family: "黑体";
+    /* align-content: center; */
+}
+
+QLabel#sheet_user_name
+{
+    color: #666666 ;
+    font-size: 15px;
+    font-family: "黑体";
+    /* align-content: center; */
+}
+
+QListWidget#song_list_view
+{
+    background-color: rgb(220, 183, 244);
+}

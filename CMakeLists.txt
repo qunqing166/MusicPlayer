@@ -11,6 +11,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Sql)
+
 
 set(PROJECT_SOURCES
         main.cpp
@@ -32,8 +34,19 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ProgressBar.h ProgressBar.cpp
 
         DataInfo/MusicInfo.h
-        SongSheetList.h SongSheetList.cpp
+        PlayList.h PlayList.cpp
         AnimationButton.h AnimationButton.cpp
+        PlayListContentView.h PlayListContentView.cpp
+        PlayListView.h PlayListView.cpp
+        PlayListItem.h PlayListItem.cpp
+        DataInfo/BaseInfo.h
+        Service/IBaseService.cpp Service/IBaseService.h
+        Service/IMusicInfoService.h
+        Service/MusicInfoService.h Service/MusicInfoService.cpp
+        Service/DataBaseService.h
+        Service/Response.h
+
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET MusicPlayer APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -54,6 +67,7 @@ else()
 endif()
 
 target_link_libraries(MusicPlayer PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(MusicPlayer PRIVATE Qt6::Sql)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

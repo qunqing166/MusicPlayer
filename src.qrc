@@ -21,5 +21,7 @@
         <file>scr/icon/add.png</file>
         <file>scr/icon/arrow_down.png</file>
         <file>scr/icon/arrow_up.png</file>
+        <file>scr/icon/edit.png</file>
+        <file>scr/icon/more.png</file>
     </qresource>
 </RCC>

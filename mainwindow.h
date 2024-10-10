@@ -5,6 +5,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include "CentralWidget.h"
+#include "DataInfo/MusicInfo.h"
+#include "Service/DataBaseSerice.h"
 
 class MainWindow : public QMainWindow
 {
@@ -20,6 +22,8 @@ class MainWindow : public QMainWindow
     bool isDragging;
     bool isShowMaximized = false;
     QPoint lastDraggedPos;
+
+    // DataBaseSerice<MusicInfo> *dbService;
 
 public:
     MainWindow(QWidget *parent = nullptr);

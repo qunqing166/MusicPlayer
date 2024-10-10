@@ -8,7 +8,7 @@
 #include <QListView>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
-#include "SongSheetList.h"
+#include "PlayList.h"
 
 class SelectBar : public QWidget
 {
@@ -17,7 +17,7 @@ class SelectBar : public QWidget
     ImageLabel *labelHeadImage;
     QLabel *labelUserName;
     QPushButton *pbUserInfo;
-    SongSheetList *songSheetList;
+    PlayList *songSheetList;
 
 public:
     SelectBar(QWidget* parent);

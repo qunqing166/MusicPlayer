@@ -26,21 +26,22 @@ void PlayerBar::SetMusicInfo(MusicInfo musicInfo)
     this->musicInfo = musicInfo;
 
     this->imageLabel->SetPixmap(musicInfo.coverImagePath);
-    if(!musicInfo.singers.empty())
-    {
-        QString str = musicInfo.singers.at(0);
-        int t = 0;
-        foreach (QString name, musicInfo.singers)
-        {
-            if(t == 0)
-            {
-                t++;
-                continue;
-            }
-            str = str + ", " + name;
-        }
-        this->labelSingers->setText(str);
-    }
+    // if(!musicInfo.singers.empty())
+    // {
+    //     QString str = musicInfo.singers.at(0);
+    //     int t = 0;
+    //     foreach (QString name, musicInfo.singers)
+    //     {
+    //         if(t == 0)
+    //         {
+    //             t++;
+    //             continue;
+    //         }
+    //         str = str + ", " + name;
+    //     }
+    //     this->labelSingers->setText(str);
+    // }
+    this->labelSingers->setText(musicInfo.singers);
     this->labelMusicName->setText(musicInfo.musicName);
     this->labelTotleTime->setText(musicInfo.duration.toString("mm:ss"));
 }

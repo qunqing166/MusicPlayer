@@ -1,5 +1,5 @@
-#ifndef SONGSHEETLIST_H
-#define SONGSHEETLIST_H
+#ifndef PLAYLIST_H
+#define PLAYLIST_H
 
 #include <QWidget>
 #include <QLabel>
@@ -9,7 +9,7 @@
 #include <QListView>
 #include <QListWidget>
 
-class SongSheetList:public QWidget
+class PlayList:public QWidget
 {
     Q_OBJECT
 
@@ -32,7 +32,7 @@ class SongSheetList:public QWidget
     QString title;
 
 public:
-    SongSheetList(QWidget *parent = nullptr);
+    PlayList(QWidget *parent = nullptr);
     static QPixmap GetRadiusPiamap(QPixmap pixmap, int radius);
     void setTitle(QString value);
 
@@ -54,4 +54,4 @@ signals:
     void ListHeightChanged();
 };
 
-#endif // SONGSHEETLIST_H
+#endif // PLAYLIST_H

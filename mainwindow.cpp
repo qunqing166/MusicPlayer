@@ -8,6 +8,9 @@
 #include <QEvent>
 #include <QMouseEvent>
 #include <QApplication>
+// #include "DataInfo/MusicInfo.h"
+#include "Service/MusicInfoService.h"
+#include "Service/DataBaseSerice.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     //     this->move(this->pos() + dPos);
     // });
     // QDockWidget *dockWidget = new QDockWidget(this);
+
+    // dbService = new DataBaseSerice
+
     connect(centarlWidget, &CentralWidget::Maximize, this, [&](){
         if(isShowMaximized)
             this->showNormal();
@@ -35,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
     });
     connect(centarlWidget, &CentralWidget::Minimize, this, [&](){this->showMinimized();});
 
+    MusicInfoService aa;
+    aa.GetAll();
 }
 
 MainWindow::~MainWindow()

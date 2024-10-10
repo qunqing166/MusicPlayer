@@ -35,7 +35,7 @@ void AnimationButton::mousePressEvent(QMouseEvent *event)
 void AnimationButton::paintEvent(QPaintEvent *event)
 {
     QImage im = image1.transformed(QTransform().rotate(angle));
-    qDebug()<<"paint";
+    // qDebug()<<"paint";
     QPainter painter(this);
     painter.drawImage(this->rect(), im);
     // pm.toImage().transformed(QTransform())

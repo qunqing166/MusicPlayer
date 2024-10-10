@@ -9,6 +9,10 @@ class MainWidget:public QWidget
 
 public:
     MainWidget(QWidget *parent = nullptr);
+
+private:
+    void ObjectInit();
+    void WidgetInit();
 };
 
 #endif // MAINWIDGET_H

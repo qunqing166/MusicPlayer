@@ -58,7 +58,7 @@ void ImageLabel::DrawShowPixmap()
 {
     //配置蒙板
     QSize size = this->size();
-    qDebug()<<size;
+    // qDebug()<<size;
     QBitmap mask(size);
     QPainter painter(&mask);
     painter.setRenderHint(QPainter::Antialiasing);

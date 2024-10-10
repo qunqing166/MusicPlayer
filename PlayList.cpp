@@ -1,4 +1,4 @@
-#include "SongSheetList.h"
+#include "PlayList.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -10,7 +10,7 @@
 #include <QStandardItemModel>
 #include <QPainter>
 
-SongSheetList::SongSheetList(QWidget *parent):QWidget(parent)
+PlayList::PlayList(QWidget *parent):QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
 
@@ -18,7 +18,7 @@ SongSheetList::SongSheetList(QWidget *parent):QWidget(parent)
     DataInit();
     WidgetInit();
 
-    connect(pbOpen, &QPushButton::clicked, this, &SongSheetList::OnPbOpenClicked);
+    connect(pbOpen, &QPushButton::clicked, this, &PlayList::OnPbOpenClicked);
     connect(pbOpenAnima, &QPropertyAnimation::valueChanged, this, [&](){
         QPixmap pm = QPixmap::fromImage(QImage(":/scr/icon/arrow_down.png").transformed(QTransform().rotate(angle)));
         this->pbOpen->setIcon(QIcon(pm));
@@ -28,7 +28,7 @@ SongSheetList::SongSheetList(QWidget *parent):QWidget(parent)
     });
 }
 
-QPixmap SongSheetList::GetRadiusPiamap(QPixmap pixmap, int radius)
+QPixmap PlayList::GetRadiusPiamap(QPixmap pixmap, int radius)
 {
     QSize size = pixmap.size();
     QBitmap mask(size);
@@ -43,7 +43,7 @@ QPixmap SongSheetList::GetRadiusPiamap(QPixmap pixmap, int radius)
     return pixmap;
 }
 
-void SongSheetList::ObjectInit()
+void PlayList::ObjectInit()
 {
     int size = 30;
     labelInfo = new QLabel(this);
@@ -72,7 +72,7 @@ void SongSheetList::ObjectInit()
     listView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
-void SongSheetList::WidgetInit()
+void PlayList::WidgetInit()
 {
     this->setContentsMargins(QMargins(0,0,0,0));
     QVBoxLayout *vLayout = new QVBoxLayout(this);
@@ -102,7 +102,7 @@ void SongSheetList::WidgetInit()
     // vLayout->addWidget(new QLabel(this), Qt::AlignTop);
 }
 
-void SongSheetList::DataInit()
+void PlayList::DataInit()
 {
     // listWidget->addItem(new QListWidgetItem("nmsl"));
     // listWidget->addItem(new QListWidgetItem("nmsl"));
@@ -133,13 +133,13 @@ void SongSheetList::DataInit()
     // listView->setModel();
 }
 
-void SongSheetList::setTitle(QString value)
+void PlayList::setTitle(QString value)
 {
     this->title = value;
     this->labelInfo->setText(this->title);
 }
 
-void SongSheetList::OnPbOpenClicked()
+void PlayList::OnPbOpenClicked()
 {
     if(isContentOPen)
     {
