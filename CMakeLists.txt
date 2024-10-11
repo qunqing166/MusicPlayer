@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Sql)
+find_package(Qt6 REQUIRED COMPONENTS Multimedia)
 
 
 set(PROJECT_SOURCES
@@ -48,7 +49,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         DataInfo/PlayListInfo.h
         Service/PlayListInfoService.h Service/PlayListInfoService.cpp
         Service/BaseService.h Service/BaseService.cpp
-        UI/hhh.h
+
+        Service/PlayerController.h Service/PlayerController.cpp
+        UI/SidePlayListBar.h UI/SidePlayListBar.cpp
 
 
 
@@ -73,6 +76,7 @@ endif()
 
 target_link_libraries(MusicPlayer PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(MusicPlayer PRIVATE Qt6::Sql)
+target_link_libraries(MusicPlayer PRIVATE Qt6::Multimedia)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

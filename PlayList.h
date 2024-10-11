@@ -21,8 +21,6 @@ class PlayList:public QWidget
     QLabel *labelInfo;
     QPushButton *pbAdd;
     QPushButton *pbOpen;
-    // QListView *listView;
-    // QListWidget *listWidget;
     QListView *listView;
 
     QPropertyAnimation *pbOpenAnima;
@@ -63,7 +61,7 @@ private slots:
 signals:
     void AngleChanged();
     void ListHeightChanged();
-    void OpenPlayList(QString playListName);
+    void OpenPlayList(const PlayListInfo &info);
 };
 
 #endif // PLAYLIST_H

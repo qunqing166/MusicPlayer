@@ -5,23 +5,27 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include "CentralWidget.h"
-#include "DataInfo/MusicInfo.h"
+// #include "DataInfo/MusicInfo.h"
 #include "Service/DataBaseSerice.h"
+#include <QMediaPlayer>
+#include <QAudioOutput>
+#include "Service/PlayerController.h"
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
-    QHBoxLayout* hLayout_1;
-    QHBoxLayout* hLayout_2;
-    QVBoxLayout* vLayout;
-    QVBoxLayout* vLayout_2_1;
 
     CentralWidget *centarlWidget;
 
     bool isDragging;
     bool isShowMaximized = false;
     QPoint lastDraggedPos;
+
+    // QMediaPlayer *mediaPlayer;
+    // QAudioOutput *audioOutput;
+
+    PlayerController *playerController;
+
 
     // DataBaseSerice<MusicInfo> *dbService;
 
@@ -30,6 +34,7 @@ public:
     ~MainWindow();
 
 private:
+    void ObjectInit();
     void WidgetInit();
     void TitleBarInit();
     void SelectBarInit();

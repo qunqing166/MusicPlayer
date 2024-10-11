@@ -50,6 +50,7 @@ class PlayerBar:public QWidget
 public:
     PlayerBar(QWidget *parent = nullptr);
     void SetMusicInfo(MusicInfo musicInfo);
+    void SetPlayStatus(bool is);
 
 private:
     void ObjectInit();

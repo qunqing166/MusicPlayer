@@ -244,3 +244,8 @@ QListWidget#song_list_view
 {
     background-color: rgb(220, 183, 244);
 }
+
+QWidget#widget_test
+{
+    background-color: rgba(252, 104, 104, 0.829);
+}

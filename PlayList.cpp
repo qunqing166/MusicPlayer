@@ -34,7 +34,7 @@ PlayList::PlayList(QString title, QWidget *parent):QWidget(parent), title(title)
     connect(listView, &QListView::clicked, this, [&](const QModelIndex &index){
         if(this->isContentOPen)
         {
-            emit OpenPlayList(model->item(index.row())->text());
+            emit OpenPlayList(playLists.at(index.row()));
         }
         // qDebug()<<"row "<<index.row();
     });

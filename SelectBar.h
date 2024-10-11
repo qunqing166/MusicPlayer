@@ -17,10 +17,11 @@ class SelectBar : public QWidget
     ImageLabel *labelHeadImage;
     QLabel *labelUserName;
     QPushButton *pbUserInfo;
-    PlayList *songSheetList;
+    PlayList *playList;
 
 public:
     SelectBar(QWidget* parent);
+    const PlayList* GetPlayList(){return playList;}
 
 private:
     void WidgetInit();

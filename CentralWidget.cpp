@@ -5,6 +5,31 @@
 #include "PlayerBar.h"
 #include "MainWidget.h"
 
+// MainWidget *CentralWidget::MainWidget() const
+// {
+//     return mainWidget;
+// }
+
+MainWidget *CentralWidget::getMainWidget() const
+{
+    return mainWidget;
+}
+
+PlayerBar *CentralWidget::getPlayerBar() const
+{
+    return playerBar;
+}
+
+SelectBar *CentralWidget::getSelectBar() const
+{
+    return selectBar;
+}
+
+TitleBar *CentralWidget::getTitleBar() const
+{
+    return titleBar;
+}
+
 CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
 {
     ObjectInit();
@@ -12,6 +37,9 @@ CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
 
     connect(titleBar, &TitleBar::PbMinClicked, this, [&](){emit Minimize();});
     connect(titleBar, &TitleBar::PbMaxClicked, this, [&](){emit Maximize();});
+    connect(selectBar->GetPlayList(), &PlayList::OpenPlayList, this->mainWidget->getContentView(), &PlayListContentView::ShowPlayList);
+
+    connect(this->getMainWidget()->getContentView()->getPlayListView(), &PlayListView::PlayMusic, playerBar, &PlayerBar::SetMusicInfo);
 }
 
 bool CentralWidget::IsInTitleBar(QPoint pos)
@@ -24,11 +52,12 @@ void CentralWidget::ObjectInit()
     titleBar = new TitleBar(this);
     selectBar = new SelectBar(this);
     playerBar = new PlayerBar(this);
+    mainWidget = new MainWidget(this);
 }
 
 void CentralWidget::WidgetInit()
 {
-    MainWidget *mainWidget = new MainWidget(this);
+
     QVBoxLayout *vLayout = new QVBoxLayout(this);
     QHBoxLayout *hLayout = new QHBoxLayout(this);
 

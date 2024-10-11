@@ -19,31 +19,20 @@ PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
 
     SetMusicInfo(MusicInfo());
 
+    // connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
+    // connect(pbToNext, &QPushButton::clicked, this, &PlayerBar::on)
 }
 
 void PlayerBar::SetMusicInfo(MusicInfo musicInfo)
 {
+    //更新显示信息
     this->musicInfo = musicInfo;
-
     this->imageLabel->SetPixmap(musicInfo.coverImagePath);
-    // if(!musicInfo.singers.empty())
-    // {
-    //     QString str = musicInfo.singers.at(0);
-    //     int t = 0;
-    //     foreach (QString name, musicInfo.singers)
-    //     {
-    //         if(t == 0)
-    //         {
-    //             t++;
-    //             continue;
-    //         }
-    //         str = str + ", " + name;
-    //     }
-    //     this->labelSingers->setText(str);
-    // }
     this->labelSingers->setText(musicInfo.singers);
     this->labelMusicName->setText(musicInfo.musicName);
     this->labelTotleTime->setText(musicInfo.duration.toString("mm:ss"));
+    //改变即播放, 更新播放状态
+    this->SetPlayStatus(true);
 }
 
 void PlayerBar::ObjectInit()
@@ -193,9 +182,10 @@ void PlayerBar::SetSongCover(QPixmap pixmap)
     imageLabel->setPixmap(pixmap);
 }
 
-void PlayerBar::OnPbStopClicked()
+void PlayerBar::SetPlayStatus(bool is)
 {
-    if(isPlaying)
+    this->isPlaying = is;
+    if(!isPlaying)
     {
         pbStop->setIcon(QIcon(":/scr/icon/stopping.png"));
     }
@@ -203,7 +193,12 @@ void PlayerBar::OnPbStopClicked()
     {
         pbStop->setIcon(QIcon(":/scr/icon/playing.png"));
     }
+}
+
+void PlayerBar::OnPbStopClicked()
+{
     isPlaying = !isPlaying;
+    SetPlayStatus(isPlaying);
     emit PlayStatusChanged(isPlaying);
 }
 

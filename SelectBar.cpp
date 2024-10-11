@@ -11,6 +11,8 @@ SelectBar::SelectBar(QWidget* parent) :QWidget(parent)
     ObjectInit();
     DataInit();
     WidgetInit();
+
+    // connect(playList, &PlayList::OpenPlayList)
 }
 
 void SelectBar::WidgetInit()
@@ -40,11 +42,12 @@ void SelectBar::WidgetInit()
     scrollArea->setWidget(widget);
     widget->setObjectName("scroll_widget");
 
+    // PlayList *sl = new PlayList("收藏", this);
     PlayList *sl = new PlayList("收藏", this);
     // sl->setTitle("收藏");
     sl->setObjectName("song_sheet_list");
 
-    vLayout3->addWidget(songSheetList);
+    vLayout3->addWidget(playList);
     vLayout3->addWidget(sl);
     vLayout3->addWidget(new QWidget(this), Qt::AlignTop);
 
@@ -69,11 +72,11 @@ void SelectBar::ObjectInit()
     pbUserInfo->setObjectName("select_bar_button");
     pbUserInfo->setIcon(QIcon(":/scr/icon/arrow_right.png"));
 
-    songSheetList = new PlayList("自建", this);
+    playList = new PlayList("自建", this);
     // songSheetList->setTitle("自建");
     // songSheetList->SetIsOPen(true);
     // songSheetList->SetThisName("")
-    songSheetList->setObjectName("song_sheet_list");
+    playList->setObjectName("song_sheet_list");
 }
 
 void SelectBar::DataInit()

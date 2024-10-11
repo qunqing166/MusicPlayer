@@ -12,11 +12,14 @@ class PlayListView:public QListWidget
 
 public:
     PlayListView(QWidget *parent = nullptr);
+    void ShowPlayList(QString playListName);
 
 private:
     void ObjectInit();
     void WidgetInit();
-    void DataInit();
+
+signals:
+    void PlayMusic(const MusicInfo &info);
 };
 
 #endif // PLAYLISTVIEW_H

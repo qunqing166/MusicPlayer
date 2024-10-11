@@ -9,7 +9,7 @@
 #include <QMouseEvent>
 #include <QApplication>
 // #include "DataInfo/MusicInfo.h"
-#include "Service/MusicInfoService.h"
+// #include "Service/MusicInfoService.h"
 #include "Service/DataBaseSerice.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -17,20 +17,14 @@ MainWindow::MainWindow(QWidget *parent)
 {
     //ui.setupUi(this);
     this->setMinimumSize(1000, 600);
-    centarlWidget = new CentralWidget(this);
-    this->setCentralWidget(centarlWidget);
+
+    LoadStyleSheet();
+    ObjectInit();
+    WidgetInit();
     // this->setWindowFlag(Qt::FramelessWindowHint);
     // this->setAttribute(Qt::WA_StyledBackground);
     // this->setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明化
     // this->setContentsMargins(QMargins(0,0,0,0));
-    LoadStyleSheet();
-    // WidgetInit();
-    // connect(centarlWidget, &CentralWidget::LocationChanged, this, [&](QPoint dPos){
-    //     this->move(this->pos() + dPos);
-    // });
-    // QDockWidget *dockWidget = new QDockWidget(this);
-
-    // dbService = new DataBaseSerice
 
     connect(centarlWidget, &CentralWidget::Maximize, this, [&](){
         if(isShowMaximized)
@@ -41,32 +35,27 @@ MainWindow::MainWindow(QWidget *parent)
     });
     connect(centarlWidget, &CentralWidget::Minimize, this, [&](){this->showMinimized();});
 
-    MusicInfoService aa;
-    aa.GetAll();
+    connect(centarlWidget->getMainWidget()->getContentView()->getPlayListView(), &PlayListView::PlayMusic,
+            playerController, &PlayerController::OpenNewMusic);
+    connect(centarlWidget->getPlayerBar(), &PlayerBar::PlayStatusChanged, playerController, &PlayerController::ChangePlayStatus);
+    // connect(centarlWidget->getPlayerBar(), &PlayerBar::PlayStatusChanged, this, [&]());
+    // connect(centarlWidget->getPlayerBar())
 }
 
 MainWindow::~MainWindow()
 {}
 
+void MainWindow::ObjectInit()
+{
+    centarlWidget = new CentralWidget(this);
+    // mediaPlayer = new QMediaPlayer(this);
+    // audioOutput = new QAudioOutput(this);
+    playerController = new PlayerController(this);
+}
+
 void MainWindow::WidgetInit()
 {
-    hLayout_1 = new QHBoxLayout(this);
-    hLayout_2 = new QHBoxLayout(this);
-    vLayout = new QVBoxLayout(this);
-    vLayout_2_1 = new QVBoxLayout(this);
-    QWidget* mainWidget = new QWidget(this);
-    this->setCentralWidget(mainWidget);
-    mainWidget->setLayout(vLayout);
-    // this->setLayout(vLayout);
-    vLayout->addLayout(hLayout_1);
-    vLayout->addLayout(hLayout_2);
-    vLayout->setAlignment(Qt::AlignTop);
-    SelectBar* selectBar = new SelectBar(this);
-    hLayout_2->addWidget(selectBar);
-    hLayout_2->addLayout(vLayout_2_1);
-    TitleBar* titleBar = new TitleBar(this);
-    hLayout_1->addWidget(titleBar);
-
+    this->setCentralWidget(centarlWidget);
 }
 
 void MainWindow::TitleBarInit()

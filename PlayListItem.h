@@ -26,9 +26,12 @@ public:
     PlayListItem(MusicInfo value, QWidget *parent = nullptr);
     void SetData(MusicInfo value);
 
+    MusicInfo getMusicInfo() const;
+
 private:
     void ObjectInit();
     void WidgetInit();
+    Q_PROPERTY(MusicInfo musicInfo READ getMusicInfo CONSTANT FINAL)
 };
 
 #endif // PLAYLISTITEM_H

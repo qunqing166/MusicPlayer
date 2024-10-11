@@ -1,6 +1,11 @@
 #include "PlayListItem.h"
 #include <QHBoxLayout>
 
+MusicInfo PlayListItem::getMusicInfo() const
+{
+    return musicInfo;
+}
+
 PlayListItem::PlayListItem(MusicInfo value, QWidget *parent):QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);

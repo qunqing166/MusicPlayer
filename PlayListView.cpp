@@ -18,7 +18,21 @@ PlayListView::PlayListView(QWidget *parent):QListWidget(parent)
     this->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     ObjectInit();
-    DataInit();
+    ShowPlayList("我喜欢");
+    WidgetInit();
+
+    connect(this, &PlayListView::doubleClicked, this, [&](const QModelIndex &index){
+        emit PlayMusic(musicInfos->at(index.row()));
+    });
+}
+
+void PlayListView::ShowPlayList(QString playListName)
+{
+    MusicInfoService service;
+    Response<QList<MusicInfo>> m = service.GetAll(playListName, PlayList);
+    musicInfos->clear();
+    this->clear();
+    *musicInfos = m.Result();
     WidgetInit();
 }
 
@@ -36,14 +50,4 @@ void PlayListView::WidgetInit()
         this->addItem(item);
         this->setItemWidget(item, new PlayListItem(musicInfos->at(i), this));
     }
-}
-
-void PlayListView::DataInit()
-{
-    // IBaseService<MusicInfo> *service = new MusicInfoService();
-    // IBaseService<MusicInfo> *service = new BaseService<MusicInfo>();
-
-    MusicInfoService service;
-    Response<QList<MusicInfo>> m = service.GetAll("我喜欢", PlayList);
-    *musicInfos = m.Result();
 }

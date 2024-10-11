@@ -4,12 +4,28 @@
 #include <QVBoxLayout>
 #include "PlayListView.h"
 
+PlayListView *PlayListContentView::getPlayListView() const
+{
+    return playListView;
+}
+
 PlayListContentView::PlayListContentView(QWidget *parent):QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
     this->setObjectName("song_sheet_content");
     ObjectInit();
     WidgetInit();
+}
+
+void PlayListContentView::ShowPlayList(const PlayListInfo &info)
+{
+    imageLabel->SetPixmap(QPixmap(info.coverImagePath));
+    sheetTitleLabel->setText(info.listName);
+    userImage->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\yyn.jpg"));
+    userNameLabel->setText(info.creator);
+    createTimeLabel->setText(QString("创建于 %1").arg(info.createTime.toString("yyyy-MM-dd")));
+    playListView->ShowPlayList(info.listName);
+    // createTimeLabel->setText("创建于11-45-14");
 }
 
 void PlayListContentView::ObjectInit()
@@ -48,6 +64,8 @@ void PlayListContentView::ObjectInit()
     pbEdit->setObjectName("sheet_button_edit");
     pbEdit->setIcon(QIcon(":/scr/icon/edit.png"));
     pbEdit->setFixedSize(30, 30);
+
+    playListView = new PlayListView(this);
 }
 
 void PlayListContentView::WidgetInit()
@@ -101,9 +119,7 @@ void PlayListContentView::WidgetInit()
     // hLayout3->addWidget(labelSingers, 2);
     // hLayout3->addWidget(labelAlbum, 2);
     // hLayout3->addWidget(labelDuration, 2);
-
-    PlayListView *songListView = new PlayListView(this);
-    vLayout->addWidget(songListView);
+    vLayout->addWidget(playListView);
 
     // vLayout->addWidget(new QWidget(this), Qt::AlignTop);
 }
