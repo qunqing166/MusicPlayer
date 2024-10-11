@@ -1,86 +1,79 @@
-#include "MusicInfoService.h"
-#include <QJsonObject>
-#include <QJsonArray>
+#include "PlayListInfoService.h"
 
-MusicInfoService::MusicInfoService()
+PlayListInfoService::PlayListInfoService()
 {
-    dbService = new DataBaseService<MusicInfo>("Music");
+    dbService = new DataBaseService<PlayListInfo>("PlayList");
 }
 
-MusicInfoService::~MusicInfoService()
+PlayListInfoService::~PlayListInfoService()
 {
     delete dbService;
 }
 
-Response<QList<MusicInfo>> MusicInfoService::GetAll()
+Response<QList<PlayListInfo> > PlayListInfoService::GetAll()
 {
     Response<QSqlQuery> res = dbService->GetAll();
     if(!res.Status())
     {
-        return Response<QList<MusicInfo>>("GetAll Error In MusicInfoService");
+        return Response<QList<PlayListInfo>>("GetAll Error In MusicInfoService");
     }
     QSqlQuery query = res.Result();
     QStringList keys = dbService->GetTableHeads();
-    QList<MusicInfo> list;
+    QList<PlayListInfo> list;
     while(query.next())
     {
         QJsonObject obj;
         foreach (auto key, keys) {
             obj.insert(key, query.value(key).toJsonValue());
-            // if(!query.isNull("BelongingPlayList"))
-            // {
-            //     qDebug()<<query.value("BelongingPlayList");
-            // }
-            // query.value(key).
         }
-        MusicInfo m;
+        PlayListInfo m;
         m.FromJson(obj);
         list.append(m);
     }
 
-    return Response<QList<MusicInfo>>(true, list);
+    return Response<QList<PlayListInfo>>(true, list);
 }
 
-Response<QList<MusicInfo> > MusicInfoService::GetAll(QString value, QueryParameterMusic type)
+Response<QList<PlayListInfo> > PlayListInfoService::GetAll(QString str, QueryParameterPlayList type)
 {
     QString parameter;
-    if(type == MusicName)
+    if(type == PlayListName)
     {
-        parameter = QString("MusicName = '%1'").arg(value);
+        parameter = QString("ListName = '%1'").arg(str);
     }
-    else if(type == PlayList)
+    else if(type == Creator)
     {
-        parameter = QString("BelongingPlayList like '%%1%'").arg(value);
+        parameter = QString("Creator = '%1'").arg(str);
     }
 
     Response<QSqlQuery> res = dbService->GetAll(parameter);
     if(!res.Status())
     {
-        return Response<QList<MusicInfo>>("GetAll Error In MusicInfoService");
+        return Response<QList<PlayListInfo>>("GetAll Error In MusicInfoService");
     }
     QSqlQuery query = res.Result();
     QStringList keys = dbService->GetTableHeads();
-    QList<MusicInfo> list;
+    QList<PlayListInfo> list;
     while(query.next())
     {
         QJsonObject obj;
         foreach (auto key, keys) {
             obj.insert(key, query.value(key).toJsonValue());
         }
-        MusicInfo m;
+        PlayListInfo m;
         m.FromJson(obj);
         list.append(m);
     }
 
-    return Response<QList<MusicInfo>>(true, list);
+    return Response<QList<PlayListInfo>>(true, list);
 }
 
-Response<MusicInfo> MusicInfoService::GetOne(int id)
+Response<PlayListInfo> PlayListInfoService::GetOne(int id)
 {
     Response<QSqlQuery> res = dbService->GetOne(id);
     if(!res.Status())
     {
-        return Response<MusicInfo>("GetOne Error In MusicInfoService");
+        return Response<PlayListInfo>("GetOne Error In MusicInfoService");
     }
     QSqlQuery query = res.Result();
     QJsonObject json;
@@ -89,23 +82,23 @@ Response<MusicInfo> MusicInfoService::GetOne(int id)
     foreach (auto key, keys) {
         json.insert(key, query.value(key).toJsonValue());
     }
-    MusicInfo m;
+    PlayListInfo m;
     m.FromJson(json);
-    return Response<MusicInfo>(true, m);
+    return Response<PlayListInfo>(true, m);
 }
 
-Response<MusicInfo> MusicInfoService::Update(MusicInfo model)
+Response<PlayListInfo> PlayListInfoService::Update(PlayListInfo model)
 {
     Response<QSqlQuery> res = dbService->Update(model);
     if(!res.Status())
     {
-        return Response<MusicInfo>("Update Error In MusicInfoService");
+        return Response<PlayListInfo>("Update Error In MusicInfoService");
     }
     // QSqlQuery query = res.Result();
-    return Response<MusicInfo>(true, model);
+    return Response<PlayListInfo>(true, model);
 }
 
-Response<QString> MusicInfoService::Delete(int id)
+Response<QString> PlayListInfoService::Delete(int id)
 {
     Response<QSqlQuery> res = dbService->Delete(id);
     if(!res.Status())
@@ -116,14 +109,13 @@ Response<QString> MusicInfoService::Delete(int id)
     return Response<QString>(true, "delete success!");
 }
 
-Response<MusicInfo> MusicInfoService::Add(MusicInfo model)
+Response<PlayListInfo> PlayListInfoService::Add(PlayListInfo model)
 {
     Response<QSqlQuery> res = dbService->Add(model);
     if(!res.Status())
     {
-        return Response<MusicInfo>("Add Error In MusicInfoService");
+        return Response<PlayListInfo>("Add Error In MusicInfoService");
     }
     // QSqlQuery query = res.Result();
-    return Response<MusicInfo>(true, model);
+    return Response<PlayListInfo>(true, model);
 }
-

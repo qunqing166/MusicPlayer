@@ -1,5 +1,5 @@
-#ifndef BASESERVICE_H
-#define BASESERVICE_H
+#ifndef IBASESERVICE_H
+#define IBASESERVICE_H
 
 #include <QJsonObject>
 #include "Response.h"

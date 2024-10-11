@@ -10,7 +10,7 @@
 #include "Response.h"
 
 template<class T>
-class DataBaseService:public QObject
+class DataBaseService//:public QObject
 {
     QSqlDatabase dataBase;
     QString tableName;
@@ -43,7 +43,7 @@ private:
     }
 
 public:
-    DataBaseService(QObject *parent = nullptr, QString tableName = "")
+    DataBaseService(QString tableName = "")
     {
         this->tableName = tableName;
         // if(dataBase.contains("nmsl"))
@@ -88,6 +88,22 @@ public:
         if(query.exec(str))
         {
             return Response<QSqlQuery>(true, std::move(query));
+        }
+        else
+        {
+            return Response<QSqlQuery>("GetAll Error");
+        }
+    }
+
+    Response<QSqlQuery> GetAll(QString parameter)
+    {
+        QString str = QString("select * from %1 where %2;").arg(this->tableName).arg(parameter);
+        qDebug()<<str;
+        QSqlQuery query;
+        if(query.exec(str))
+        {
+            return Response<QSqlQuery>(true, std::move(query));
+            qDebug()<<query.executedQuery();
         }
         else
         {

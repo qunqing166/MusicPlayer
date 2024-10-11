@@ -16,7 +16,7 @@ public:
     //     this->updateTime = a.updateTime;
     // }
 
-    int id;
+    int id = 0;
     QDateTime createTime = QDateTime::currentDateTime();
     QDateTime updateTime = QDateTime::currentDateTime();
 

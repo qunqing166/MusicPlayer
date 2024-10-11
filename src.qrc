@@ -23,5 +23,6 @@
         <file>scr/icon/arrow_up.png</file>
         <file>scr/icon/edit.png</file>
         <file>scr/icon/more.png</file>
+        <file>scr/icon/cover_empty.png</file>
     </qresource>
 </RCC>

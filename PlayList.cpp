@@ -9,14 +9,17 @@
 #include <QSpacerItem>
 #include <QStandardItemModel>
 #include <QPainter>
+#include "Service/PlayListInfoService.h"
 
-PlayList::PlayList(QWidget *parent):QWidget(parent)
+PlayList::PlayList(QString title, QWidget *parent):QWidget(parent), title(title)
 {
     this->setAttribute(Qt::WA_StyledBackground);
 
     ObjectInit();
     DataInit();
     WidgetInit();
+
+    // SetIsOPen(true);
 
     connect(pbOpen, &QPushButton::clicked, this, &PlayList::OnPbOpenClicked);
     connect(pbOpenAnima, &QPropertyAnimation::valueChanged, this, [&](){
@@ -25,6 +28,15 @@ PlayList::PlayList(QWidget *parent):QWidget(parent)
     });
     connect(listHeiAnima, &QPropertyAnimation::valueChanged, this, [&](){
         this->listView->setFixedHeight(listHeight);
+    });
+
+    // QListView::in
+    connect(listView, &QListView::clicked, this, [&](const QModelIndex &index){
+        if(this->isContentOPen)
+        {
+            emit OpenPlayList(model->item(index.row())->text());
+        }
+        // qDebug()<<"row "<<index.row();
     });
 }
 
@@ -70,6 +82,10 @@ void PlayList::ObjectInit()
     listView = new QListView(this);
     listView->setObjectName("song_sheet_list_view");
     listView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    model = new QStandardItemModel(this);
+
+    this->setTitle(title);
 }
 
 void PlayList::WidgetInit()
@@ -111,14 +127,23 @@ void PlayList::DataInit()
     listView->setModel(model);
     QList<QStandardItem*>items;
 
-    int count = 5;
-    for(int i = 0; i < count; i++)
+    PlayListInfoService service;
+    if(this->title == "自建")
     {
+        playLists = service.GetAll("qunqing166", Creator).Result();
+    }
+    else
+    {
+        // playLists = service.GetAll("qunqing166", Creator).Result();
+    }
+    for(int i = 0; i < playLists.count(); i++)
+    {
+        PlayListInfo p = playLists.at(i);
         QStandardItem *item = new QStandardItem();
-        QIcon icon(GetRadiusPiamap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\liyue.webp"), 4));
+        QIcon icon(GetRadiusPiamap(QPixmap(p.coverImagePath), 4));
         // item->setIcon(QIcon("C:\\Users\\qunqing\\Desktop\\图片\\liyue.webp"));
         item->setIcon(icon);
-        item->setText("nmsl");
+        item->setText(p.listName);
         items.append(item);
         // items.append()
     }
@@ -131,6 +156,8 @@ void PlayList::DataInit()
     listView->setFixedHeight(0);
     // listView->setFixedHeight(500);
     // listView->setModel();
+
+
 }
 
 void PlayList::setTitle(QString value)
@@ -138,6 +165,23 @@ void PlayList::setTitle(QString value)
     this->title = value;
     this->labelInfo->setText(this->title);
 }
+
+// void PlayList::SetIsOPen(bool value)
+// {
+//     // this->isContentOPen = value;
+//     // if(value)
+//     // {
+//     //     angle = 0;
+//     //     listHeight = (45 + 5) * listView->model()->rowCount();
+//     // }
+//     // else
+//     // {
+//     //     angle = 180;
+//     //     listHeight = 0;
+//     // }
+//     // this->update();
+//     // OnPbOpenClicked();
+// }
 
 void PlayList::OnPbOpenClicked()
 {

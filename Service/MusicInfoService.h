@@ -1,11 +1,18 @@
 #ifndef MUSICINFOSERVICE_H
 #define MUSICINFOSERVICE_H
 
-#include "IBaseService.h"
+// #include "IBaseService.h"
 #include "../DataInfo/MusicInfo.h"
 #include "DataBaseService.h"
+// #include "IMusicInfoService.h"
 
-class MusicInfoService:public IBaseService<MusicInfo>
+enum QueryParameterMusic
+{
+    MusicName,
+    PlayList
+};
+
+class MusicInfoService//:public IBaseService<MusicInfo>
 {
     DataBaseService<MusicInfo> *dbService;
 
@@ -13,11 +20,13 @@ public:
     MusicInfoService();
     ~MusicInfoService();
 
-    virtual Response<QList<MusicInfo>> GetAll() override;
-    virtual Response<MusicInfo> GetOne(int id) override;
-    virtual Response<MusicInfo> Update(MusicInfo model) override;
-    virtual Response<QString> Delete(int id) override;
-    virtual Response<MusicInfo> Add(MusicInfo model) override;
+    Response<QList<MusicInfo>> GetAll();
+    Response<QList<MusicInfo>> GetAll(QString musicName, QueryParameterMusic type);
+    Response<QList<MusicInfo>> GetAll(int idStart, int idEnd);
+    Response<MusicInfo> GetOne(int id);
+    Response<MusicInfo> Update(MusicInfo model);
+    Response<QString> Delete(int id);
+    Response<MusicInfo> Add(MusicInfo model);
 };
 
 #endif // MUSICINFOSERVICE_H

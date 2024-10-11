@@ -7,6 +7,8 @@
 #include "Service/MusicInfoService.h"
 #include <QJsonArray>
 #include "Service/MusicInfoService.h"
+// #include "Service/BaseService.h"
+// #include "Service/PlayListInfoService.h"
 
 PlayListView::PlayListView(QWidget *parent):QListWidget(parent)
 {
@@ -38,7 +40,10 @@ void PlayListView::WidgetInit()
 
 void PlayListView::DataInit()
 {
-    IBaseService<MusicInfo> *service = new MusicInfoService();
-    Response<QList<MusicInfo>> m = service->GetAll();
+    // IBaseService<MusicInfo> *service = new MusicInfoService();
+    // IBaseService<MusicInfo> *service = new BaseService<MusicInfo>();
+
+    MusicInfoService service;
+    Response<QList<MusicInfo>> m = service.GetAll("我喜欢", PlayList);
     *musicInfos = m.Result();
 }

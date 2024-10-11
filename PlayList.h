@@ -8,6 +8,8 @@
 #include <QPropertyAnimation>
 #include <QListView>
 #include <QListWidget>
+#include "DataInfo/PlayListInfo.h"
+#include <QStandardItemModel>
 
 class PlayList:public QWidget
 {
@@ -30,11 +32,19 @@ class PlayList:public QWidget
     bool isContentOPen = false;
 
     QString title;
+    QString listName = "新建歌单";
+
+    QList<PlayListInfo> playLists;
+    QString thisName;
+    QStandardItemModel *model;
 
 public:
-    PlayList(QWidget *parent = nullptr);
+    PlayList(QString title, QWidget *parent = nullptr);
     static QPixmap GetRadiusPiamap(QPixmap pixmap, int radius);
     void setTitle(QString value);
+    void SetThisName(QString value){this->thisName = value;}
+
+    // void SetIsOPen(bool value);
 
 private:
     void ObjectInit();
@@ -46,12 +56,14 @@ private:
     void setListHeight(int value){this->listHeight = value;}
     int ListHeight(){return this->listHeight;}
 
+
 private slots:
     void OnPbOpenClicked();
 
 signals:
     void AngleChanged();
     void ListHeightChanged();
+    void OpenPlayList(QString playListName);
 };
 
 #endif // PLAYLIST_H

@@ -40,8 +40,8 @@ void SelectBar::WidgetInit()
     scrollArea->setWidget(widget);
     widget->setObjectName("scroll_widget");
 
-    PlayList *sl = new PlayList(this);
-    sl->setTitle("收藏");
+    PlayList *sl = new PlayList("收藏", this);
+    // sl->setTitle("收藏");
     sl->setObjectName("song_sheet_list");
 
     vLayout3->addWidget(songSheetList);
@@ -69,8 +69,10 @@ void SelectBar::ObjectInit()
     pbUserInfo->setObjectName("select_bar_button");
     pbUserInfo->setIcon(QIcon(":/scr/icon/arrow_right.png"));
 
-    songSheetList = new PlayList(this);
-    songSheetList->setTitle("自建");
+    songSheetList = new PlayList("自建", this);
+    // songSheetList->setTitle("自建");
+    // songSheetList->SetIsOPen(true);
+    // songSheetList->SetThisName("")
     songSheetList->setObjectName("song_sheet_list");
 }
 

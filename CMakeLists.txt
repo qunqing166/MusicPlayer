@@ -45,6 +45,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Service/MusicInfoService.h Service/MusicInfoService.cpp
         Service/DataBaseService.h
         Service/Response.h
+        DataInfo/PlayListInfo.h
+        Service/PlayListInfoService.h Service/PlayListInfoService.cpp
+        Service/BaseService.h Service/BaseService.cpp
+        UI/hhh.h
+
 
 
     )
