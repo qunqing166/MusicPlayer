@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "PlayListContentView.h"
 #include <QStackedWidget>
+#include "UI/SidePlayListBar.h"
 
 class MainWidget:public QStackedWidget
 {
@@ -11,11 +12,13 @@ class MainWidget:public QStackedWidget
 
     PlayListContentView *contentView;
 
+
 public:
     MainWidget(QWidget *parent = nullptr);
 
     PlayListContentView *getContentView() const;
 
+    SidePlayListBar *sideBar;
 private:
     void ObjectInit();
     void WidgetInit();

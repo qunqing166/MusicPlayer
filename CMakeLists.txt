@@ -52,6 +52,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         Service/PlayerController.h Service/PlayerController.cpp
         UI/SidePlayListBar.h UI/SidePlayListBar.cpp
+        UI/SidePlayList.h UI/SidePlayList.cpp
+        UI/ClickedEventFilter.h
 
 
 

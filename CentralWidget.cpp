@@ -38,8 +38,14 @@ CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
     connect(titleBar, &TitleBar::PbMinClicked, this, [&](){emit Minimize();});
     connect(titleBar, &TitleBar::PbMaxClicked, this, [&](){emit Maximize();});
     connect(selectBar->GetPlayList(), &PlayList::OpenPlayList, this->mainWidget->getContentView(), &PlayListContentView::ShowPlayList);
-
     connect(this->getMainWidget()->getContentView()->getPlayListView(), &PlayListView::PlayMusic, playerBar, &PlayerBar::SetMusicInfo);
+    connect(this->getPlayerBar(), &PlayerBar::OpenSideBar,this, [&](){
+        // mainWidget->sideBar->ChangeOpenStatus(mainWidget->geometry());
+        if(mainWidget->sideBar->GetOpenStatus() == false)
+            mainWidget->sideBar->Open(mainWidget->geometry());
+    });
+    // connect(this->getPlayerBar(), &PlayerBar::C)
+    // connect()
 }
 
 bool CentralWidget::IsInTitleBar(QPoint pos)

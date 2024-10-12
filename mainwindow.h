@@ -10,6 +10,7 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include "Service/PlayerController.h"
+#include "UI/ClickedEventFilter.h"
 
 class MainWindow : public QMainWindow
 {
@@ -43,8 +44,6 @@ private:
 
 protected:
     virtual bool event(QEvent *event) override;
-
-
 };
 
 #endif // MAINWINDOW_H

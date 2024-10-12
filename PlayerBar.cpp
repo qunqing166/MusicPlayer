@@ -85,6 +85,7 @@ void PlayerBar::ObjectInit()
     pbList->setObjectName("player_bar_button");
     pbList->setFixedSize(buttonSize, buttonSize);
     pbList->setIcon(QIcon(":/scr/icon/list.png"));
+    connect(pbList, &QPushButton::clicked, this, &PlayerBar::OnPbListClicked);
 
     labelMusicName = new QLabel("鸡你太美", this);
     labelSingers = new QLabel("坤哥", this);
@@ -235,4 +236,10 @@ void PlayerBar::OnPbPlayModeClicked()
         pbPlayMode->setIcon(QIcon(":/scr/icon/list_loop.png"));
     }
     emit PlayModeChanged(playMode);
+}
+
+void PlayerBar::OnPbListClicked()
+{
+    // emit ChangeSideBarOpenStatus();
+    emit OpenSideBar();
 }

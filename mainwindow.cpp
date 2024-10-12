@@ -1,6 +1,4 @@
 #include "mainwindow.h"
-#include "TitleBar.h"
-#include "SelectBar.h"
 #include <qfile.h>
 #include <qdebug.h>
 #include <QPainter>
@@ -17,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     //ui.setupUi(this);
     this->setMinimumSize(1000, 600);
+
+    // setAttribute(Qt::WA_TransparentForMouseEvents, true);
 
     LoadStyleSheet();
     ObjectInit();
@@ -48,8 +48,6 @@ MainWindow::~MainWindow()
 void MainWindow::ObjectInit()
 {
     centarlWidget = new CentralWidget(this);
-    // mediaPlayer = new QMediaPlayer(this);
-    // audioOutput = new QAudioOutput(this);
     playerController = new PlayerController(this);
 }
 

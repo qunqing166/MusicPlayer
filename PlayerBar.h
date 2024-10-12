@@ -62,12 +62,15 @@ private slots:
     void OnPbVolumeClicked();
     void OnPbPlaySpeedClicked();
     void OnPbPlayModeClicked();
+    void OnPbListClicked();
 
 signals:
     void PlayStatusChanged(bool isPlaying);
     void PlayModeChanged(PlayMode playMode);
     void PlayVolumeChanged(int volume);
     void PlaySpeedChanged(PlaySpeed playSpeed);
+    void ChangeSideBarOpenStatus();
+    void OpenSideBar();
 };
 
 #endif // PLAYERBAR_H

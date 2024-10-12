@@ -2,6 +2,7 @@
 #include <QStackedLayout>
 #include "PlayListContentView.h"
 #include <QStackedWidget>
+#include "UI/SidePlayListBar.h"
 
 PlayListContentView *MainWidget::getContentView() const
 {
@@ -30,11 +31,8 @@ void MainWidget::WidgetInit()
     this->addWidget(contentView);
     QWidget *widget = new QWidget(this);
     this->addWidget(widget);
-    // this->
-    // stackedLayout-
-    // QStac
-    // QWidget *widget = new QWidget(this);
-    // stackedLayout->addWidget(widget);
-    // stackedLayout->setCurrentWidget(widget);
-    // widget->setObjectName("widget_test");
+
+    sideBar = new SidePlayListBar(this);
+
+    // sideBar->show();
 }

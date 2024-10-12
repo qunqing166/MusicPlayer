@@ -249,3 +249,10 @@ QWidget#widget_test
 {
     background-color: rgba(252, 104, 104, 0.829);
 }
+
+QWidget#side_bar_title
+{
+    background-color: turquoise;
+    border: none;
+    border-radius: 15px;
+}

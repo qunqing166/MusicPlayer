@@ -46,6 +46,7 @@ private:
 signals:
     void Maximize();
     void Minimize();
+    void ChangeOpenSideBarStatus();
 };
 
 #endif // CENTRALWIDGET_H
