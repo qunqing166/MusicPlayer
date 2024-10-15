@@ -2,6 +2,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QApplication>
+#include <QLabel>
+#include "SidePlayList.h"
 
 int SidePlayListBar::getDWidth() const
 {
@@ -12,6 +14,7 @@ void SidePlayListBar::setDWidth(int newWidth)
 {
     dWidth = newWidth;
     this->move(QPoint(parentGeo.width() - dWidth, 0));
+    qDebug()<<dWidth;
 }
 
 SidePlayListBar::SidePlayListBar(QWidget *parent):QWidget(parent)
@@ -32,6 +35,10 @@ SidePlayListBar::SidePlayListBar(QWidget *parent):QWidget(parent)
     connect(clickFilter, &ClickedEventFilter::MousePressed, this, &SidePlayListBar::OnMousePressed);
     //界面内的关闭按钮
     connect(pbClose, &QPushButton::clicked, this, &SidePlayListBar::Close);
+
+    connect(pbRecord, &QPushButton::clicked, this, &SidePlayListBar::OnPbRecordClicked);
+
+    connect(pbCrt, &QPushButton::clicked, this, &SidePlayListBar::OnPbCrtClicked);
 }
 
 void SidePlayListBar::Open(QRect geo)
@@ -50,11 +57,12 @@ void SidePlayListBar::ObjectInit()
     geoAnima = new QPropertyAnimation(this, "DWidth");
     geoAnima->startTimer(1000);
     clickFilter = new ClickedEventFilter(this);
+    sidePlayList = new SidePlayList(this);
 }
 
 void SidePlayListBar::WidgetInit()
 {
-    int size = 30;
+    int size = 40;
     QVBoxLayout *vLayout = new QVBoxLayout(this);
     this->setLayout(vLayout);
     vLayout->setAlignment(Qt::AlignTop);
@@ -68,6 +76,32 @@ void SidePlayListBar::WidgetInit()
 
     pbClose->setFixedSize(size, size);
     hLayout1->addWidget(pbClose);
+
+    QHBoxLayout *hLayout1_1 = new QHBoxLayout(this);
+    hLayout1_1->setContentsMargins(5,5,5,5);
+    widget->setLayout(hLayout1_1);
+
+    pbCrt = new QPushButton("当前播放", this);
+    pbCrt->setFixedHeight(size - 10);
+    pbCrt->setCheckable(true);
+    pbCrt->setChecked(true);
+
+    pbRecord = new QPushButton("播放历史", this);
+    pbRecord->setFixedHeight(size - 10);
+    pbRecord->setObjectName("side_bar_button_1");
+    pbCrt->setObjectName("side_bar_button_1");
+    hLayout1_1->addWidget(pbCrt);
+    hLayout1_1->addWidget(pbRecord);
+
+    QLabel *labelNumber = new QLabel("总共0首", this);
+    QPushButton *pbClear = new QPushButton("清空列表", this);
+    QHBoxLayout *hLayout2 = new QHBoxLayout(this);
+    hLayout2->addWidget(labelNumber);
+    hLayout2->addWidget(pbClear);
+    vLayout->addLayout(hLayout2);
+
+    // vLayout->addWidget(new SidePlayList(this));
+    vLayout->addWidget(sidePlayList);
 }
 
 void SidePlayListBar::OnAnimationFinished()
@@ -92,15 +126,24 @@ void SidePlayListBar::OnMousePressed(const QPoint &pos)
     }
 }
 
-void SidePlayListBar::Open(int height)
+void SidePlayListBar::OnPbRecordClicked()
 {
-    this->setFixedHeight(height);
-    this->setDWidth(this->width());
-    geoAnima->setStartValue(0);
-    geoAnima->setEndValue(maxWidth);
-    // this->show();
-    geoAnima->start();
-    isOpen = true;
+    pbCrt->setChecked(false);
+    pbCrt->setCheckable(false);
+    pbRecord->setCheckable(true);
+    pbRecord->setChecked(true);
+    // emit OpenRecordList("RecordPlayList");
+    sidePlayList->UpdateList("RecordPlayList");
+}
+
+void SidePlayListBar::OnPbCrtClicked()
+{
+    pbRecord->setChecked(false);
+    pbRecord->setCheckable(false);
+    pbCrt->setCheckable(true);
+    pbCrt->setChecked(true);
+    // emit OpenRecordList("CurrentPlayList");
+    sidePlayList->UpdateList("CurrentPlayList");
 }
 
 void SidePlayListBar::Close()
@@ -108,4 +151,9 @@ void SidePlayListBar::Close()
     geoAnima->setStartValue(maxWidth);
     geoAnima->setEndValue(0);
     geoAnima->start();
+}
+
+SidePlayList *SidePlayListBar::getSidePlayList() const
+{
+    return sidePlayList;
 }

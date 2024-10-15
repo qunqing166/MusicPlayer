@@ -35,17 +35,22 @@ CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
     ObjectInit();
     WidgetInit();
 
+    //标题栏最小化按钮
     connect(titleBar, &TitleBar::PbMinClicked, this, [&](){emit Minimize();});
+    //标题栏最大化按钮
     connect(titleBar, &TitleBar::PbMaxClicked, this, [&](){emit Maximize();});
-    connect(selectBar->GetPlayList(), &PlayList::OpenPlayList, this->mainWidget->getContentView(), &PlayListContentView::ShowPlayList);
-    connect(this->getMainWidget()->getContentView()->getPlayListView(), &PlayListView::PlayMusic, playerBar, &PlayerBar::SetMusicInfo);
-    connect(this->getPlayerBar(), &PlayerBar::OpenSideBar,this, [&](){
-        // mainWidget->sideBar->ChangeOpenStatus(mainWidget->geometry());
-        if(mainWidget->sideBar->GetOpenStatus() == false)
-            mainWidget->sideBar->Open(mainWidget->geometry());
+    //打开某个歌单, 显示歌单内容
+    connect(selectBar, &SelectBar::OpenPlayList, this, [&](const PlayListDto &info){
+        this->mainWidget->ToPlayList();
+        mainWidget->getContentView()->ShowPlayList(info);
     });
-    // connect(this->getPlayerBar(), &PlayerBar::C)
-    // connect()
+    //打开首页
+    connect(selectBar, &SelectBar::PageToIndex, this, [&](){mainWidget->ToIndex();});
+    //打开侧边栏
+    connect(playerBar, &PlayerBar::OpenSideBar, this, [&](){
+        if(!mainWidget->getSideBar()->GetOpenStatus())
+            this->mainWidget->getSideBar()->Open(mainWidget->geometry());
+    });
 }
 
 bool CentralWidget::IsInTitleBar(QPoint pos)

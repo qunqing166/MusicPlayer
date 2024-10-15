@@ -4,13 +4,14 @@
 #include <QWidget>
 #include <QLabel>
 #include <QPushButton>
-// #include "AnimationButton.h"
 #include <QPropertyAnimation>
 #include <QListView>
 #include <QListWidget>
-#include "DataInfo/PlayListInfo.h"
 #include <QStandardItemModel>
+#include <QSharedPointer>
+#include "Dtos/PlayListDto.h"
 
+//显示歌单的列表
 class PlayList:public QWidget
 {
     Q_OBJECT
@@ -32,7 +33,8 @@ class PlayList:public QWidget
     QString title;
     QString listName = "新建歌单";
 
-    QList<PlayListInfo> playLists;
+    // QList<PlayListInfo> playLists;
+    QList<PlayListDto> playLists;
     QString thisName;
     QStandardItemModel *model;
 
@@ -61,7 +63,8 @@ private slots:
 signals:
     void AngleChanged();
     void ListHeightChanged();
-    void OpenPlayList(const PlayListInfo &info);
+    //打开歌单的信号
+    void OpenPlayList(const PlayListDto &info);
 };
 
 #endif // PLAYLIST_H

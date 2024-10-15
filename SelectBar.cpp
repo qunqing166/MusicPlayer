@@ -13,6 +13,8 @@ SelectBar::SelectBar(QWidget* parent) :QWidget(parent)
     WidgetInit();
 
     // connect(playList, &PlayList::OpenPlayList)
+    connect(pbIndex, &QPushButton::clicked, this, &SelectBar::OnPbIndexClicked);
+    connect(playList, &PlayList::OpenPlayList, this, &SelectBar::OpenPlayList);
 }
 
 void SelectBar::WidgetInit()
@@ -29,11 +31,15 @@ void SelectBar::WidgetInit()
     hLayout1->addWidget(labelUserName);
     hLayout1->addWidget(pbUserInfo, Qt::AlignRight);
 
+    vLayout->addWidget(pbIndex);
+
     QScrollArea *scrollArea = new QScrollArea(this);
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollArea->setObjectName("select_bar_scrollarea");
     vLayout->addWidget(scrollArea);
     scrollArea->setWidgetResizable(true);
+
+
 
     QVBoxLayout *vLayout3 = new QVBoxLayout(this);
     vLayout3->setAlignment(Qt::AlignTop);
@@ -77,6 +83,9 @@ void SelectBar::ObjectInit()
     // songSheetList->SetIsOPen(true);
     // songSheetList->SetThisName("")
     playList->setObjectName("song_sheet_list");
+    pbIndex = new QPushButton("首页", this);
+    pbIndex->setObjectName("button_index");
+    pbIndex->setFixedHeight(30);
 }
 
 void SelectBar::DataInit()
@@ -85,4 +94,18 @@ void SelectBar::DataInit()
     // treeWidget->setRootIsDecorated(false);
     // headItem->addChild(new QTreeWidgetItem({"nmsl"}));
     // QTreeWidgetItem *headItem1 = new QTreeWidgetItem(treeWidget);
+}
+
+void SelectBar::OnPbIndexClicked()
+{
+    // if(!isInPageIndex)
+    emit PageToIndex();
+    // isInPageIndex = true;
+}
+
+void SelectBar::OnOpenPlayList(const PlayListDto &info)
+{
+    if(isInPageIndex)
+        emit OpenPlayList(info);
+    isInPageIndex = false;
 }

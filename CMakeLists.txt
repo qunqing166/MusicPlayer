@@ -34,26 +34,35 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ImageLabel.h ImageLabel.cpp
         ProgressBar.h ProgressBar.cpp
 
-        DataInfo/MusicInfo.h
+
         PlayList.h PlayList.cpp
         AnimationButton.h AnimationButton.cpp
         PlayListContentView.h PlayListContentView.cpp
         PlayListView.h PlayListView.cpp
         PlayListItem.h PlayListItem.cpp
-        DataInfo/BaseInfo.h
-        Service/IBaseService.cpp Service/IBaseService.h
-        Service/IMusicInfoService.h
+
+
+
         Service/MusicInfoService.h Service/MusicInfoService.cpp
         Service/DataBaseService.h
         Service/Response.h
-        DataInfo/PlayListInfo.h
-        Service/PlayListInfoService.h Service/PlayListInfoService.cpp
+
+        Service/PlayListService.h Service/PlayListService.cpp
         Service/BaseService.h Service/BaseService.cpp
 
         Service/PlayerController.h Service/PlayerController.cpp
         UI/SidePlayListBar.h UI/SidePlayListBar.cpp
         UI/SidePlayList.h UI/SidePlayList.cpp
         UI/ClickedEventFilter.h
+        UI/SidePlayListItem.h UI/SidePlayListItem.cpp
+        Service/PlayingRecordService.h Service/PlayingRecordService.cpp
+        Dtos/BaseDto.h
+        Dtos/MusicDto.h
+        Dtos/PlayListDto.h
+        Service/DataBaseService.cpp
+        Service/MusicService.h Service/MusicService.cpp
+        Dtos/PlayingRecordDto.h Dtos/PlayingRecordDto.cpp
+        UI/IndexWidget.h UI/IndexWidget.cpp
 
 
 

@@ -9,7 +9,8 @@
 #include <QSpacerItem>
 #include <QStandardItemModel>
 #include <QPainter>
-#include "Service/PlayListInfoService.h"
+#include "Dtos/PlayListDto.h"
+#include "Service/BaseService.h"
 
 PlayList::PlayList(QString title, QWidget *parent):QWidget(parent), title(title)
 {
@@ -94,13 +95,9 @@ void PlayList::WidgetInit()
     QVBoxLayout *vLayout = new QVBoxLayout(this);
     this->setLayout(vLayout);
     vLayout->setAlignment(Qt::AlignTop);
-    // vLayout->setSpacing(0);
     vLayout->setContentsMargins(0,0,0,0);
 
     QHBoxLayout *hLayout1 = new QHBoxLayout(this);
-    // hLayout1->setSpacing(0);
-    // hLayout1->setContentsMargins(0,0,0,0);
-    // vLayout->addLayout(hLayout1);
 
     QWidget *widget = new QWidget(this);
     widget->setObjectName("song_sheet_bar");
@@ -127,37 +124,35 @@ void PlayList::DataInit()
     listView->setModel(model);
     QList<QStandardItem*>items;
 
-    PlayListInfoService service;
+    // PlayListInfoService service;
+    BaseService<PlayListDto> service;
+
     if(this->title == "自建")
     {
-        playLists = service.GetAll("qunqing166", Creator).Result();
+        // playLists = service.GetAll("qunqing166", Creator).Result();
+        playLists = service.GetAll();
     }
     else
     {
         // playLists = service.GetAll("qunqing166", Creator).Result();
     }
+
     for(int i = 0; i < playLists.count(); i++)
     {
-        PlayListInfo p = playLists.at(i);
+        PlayListDto p = playLists.at(i);
         QStandardItem *item = new QStandardItem();
-        QIcon icon(GetRadiusPiamap(QPixmap(p.coverImagePath), 4));
+        QIcon icon(GetRadiusPiamap(QPixmap(p.CoverImagePath()), 4));
         // item->setIcon(QIcon("C:\\Users\\qunqing\\Desktop\\图片\\liyue.webp"));
         item->setIcon(icon);
-        item->setText(p.listName);
+        item->setText(p.ListName());
         items.append(item);
-        // items.append()
     }
     model->appendColumn(items);
     int iconSize = 35;
     listView->setIconSize(QSize(iconSize, iconSize));
     int space = 5;
     listView->setSpacing(5);
-    // listView->setFixedHeight((45 + space) * count);
     listView->setFixedHeight(0);
-    // listView->setFixedHeight(500);
-    // listView->setModel();
-
-
 }
 
 void PlayList::setTitle(QString value)
@@ -165,23 +160,6 @@ void PlayList::setTitle(QString value)
     this->title = value;
     this->labelInfo->setText(this->title);
 }
-
-// void PlayList::SetIsOPen(bool value)
-// {
-//     // this->isContentOPen = value;
-//     // if(value)
-//     // {
-//     //     angle = 0;
-//     //     listHeight = (45 + 5) * listView->model()->rowCount();
-//     // }
-//     // else
-//     // {
-//     //     angle = 180;
-//     //     listHeight = 0;
-//     // }
-//     // this->update();
-//     // OnPbOpenClicked();
-// }
 
 void PlayList::OnPbOpenClicked()
 {

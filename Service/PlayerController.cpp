@@ -5,6 +5,11 @@ PlayerController::PlayerController(QObject *parent):QObject(parent)
     ObjectInit();
 }
 
+void PlayerController::SetPlayingList(const QList<MusicDto> &value)
+{
+    this->playingList = value;
+}
+
 void PlayerController::ObjectInit()
 {
     mediaPlayer = new QMediaPlayer(this);
@@ -12,11 +17,13 @@ void PlayerController::ObjectInit()
     mediaPlayer->setAudioOutput(audioOutput);
 }
 
-void PlayerController::OpenNewMusic(const MusicInfo &info)
+void PlayerController::OpenNewMusic(const MusicDto &info)
 {
+    // currentPlayingIndex = index;
     isCheckMusic = true;
-    mediaPlayer->setSource(QUrl::fromLocalFile(info.musicPath));
+    mediaPlayer->setSource(QUrl::fromLocalFile(info.MusicPath()));
     mediaPlayer->play();
+    emit UpdatePlayBarStatus(info);
 }
 
 void PlayerController::ChangePlayStatus(bool is)
@@ -29,4 +36,9 @@ void PlayerController::ChangePlayStatus(bool is)
     {
         mediaPlayer->pause();
     }
+}
+
+QMediaPlayer *PlayerController::MediaPlayer() const
+{
+    return mediaPlayer;
 }

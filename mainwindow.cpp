@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     //ui.setupUi(this);
-    this->setMinimumSize(1000, 600);
+    this->setMinimumSize(1000, 700);
 
     // setAttribute(Qt::WA_TransparentForMouseEvents, true);
 
@@ -35,9 +35,19 @@ MainWindow::MainWindow(QWidget *parent)
     });
     connect(centarlWidget, &CentralWidget::Minimize, this, [&](){this->showMinimized();});
 
-    connect(centarlWidget->getMainWidget()->getContentView()->getPlayListView(), &PlayListView::PlayMusic,
+    // connect(centarlWidget->getMainWidget()->getContentView()->getPlayListView(), &PlayListView::PlayMusic,
+    //         playerController, &PlayerController::OpenNewMusic);
+    connect(centarlWidget->getPlayerBar(), &PlayerBar::PlayStatusChanged,
+            playerController, &PlayerController::ChangePlayStatus);
+
+    connect(centarlWidget->getMainWidget()->getSideBar()->getSidePlayList(), &SidePlayList::PlayMusic,
             playerController, &PlayerController::OpenNewMusic);
-    connect(centarlWidget->getPlayerBar(), &PlayerBar::PlayStatusChanged, playerController, &PlayerController::ChangePlayStatus);
+
+    connect(playerController, &PlayerController::UpdatePlayBarStatus,
+            centarlWidget->getPlayerBar(), &PlayerBar::SetMusicInfo);
+
+    connect(playerController->MediaPlayer(), &QMediaPlayer::positionChanged,
+            centarlWidget->getPlayerBar(), &PlayerBar::OnDurationChanged);
     // connect(centarlWidget->getPlayerBar(), &PlayerBar::PlayStatusChanged, this, [&]());
     // connect(centarlWidget->getPlayerBar())
 }

@@ -8,6 +8,7 @@
 #include <QFont>
 #include <QPainter>
 #include <QPixmap>
+#include <QTime>
 
 PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
 {
@@ -17,20 +18,25 @@ PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
     ObjectInit();
     WidgetInit();
 
-    SetMusicInfo(MusicInfo());
+    // SetMusicInfo(MusicInfo());
 
     // connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
     // connect(pbToNext, &QPushButton::clicked, this, &PlayerBar::on)
 }
 
-void PlayerBar::SetMusicInfo(MusicInfo musicInfo)
+void PlayerBar::SetMusicInfo(const MusicDto &musicInfo)
 {
     //更新显示信息
-    this->musicInfo = musicInfo;
-    this->imageLabel->SetPixmap(musicInfo.coverImagePath);
-    this->labelSingers->setText(musicInfo.singers);
-    this->labelMusicName->setText(musicInfo.musicName);
-    this->labelTotleTime->setText(musicInfo.duration.toString("mm:ss"));
+    this->musicInfo = musicInfo;//musicInfo;
+    this->imageLabel->SetPixmap(musicInfo.CoverImagePath());
+    this->labelSingers->setText(musicInfo.Singers());
+    this->labelMusicName->setText(musicInfo.MusicName());
+    this->labelTotleTime->setText(musicInfo.Duration());
+    QTime time = QTime::fromString(musicInfo.Duration(), "mm:ss");
+    qDebug()<<time;
+    this->slider->setRange(0, time.minute() * 60 + time.second());
+    qDebug()<<slider->maximum();
+    this->labelNowTime->setText("00:00");
     //改变即播放, 更新播放状态
     this->SetPlayStatus(true);
 }
@@ -95,6 +101,7 @@ void PlayerBar::ObjectInit()
     labelMusicName->setFont(font);
 
     labelTotleTime = new QLabel("00:00", this);
+    labelNowTime = new QLabel("00:00", this);
 }
 
 void PlayerBar::WidgetInit()
@@ -131,8 +138,8 @@ void PlayerBar::WidgetInit()
     vLayout2->addLayout(hLayout2_1);
 
     QHBoxLayout *hLayout2_2 = new QHBoxLayout(this);
-    QLabel *labelNowTime = new QLabel("00:00", this);
-    QSlider *slider = new QSlider(Qt::Horizontal, this);
+
+    slider = new QSlider(Qt::Horizontal, this);
     slider->setFixedHeight(20);
     slider->setRange(0, 100);
     vLayout2->addLayout(hLayout2_2);
@@ -194,6 +201,15 @@ void PlayerBar::SetPlayStatus(bool is)
     {
         pbStop->setIcon(QIcon(":/scr/icon/playing.png"));
     }
+}
+
+void PlayerBar::OnDurationChanged(qint64 ms)
+{
+    this->slider->setValue(ms / 1000);
+    labelNowTime->setText(QString::asprintf("%02lld:%02lld", (ms / (1000 * 60)) % 60, (ms / 1000) % 60));
+    // qDebug()<<sec;
+    // qDebug()<<time.toString("mm:ss");
+    // qDebug()<<time;
 }
 
 void PlayerBar::OnPbStopClicked()

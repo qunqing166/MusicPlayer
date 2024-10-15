@@ -10,7 +10,6 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include "Service/PlayerController.h"
-#include "UI/ClickedEventFilter.h"
 
 class MainWindow : public QMainWindow
 {

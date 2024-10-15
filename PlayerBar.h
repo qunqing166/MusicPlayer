@@ -3,9 +3,11 @@
 
 #include <QWidget>
 #include <QLabel>
+#include "Dtos/MusicDto.h"
 #include "ImageLabel.h"
 #include <QPushButton>
-#include "DataInfo/MusicInfo.h"
+// #include "DataInfo/MusicInfo.h"
+#include <QSlider>
 
 
 enum PlayMode
@@ -22,11 +24,12 @@ enum PlaySpeed
     two_x,
 };
 
+//播放控制栏
 class PlayerBar:public QWidget
 {
     Q_OBJECT
 
-    MusicInfo musicInfo;
+    MusicDto musicInfo;
 
     bool isPlaying = false;
     bool isMute = false;
@@ -46,11 +49,16 @@ class PlayerBar:public QWidget
     QLabel *labelMusicName;
     QLabel *labelSingers;
     QLabel *labelTotleTime;
+    QLabel *labelNowTime;
+
+    QSlider *slider;
 
 public:
     PlayerBar(QWidget *parent = nullptr);
-    void SetMusicInfo(MusicInfo musicInfo);
+    void SetMusicInfo(const MusicDto &musicInfo);
     void SetPlayStatus(bool is);
+
+    void OnDurationChanged(qint64 sec);
 
 private:
     void ObjectInit();

@@ -247,12 +247,63 @@ QListWidget#song_list_view
 
 QWidget#widget_test
 {
-    background-color: rgba(252, 104, 104, 0.829);
+    background-color: rgb(252, 104, 104);
+    padding: 3px;
+    border: none;
+    border-radius: 5px;
 }
 
 QWidget#side_bar_title
 {
     background-color: turquoise;
     border: none;
+    border-radius: 20px;
+}
+
+QPushButton#side_bar_button_1
+{
+    background-color: turquoise;
+    border: none;
     border-radius: 15px;
 }
+
+QPushButton:hover#side_bar_button_1
+{
+    background-color: rgba(146, 0.411);         
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton:pressed#side_bar_button_1
+{
+    background-color: rgba(201, 83, 83, 0.411);      
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton:checked#side_bar_button_1
+{
+    background-color:blueviolet;      
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton#button_index
+{
+    background-color: transparent;
+    border: none;
+}
+
+QPushButton:hover#button_index
+{
+    background-color:gray;         
+    border: none;
+}
+
+QPushButton:pressed#button_index
+{
+    background-color: rgb(119, 119, 119);      
+    border: none;
+}
+
+

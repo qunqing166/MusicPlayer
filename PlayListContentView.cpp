@@ -3,6 +3,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include "PlayListView.h"
+#include <QFileDialog>
+#include <QMediaPlayer>
 
 PlayListView *PlayListContentView::getPlayListView() const
 {
@@ -15,16 +17,32 @@ PlayListContentView::PlayListContentView(QWidget *parent):QWidget(parent)
     this->setObjectName("song_sheet_content");
     ObjectInit();
     WidgetInit();
+    // ShowPlayList()
+
+    connect(pbAdd, &QPushButton::clicked, this, &PlayListContentView::OnPbAddClicked);
 }
 
-void PlayListContentView::ShowPlayList(const PlayListInfo &info)
+PlayListContentView::PlayListContentView(const PlayListDto &info, QWidget *parent):QWidget(parent)
 {
-    imageLabel->SetPixmap(QPixmap(info.coverImagePath));
-    sheetTitleLabel->setText(info.listName);
+    this->playList = info;
+    this->setAttribute(Qt::WA_StyledBackground);
+    this->setObjectName("song_sheet_content");
+    ObjectInit();
+    WidgetInit();
+    ShowPlayList(this->playList);
+
+    connect(pbAdd, &QPushButton::clicked, this, &PlayListContentView::OnPbAddClicked);
+}
+
+void PlayListContentView::ShowPlayList(const PlayListDto &info)
+{
+    // this->playList = info;
+    imageLabel->SetPixmap(QPixmap(info.CoverImagePath()));
+    sheetTitleLabel->setText(info.ListName());
     userImage->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\yyn.jpg"));
-    userNameLabel->setText(info.creator);
-    createTimeLabel->setText(QString("创建于 %1").arg(info.createTime.toString("yyyy-MM-dd")));
-    playListView->ShowPlayList(info.listName);
+    userNameLabel->setText(info.Creator());
+    createTimeLabel->setText(QString("创建于 %1").arg(info.CreateDateTime().toString("yyyy-MM-dd")));
+    playListView->ShowPlayList(info.ListName());
     // createTimeLabel->setText("创建于11-45-14");
 }
 
@@ -33,11 +51,11 @@ void PlayListContentView::ObjectInit()
     imageLabel = new ImageLabel(this);
     int imageSize = 100;
     imageLabel->setFixedSize(imageSize, imageSize);
-    imageLabel->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\liyue.webp"));
+    // imageLabel->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\liyue.webp"));
     // imageLabel->setObjectName("sheet_image_label");
 
     sheetTitleLabel = new QLabel(this);
-    sheetTitleLabel->setText("我喜欢");
+    // sheetTitleLabel->setText("我喜欢");
     sheetTitleLabel->setObjectName("sheet_title_label");
 
     int userImageSize = 20;
@@ -50,7 +68,7 @@ void PlayListContentView::ObjectInit()
     userNameLabel->setObjectName("sheet_user_name");
 
     createTimeLabel = new QLabel(this);
-    createTimeLabel->setText("创建于11-45-14");
+    // createTimeLabel->setText("创建于11-45-14");
     createTimeLabel->setObjectName("sheet_user_name");
 
     pbPlay = new QPushButton(this);
@@ -61,11 +79,16 @@ void PlayListContentView::ObjectInit()
 
     pbEdit = new QPushButton(this);
     pbEdit->setObjectName("sheet_button_edit");
-    pbEdit->setObjectName("sheet_button_edit");
     pbEdit->setIcon(QIcon(":/scr/icon/edit.png"));
     pbEdit->setFixedSize(30, 30);
 
     playListView = new PlayListView(this);
+
+    pbAdd = new QPushButton("+", this);
+    pbAdd->setFixedSize(30, 30);
+    pbAdd->setObjectName("sheet_button_edit");
+
+    emit ListCreated();
 }
 
 void PlayListContentView::WidgetInit()
@@ -96,6 +119,7 @@ void PlayListContentView::WidgetInit()
     hLayout2_2->setAlignment(Qt::AlignLeft);
     hLayout2_2->addWidget(pbPlay);
     hLayout2_2->addWidget(pbEdit);
+    hLayout2_2->addWidget(pbAdd, Qt::AlignRight);
     vLayout2->addLayout(hLayout2_2);
 
     QHBoxLayout *hLayout3 = new QHBoxLayout(this);
@@ -122,4 +146,25 @@ void PlayListContentView::WidgetInit()
     vLayout->addWidget(playListView);
 
     // vLayout->addWidget(new QWidget(this), Qt::AlignTop);
+}
+
+void PlayListContentView::OnPbAddClicked()
+{
+    QString path = QFileDialog::getOpenFileName(this, "选择", QDir::homePath(), "*.mp3");
+    QFileInfo fileInfo(path);
+    QMediaPlayer p(this);
+    p.setSource(fileInfo.path());
+    MusicDto music;
+    if(p.isAvailable())
+    {
+        music.setMusicPath(path);
+        music.setDuration(QTime::fromMSecsSinceStartOfDay(p.duration()).toString("mm:ss"));
+        music.setMusicName(fileInfo.completeBaseName());
+        music.InsertPlayList(this->sheetTitleLabel->text());
+        playListView->Add(music);
+    }
+    else
+    {
+        qDebug()<<"文件不合法";
+    }
 }

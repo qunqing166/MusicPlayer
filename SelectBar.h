@@ -17,7 +17,10 @@ class SelectBar : public QWidget
     ImageLabel *labelHeadImage;
     QLabel *labelUserName;
     QPushButton *pbUserInfo;
+    QPushButton *pbIndex;
     PlayList *playList;
+
+    bool isInPageIndex = true;
 
 public:
     SelectBar(QWidget* parent);
@@ -27,6 +30,13 @@ private:
     void WidgetInit();
     void ObjectInit();
     void DataInit();
+
+    void OnPbIndexClicked();
+    void OnOpenPlayList(const PlayListDto &info);
+
+signals:
+    void PageToIndex();
+    void OpenPlayList(const PlayListDto &info);
 };
 
 #endif // SELECTBAR_H

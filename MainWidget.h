@@ -5,20 +5,28 @@
 #include "PlayListContentView.h"
 #include <QStackedWidget>
 #include "UI/SidePlayListBar.h"
+#include "UI/IndexWidget.h"
+#include <QStackedLayout>
 
-class MainWidget:public QStackedWidget
+class MainWidget:public QWidget
 {
     Q_OBJECT
 
     PlayListContentView *contentView;
-
+    SidePlayListBar *sideBar;
+    IndexWidget *indexWidget;
+    QStackedLayout *stackedLayout;
 
 public:
     MainWidget(QWidget *parent = nullptr);
 
     PlayListContentView *getContentView() const;
 
-    SidePlayListBar *sideBar;
+    SidePlayListBar *getSideBar() const;
+
+    void ToIndex();
+    void ToPlayList();
+
 private:
     void ObjectInit();
     void WidgetInit();
