@@ -28,10 +28,16 @@ void SidePlayListItem::ObjectInit()
     singers = new QLabel(this);
 
     int buttonSize = 30;
-    pbMore = new QPushButton("...", this);
+    pbMore = new QPushButton(this);
     pbMore->setFixedSize(buttonSize, buttonSize);
+    pbMore->setIcon(QIcon(":/scr/icon/more.png"));
+
     pbDel = new QPushButton("X", this);
     pbDel->setFixedSize(buttonSize, buttonSize);
+    pbDel->setIcon(QIcon(":/scr/icon/close.png"));
+
+    pbMore->setObjectName("side_list_btn");
+    pbDel->setObjectName("side_list_btn");
 }
 
 void SidePlayListItem::WidgetInit()

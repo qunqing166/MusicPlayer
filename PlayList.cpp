@@ -15,10 +15,12 @@
 PlayList::PlayList(QString title, QWidget *parent):QWidget(parent), title(title)
 {
     this->setAttribute(Qt::WA_StyledBackground);
-
+    this->setObjectName("play_list");
     ObjectInit();
     DataInit();
     WidgetInit();
+
+
 
     // SetIsOPen(true);
 
@@ -110,9 +112,6 @@ void PlayList::WidgetInit()
     hLayout1->addWidget(pbOpen);
     vLayout->addWidget(listView);
 
-
-    // this->setStyleSheet("background-color:black;");
-    // vLayout->addWidget(new QLabel(this), Qt::AlignTop);
 }
 
 void PlayList::DataInit()

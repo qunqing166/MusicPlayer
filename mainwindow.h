@@ -10,6 +10,7 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include "Service/PlayerController.h"
+#include <QTimer>
 
 class MainWindow : public QMainWindow
 {
@@ -21,6 +22,7 @@ class MainWindow : public QMainWindow
     bool isShowMaximized = false;
     QPoint lastDraggedPos;
 
+    QTimer *timer;
     // QMediaPlayer *mediaPlayer;
     // QAudioOutput *audioOutput;
 

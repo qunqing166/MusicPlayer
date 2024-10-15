@@ -12,7 +12,6 @@ SelectBar::SelectBar(QWidget* parent) :QWidget(parent)
     DataInit();
     WidgetInit();
 
-    // connect(playList, &PlayList::OpenPlayList)
     connect(pbIndex, &QPushButton::clicked, this, &SelectBar::OnPbIndexClicked);
     connect(playList, &PlayList::OpenPlayList, this, &SelectBar::OpenPlayList);
 }
@@ -36,21 +35,20 @@ void SelectBar::WidgetInit()
     QScrollArea *scrollArea = new QScrollArea(this);
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollArea->setObjectName("select_bar_scrollarea");
+    // scrollArea->setAttribute(Qt::WA_StyledBackground);
     vLayout->addWidget(scrollArea);
     scrollArea->setWidgetResizable(true);
-
-
 
     QVBoxLayout *vLayout3 = new QVBoxLayout(this);
     vLayout3->setAlignment(Qt::AlignTop);
     QWidget *widget = new QWidget(this);
+    widget->setStyleSheet("background-color:transparent;");
     widget->setLayout(vLayout3);
     scrollArea->setWidget(widget);
     widget->setObjectName("scroll_widget");
 
-    // PlayList *sl = new PlayList("收藏", this);
     PlayList *sl = new PlayList("收藏", this);
-    // sl->setTitle("收藏");
+
     sl->setObjectName("song_sheet_list");
 
     vLayout3->addWidget(playList);
@@ -59,7 +57,6 @@ void SelectBar::WidgetInit()
 
     vLayout3->setAlignment(Qt::AlignTop);
     vLayout3->setContentsMargins(0,0,0,0);
-    // vLayout3->setSpacing(1);
 }
 
 void SelectBar::ObjectInit()
@@ -79,9 +76,6 @@ void SelectBar::ObjectInit()
     pbUserInfo->setIcon(QIcon(":/scr/icon/arrow_right.png"));
 
     playList = new PlayList("自建", this);
-    // songSheetList->setTitle("自建");
-    // songSheetList->SetIsOPen(true);
-    // songSheetList->SetThisName("")
     playList->setObjectName("song_sheet_list");
     pbIndex = new QPushButton("首页", this);
     pbIndex->setObjectName("button_index");

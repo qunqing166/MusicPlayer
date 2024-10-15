@@ -18,10 +18,9 @@ PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
     ObjectInit();
     WidgetInit();
 
-    // SetMusicInfo(MusicInfo());
-
     // connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
-    // connect(pbToNext, &QPushButton::clicked, this, &PlayerBar::on)
+    connect(pbToNext, &QPushButton::clicked, this, [&](){emit SwitchMusic(true);});
+    connect(pbToLast, &QPushButton::clicked, this, [&](){emit SwitchMusic(false);});
 }
 
 void PlayerBar::SetMusicInfo(const MusicDto &musicInfo)

@@ -2,6 +2,7 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include "MoreMenu.h"
 
 IndexWidget::IndexWidget(QWidget *parent)
     : QWidget{parent}
@@ -14,4 +15,7 @@ IndexWidget::IndexWidget(QWidget *parent)
     QFont font;
     font.setPointSize(30);
     label->setFont(font);
+
+    MoreMenu *menu = new MoreMenu(this);
+    menu->hide();
 }

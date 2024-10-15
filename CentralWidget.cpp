@@ -32,6 +32,9 @@ TitleBar *CentralWidget::getTitleBar() const
 
 CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
 {
+    this->setAttribute(Qt::WA_StyledBackground);
+    this->setObjectName("central_widget");
+
     ObjectInit();
     WidgetInit();
 

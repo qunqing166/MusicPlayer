@@ -63,6 +63,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Service/MusicService.h Service/MusicService.cpp
         Dtos/PlayingRecordDto.h Dtos/PlayingRecordDto.cpp
         UI/IndexWidget.h UI/IndexWidget.cpp
+        UI/MoreMenu.h UI/MoreMenu.cpp
+        UI/ToolButton.h UI/ToolButton.cpp
 
 
 

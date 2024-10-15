@@ -24,5 +24,12 @@
         <file>scr/icon/edit.png</file>
         <file>scr/icon/more.png</file>
         <file>scr/icon/cover_empty.png</file>
+        <file>scr/icon/menu_add.png</file>
+        <file>scr/icon/menu_remove.png</file>
+        <file>scr/icon/next.png</file>
+        <file>scr/icon/-.png</file>
+        <file>scr/icon/remove.png</file>
+        <file>scr/icon/close.png</file>
+        <file>scr/icon/max.png</file>
     </qresource>
 </RCC>

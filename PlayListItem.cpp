@@ -42,6 +42,9 @@ void PlayListItem::ObjectInit()
     pbMore = new QPushButton(this);
     pbMore->setFixedSize(height, height);
     pbMore->setIcon(QIcon(this->musicInfo.MusicPath()));
+
+    pbMore->setObjectName("list_more_btn");
+    pbMore->setIcon(QIcon(":/scr/icon/more.png"));
 }
 
 void PlayListItem::WidgetInit()

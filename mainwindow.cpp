@@ -50,6 +50,11 @@ MainWindow::MainWindow(QWidget *parent)
             centarlWidget->getPlayerBar(), &PlayerBar::OnDurationChanged);
     // connect(centarlWidget->getPlayerBar(), &PlayerBar::PlayStatusChanged, this, [&]());
     // connect(centarlWidget->getPlayerBar())
+
+    timer = new QTimer(this);
+    // timer->setInterval(1000);
+    // timer->start();
+    // connect(timer, &QTimer::timeout, this, [&](){LoadStyleSheet();qDebug()<<"timerout";});
 }
 
 MainWindow::~MainWindow()

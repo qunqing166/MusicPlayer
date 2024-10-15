@@ -20,12 +20,6 @@ PlayListView::PlayListView(QWidget *parent):QListWidget(parent)
 
     ShowPlayList("我喜欢");
     UpdateWidget();
-
-
-
-    // connect(this, &PlayListView::doubleClicked, this, [&](const QModelIndex &index){
-    //     emit PlayMusic(index.row(), musics.at(index.row()));
-    // });
 }
 
 void PlayListView::ShowPlayList(QString playListName)

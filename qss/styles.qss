@@ -1,12 +1,35 @@
-QWidget#title_bar
+QWidget#central_widget
 {
-    background-color: red;
+    background-color:white
 }
 
-/* QMainWindow
+QPushButton#title_bar_btn
 {
-    background-color: yellow;
-} */
+    background-color: transparent;
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton:hover#title_bar_btn
+{
+    background-color: rgb(177, 197, 225);      
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton#list_more_btn
+{
+    background-color: transparent;
+    border: none;
+    border-radius: 20px;
+}
+
+QPushButton:hover#list_more_btn
+{
+    background-color: rgb(177, 197, 225);      
+    border: none;
+    border-radius: 20px;
+}
 
 QLabel#title_label
 {
@@ -15,22 +38,26 @@ QLabel#title_label
 
 TitleBar#title_bar
 {
-    background-color: rgb(245, 152, 152);
+    /* background-color: rgb(245, 152, 152); */
+    /* background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(230, 239, 255),  stop:1 white); */
+    background: qconicalgradient(cx:0.5, cy:1, angle:0,stop:0 white, stop:0.2 rgb(230, 239, 255), stop: 0.4 rgb(249, 235, 250), stop:0.5 white);
 }
 
 SelectBar#select_bar
 {
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
 }
 
 PlayerBar#player_bar
 {
     background-color: rgb(255, 255, 255);
+    color: rgb(240, 247, 255);
 }
 
 MainWidget#main_widget
 {
-    background-color: rgb(208, 167, 255);
+    /* background-color: rgb(252, 254, 255); */
+    background-color: qlineargradient(x1:0, y1:0, x2:0.2, y2:0,stop:0 rgb(246, 249, 252), stop: 1  rgb(252, 254, 255));
 }
 
 
@@ -120,7 +147,8 @@ QPushButton:pressed#song_sheet_list_button
 
 QListWidget#song_sheet_list_widget
 {
-    background-color: rgb(244, 183, 183);
+    /* background-color: rgb(244, 183, 183); */
+    background-color: transparent;
     border: none;
 }
 
@@ -134,16 +162,24 @@ QListWidget#song_sheet_list_widget
 
 QListView#song_sheet_list_view
 {
-    background-color: rgb(255, 187, 187);
+    /* background-color: rgb(255, 187, 187); */
+    /* background-color: white; */
+    background-color: transparent;
     border: none;
     border-radius: 10px;
 }
 
 QScrollArea#select_bar_scrollarea
 {
-    background-color: transparent;
+    background-color: white;
     border: none;
     margin: 0px;
+}
+
+
+QWidget#play_list
+{
+    background-color: white;
 }
 
 QWidget#song_sheet_list
@@ -160,7 +196,7 @@ QWidget#song_sheet_list
 
 QWidget#scroll_widget
 {
-    background-color: transparent;
+    background-color: white;
     border: none;
     border-width: 0px;
 }
@@ -172,14 +208,16 @@ QWidget#song_sheet_bar
 
 QWidget#select_bar
 {
-    background-color: transparent;
-    margin: 0px;
-    padding: 0px;
+    background-color: rgb(255, 255, 255);
+    /* background-color: tomato; */
 }
 
 QWidget#song_sheet_content
 {
-    background-color: rgb(231, 169, 169);
+    /* background-color: rgb(231, 169, 169); */
+    /* background-color: transparent; */
+    /* background-color: white; */
+    background-color: qlineargradient(x1:0, y1:0, x2:0.2, y2:0,stop:0 rgb(246, 249, 252), stop: 1  rgb(252, 254, 255));
 }
 
 QPushButton#sheet_button_play
@@ -242,34 +280,56 @@ QLabel#sheet_user_name
 
 QListWidget#song_list_view
 {
-    background-color: rgb(220, 183, 244);
+    /* background-color: rgb(220, 183, 244); */
+    /* background-color: white; */
+    background-color: transparent;
+    border:none;
+    /* color: #8f8f8f; */
+}
+
+QListView#side_play_list
+{
+    border: none;
 }
 
 QWidget#widget_test
 {
-    background-color: rgb(252, 104, 104);
+    background-color: rgb(255, 255, 255);
     padding: 3px;
-    border: none;
     border-radius: 5px;
 }
 
 QWidget#side_bar_title
 {
-    background-color: turquoise;
+    background-color: rgb(239, 243, 248);
     border: none;
     border-radius: 20px;
 }
 
 QPushButton#side_bar_button_1
 {
-    background-color: turquoise;
+    background-color: rgb(239, 243, 248);
     border: none;
     border-radius: 15px;
 }
 
 QPushButton:hover#side_bar_button_1
 {
-    background-color: rgba(146, 0.411);         
+    background-color: white;         
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton#side_list_btn
+{
+    background-color: transparent;
+    border: none;
+    border-radius: 15px;
+}
+
+QPushButton:hover#side_list_btn
+{
+    background-color: white;         
     border: none;
     border-radius: 15px;
 }
@@ -283,9 +343,37 @@ QPushButton:pressed#side_bar_button_1
 
 QPushButton:checked#side_bar_button_1
 {
-    background-color:blueviolet;      
+    background-color:rgb(218, 218, 218);      
     border: none;
     border-radius: 15px;
+}
+
+QPushButton#side_bar_btn_close
+{
+    background-color: rgb(239, 243, 248);
+    border: none;
+    border-radius: 20px;
+}
+
+QPushButton:hover#side_bar_btn_close
+{
+    background-color: rgb(220, 215, 215);         
+    border: none;
+    border-radius: 20px;
+}
+
+QPushButton#side_bar_btn_clear
+{
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+}
+
+QPushButton:hover#side_bar_btn_clear
+{
+    background-color: rgb(220, 215, 215);         
+    border: none;
+    border-radius: 5px;
 }
 
 QPushButton#button_index
@@ -305,5 +393,62 @@ QPushButton:pressed#button_index
     background-color: rgb(119, 119, 119);      
     border: none;
 }
+
+QWidget#more_menu
+{
+    background-color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 10px;
+}
+
+QPushButton#more_menu_button
+{
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    text-align: left;
+    padding-left: 10px;
+    color: #666666;
+    /* icon: ; */
+}
+
+QPushButton:hover#more_menu_button
+{
+    background-color:rgb(239, 242, 247);         
+    border: none;
+    border-radius: 5px;
+    text-align: left;
+    padding-left: 10px;
+    color: rgb(49, 165, 255);
+}
+
+QPushButton#more_menu_button
+{
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    text-align: left;
+    padding-left: 10px;
+    color: #666666;
+    /* icon: ; */
+}
+
+QWidget:hover#more_menu_button
+{
+    background-color:rgb(239, 242, 247);         
+    border: none;
+    border-radius: 5px;
+    text-align: left;
+    padding-left: 10px;
+    color: rgb(49, 165, 255);
+}
+
+
+
+/* QPushButton:pressed#more_menu_button
+{
+    background-color: rgb(119, 119, 119);      
+    border: none;
+} */
 
 

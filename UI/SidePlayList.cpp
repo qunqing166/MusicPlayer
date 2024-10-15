@@ -9,7 +9,7 @@
 SidePlayList::SidePlayList(QWidget *parent):QListWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
-
+    this->setObjectName("side_play_list");
     ObjectInit();
     // DataInit();
     UpdateList("CurrentPlayList");

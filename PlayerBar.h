@@ -79,6 +79,7 @@ signals:
     void PlaySpeedChanged(PlaySpeed playSpeed);
     void ChangeSideBarOpenStatus();
     void OpenSideBar();
+    void SwitchMusic(bool isNext);
 };
 
 #endif // PLAYERBAR_H

@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QApplication>
 #include <QLabel>
+#include <QGraphicsDropShadowEffect>
 #include "SidePlayList.h"
 
 int SidePlayListBar::getDWidth() const
@@ -13,8 +14,8 @@ int SidePlayListBar::getDWidth() const
 void SidePlayListBar::setDWidth(int newWidth)
 {
     dWidth = newWidth;
-    this->move(QPoint(parentGeo.width() - dWidth, 0));
-    qDebug()<<dWidth;
+    this->move(QPoint(parentGeo.width() - dWidth, 5));
+    // qDebug()<<dWidth;
 }
 
 SidePlayListBar::SidePlayListBar(QWidget *parent):QWidget(parent)
@@ -44,7 +45,7 @@ SidePlayListBar::SidePlayListBar(QWidget *parent):QWidget(parent)
 void SidePlayListBar::Open(QRect geo)
 {
     this->parentGeo = geo;
-    this->setFixedHeight(parentGeo.height());
+    this->setFixedHeight(parentGeo.height() - 5);
     geoAnima->setStartValue(0);
     geoAnima->setEndValue(maxWidth);
     this->show();
@@ -75,6 +76,7 @@ void SidePlayListBar::WidgetInit()
     hLayout1->addWidget(widget);
 
     pbClose->setFixedSize(size, size);
+    pbClose->setObjectName("side_bar_btn_close");
     hLayout1->addWidget(pbClose);
 
     QHBoxLayout *hLayout1_1 = new QHBoxLayout(this);
@@ -95,6 +97,9 @@ void SidePlayListBar::WidgetInit()
 
     QLabel *labelNumber = new QLabel("总共0首", this);
     QPushButton *pbClear = new QPushButton("清空列表", this);
+
+    pbClear->setObjectName("side_bar_btn_clear");
+
     QHBoxLayout *hLayout2 = new QHBoxLayout(this);
     hLayout2->addWidget(labelNumber);
     hLayout2->addWidget(pbClear);
@@ -102,6 +107,13 @@ void SidePlayListBar::WidgetInit()
 
     // vLayout->addWidget(new SidePlayList(this));
     vLayout->addWidget(sidePlayList);
+
+    QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect(this);
+    shadowEffect->setBlurRadius(15);
+    shadowEffect->setXOffset(0);
+    shadowEffect->setYOffset(0);
+    shadowEffect->setColor(QColor(200, 200, 200));
+    this->setGraphicsEffect(shadowEffect);
 }
 
 void SidePlayListBar::OnAnimationFinished()

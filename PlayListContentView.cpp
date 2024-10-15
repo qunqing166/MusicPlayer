@@ -136,16 +136,8 @@ void PlayListContentView::WidgetInit()
     hLayout3->addWidget(number);
     hLayout3->addWidget(new QLabel(this), Qt::AlignLeft);
     vLayout->setAlignment(Qt::AlignLeft);
-    // QLabel *label = new QLabel(this);
-    // label->setFixedWidth(60);
-    // hLayout3->addWidget(label);
-    // hLayout3->addWidget(labelTitle, 4);
-    // hLayout3->addWidget(labelSingers, 2);
-    // hLayout3->addWidget(labelAlbum, 2);
-    // hLayout3->addWidget(labelDuration, 2);
-    vLayout->addWidget(playListView);
 
-    // vLayout->addWidget(new QWidget(this), Qt::AlignTop);
+    vLayout->addWidget(playListView);
 }
 
 void PlayListContentView::OnPbAddClicked()
