@@ -4,6 +4,8 @@
 // #include "../Service/BaseService.h"
 // #include "../Dtos/PlayingRecordDto.h"
 #include "../Service/PlayingRecordService.h"
+#include <QDir>
+#include <QFile>
 #include <QMouseEvent>
 
 SidePlayList::SidePlayList(QWidget *parent):QListWidget(parent)
@@ -11,13 +13,18 @@ SidePlayList::SidePlayList(QWidget *parent):QListWidget(parent)
     this->setAttribute(Qt::WA_StyledBackground);
     this->setObjectName("side_play_list");
     ObjectInit();
-    // DataInit();
-    UpdateList("CurrentPlayList");
-    WidgetInit();
 
-    // connect(this, &QListWidget::doubleClicked, this, [&](const QModelIndex &index){
-    //     emit PlayMusic(index.row(), musicInfos->at(index.row()));
-    // });
+    //默认为播放列表
+    currentList = "CurrentPlayList";
+    //初始化
+    UpdateList(currentList);
+    WidgetInit();
+    DataInit();
+    // QJsonObject json = QJsonDocument::fromJson()
+}
+
+SidePlayList::~SidePlayList()
+{
 }
 
 void SidePlayList::UpdateList(const QString &tableName)
@@ -34,6 +41,16 @@ void SidePlayList::UpdateList(const QList<MusicDto> &musicList)
 {
     musicInfos->clear();
     *musicInfos = musicList;
+
+    PlayingRecordService service("CurrentPlayList");
+    service.Clear();
+
+    foreach (auto m, *musicInfos) {
+        // service.Add(m);
+        PlayingRecordDto a;
+        a.setMusicId(m.Id());
+        service.Add(a);
+    }
 
     UpdateMap();
     UpdateWidget();
@@ -108,23 +125,30 @@ void SidePlayList::WidgetInit()
 
 void SidePlayList::DataInit()
 {
-    // BaseService<PlayingRecordDto> service;
+    QByteArray jsonStr;
+    QFile file(QDir::currentPath() + "/start_up.json");
+    if (file.open(QFile::ReadOnly | QFile::Text)) {
+        // QTextStream in(&file);
+        jsonStr = file.readAll();
+        file.close();
+    }
+    else
+    {
+        qDebug()<<"file: start_up open fault";
+        return;
+    }
 
-    // PlayingRecordService service(PlayingCurrent);
-
-    // // *musicInfos = service.GetPlayingList();
-
-    // // MusicInfoService service;
-    // auto infos = service.GetPlayingList();
-    // *musicInfos = infos;
-
-    // for(int i = 0; i < infos.count(); i++)
-    // {
-    //     QListWidgetItem *item = new QListWidgetItem(this);
-    //     item->setSizeHint(QSize(200, 60));
-    //     this->addItem(item);
-    //     this->setItemWidget(item, new SidePlayListItem(musicInfos->at(i), this));
-    // }
+    QJsonObject jsonObj = QJsonDocument::fromJson(jsonStr).object();
+    if(jsonObj.contains("current_playing_index"))
+    {
+        int currentIndex = jsonObj.value("current_playing_index").toInt();
+        this->setCurrentRow(currentIndex);
+        qDebug()<<"current index:"<<currentIndex;
+    }
+    else
+    {
+        qDebug()<<"no key";
+    }
 }
 
 void SidePlayList::UpdateWidget()

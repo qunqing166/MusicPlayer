@@ -44,6 +44,22 @@ MainWidget::MainWidget(QWidget *parent):QWidget(parent)
             contentView->getPlayListView(), &PlayListView::OnPlayMusic);
 }
 
+MainWidget::MainWidget(int index, QWidget *parent)
+{
+    this->setAttribute(Qt::WA_StyledBackground);
+    this->setObjectName("main_widget");
+
+    indexInit = index;
+
+    ObjectInit();
+    WidgetInit();
+
+    connect(contentView->getPlayListView(), &PlayListView::UpdatePlayingList,
+            sideBar->getSidePlayList(), &SidePlayList::PlayNewList);
+    connect(sideBar->getSidePlayList(), &SidePlayList::PlayMusic,
+            contentView->getPlayListView(), &PlayListView::OnPlayMusic);
+}
+
 void MainWidget::ObjectInit()
 {
     stackedLayout = new QStackedLayout(this);
@@ -59,3 +75,4 @@ void MainWidget::WidgetInit()
     stackedLayout->addWidget(indexWidget);
     stackedLayout->setCurrentWidget(indexWidget);
 }
+

@@ -23,7 +23,24 @@ PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
     connect(pbToLast, &QPushButton::clicked, this, [&](){emit SwitchMusic(false);});
 }
 
-void PlayerBar::SetMusicInfo(const MusicDto &musicInfo)
+PlayerBar::PlayerBar(const MusicDto &music, QWidget *parent) :QWidget(parent)
+{
+    this->setAttribute(Qt::WA_StyledBackground);
+    this->setObjectName("player_bar");
+    this->setFixedHeight(70);
+
+    this->musicInfo = music;
+
+    ObjectInit();
+    WidgetInit();
+    SetMusicInfo(music);
+    // connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
+    connect(pbToNext, &QPushButton::clicked, this, [&](){emit SwitchMusic(true);});
+    connect(pbToLast, &QPushButton::clicked, this, [&](){emit SwitchMusic(false);});
+
+}
+
+void PlayerBar::SetMusicInfo(const MusicDto &musicInfo, bool isOpen)
 {
     //更新显示信息
     this->musicInfo = musicInfo;//musicInfo;
@@ -37,7 +54,7 @@ void PlayerBar::SetMusicInfo(const MusicDto &musicInfo)
     qDebug()<<slider->maximum();
     this->labelNowTime->setText("00:00");
     //改变即播放, 更新播放状态
-    this->SetPlayStatus(true);
+    this->SetPlayStatus(isOpen);
 }
 
 void PlayerBar::ObjectInit()
@@ -93,11 +110,15 @@ void PlayerBar::ObjectInit()
     connect(pbList, &QPushButton::clicked, this, &PlayerBar::OnPbListClicked);
 
     labelMusicName = new QLabel("鸡你太美", this);
+    labelMusicName->setObjectName("PlayerBar_Label_MusicName");
+    labelMusicName->setMaximumWidth(200);
+
     labelSingers = new QLabel("坤哥", this);
-    QFont font;
-    font.setFamily("黑体");
-    font.setPointSize(18);
-    labelMusicName->setFont(font);
+    labelSingers->setObjectName("PlayerBar_Label_Singers");
+    // QFont font;
+    // font.setFamily("黑体");
+    // font.setPointSize(18);
+    // labelMusicName->setFont(font);
 
     labelTotleTime = new QLabel("00:00", this);
     labelNowTime = new QLabel("00:00", this);
@@ -110,17 +131,15 @@ void PlayerBar::WidgetInit()
     hLayout->setSpacing(0);
 
     QVBoxLayout *vLayout1 = new QVBoxLayout(this);
-
     vLayout1->addWidget(labelMusicName);
     vLayout1->addWidget(labelSingers);
     vLayout1->setSpacing(0);
-    // hLayout->addLayout(vLayout1, Qt::AlignLeft);
 
     QHBoxLayout *hLayout1 = new QHBoxLayout(this);
-    hLayout->addLayout(hLayout1, 20);
+
     hLayout1->addWidget(imageLabel);
     hLayout1->addLayout(vLayout1);
-    hLayout1->addWidget(new QLabel(this));
+    // hLayout1->addWidget(new QLabel(this));
     hLayout1->setSpacing(10);
 
     QVBoxLayout *vLayout2 = new QVBoxLayout(this);
@@ -128,7 +147,7 @@ void PlayerBar::WidgetInit()
 
     QLabel *label1 = new QLabel(this);
     QLabel *label2 = new QLabel(this);
-    hLayout->addLayout(vLayout2, 35);
+
     hLayout2_1->addWidget(label1);
     hLayout2_1->addWidget(pbToLast);
     hLayout2_1->addWidget(pbStop);
@@ -137,7 +156,6 @@ void PlayerBar::WidgetInit()
     vLayout2->addLayout(hLayout2_1);
 
     QHBoxLayout *hLayout2_2 = new QHBoxLayout(this);
-
     slider = new QSlider(Qt::Horizontal, this);
     slider->setFixedHeight(20);
     slider->setRange(0, 100);
@@ -148,7 +166,6 @@ void PlayerBar::WidgetInit()
 
     QHBoxLayout *hLayout3 = new QHBoxLayout(this);
     hLayout3->addWidget(new QLabel(this));
-    hLayout->addLayout(hLayout3, 20);
 
     hLayout3->addWidget(pbPlaySpeed);
     hLayout3->addWidget(pbPlayMode);
@@ -164,7 +181,12 @@ void PlayerBar::WidgetInit()
     frame->setStyleSheet("QFrame{background-color:#666666;}");
     hLayout3->addWidget(pbList);
 
-
+    //封面, 歌名
+    hLayout->addLayout(hLayout1, 20);
+    //进度条
+    hLayout->addLayout(vLayout2, 30);
+    //控制btn
+    hLayout->addLayout(hLayout3, 20);
     // QLabel *label = new QLabel(this);
     // hLayout->addLayout(vLayout1, 1);
     // hLayout->addWidget(slider, 5);
@@ -209,6 +231,11 @@ void PlayerBar::OnDurationChanged(qint64 ms)
     // qDebug()<<sec;
     // qDebug()<<time.toString("mm:ss");
     // qDebug()<<time;
+}
+
+MusicDto PlayerBar::CurrentMusic() const
+{
+    return this->musicInfo;
 }
 
 void PlayerBar::OnPbStopClicked()

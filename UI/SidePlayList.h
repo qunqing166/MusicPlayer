@@ -14,9 +14,12 @@ class SidePlayList:public QListWidget
     QMap<int, int> *musicsMap;
     //当前播放列表
     QString playingListName;
+    //
+    QString currentList;
 
 public:
     SidePlayList(QWidget *parent = nullptr);
+    ~SidePlayList();
     //根据歌单名更新列表, 从数据库获得数据
     void UpdateList(const QString &tableName);
     //根据传入的列表更新

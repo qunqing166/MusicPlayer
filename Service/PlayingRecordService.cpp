@@ -35,3 +35,12 @@ QList<MusicDto> PlayingRecordService::GetPlayingList()
     }
     return musics;
 }
+
+bool PlayingRecordService::Clear()
+{
+    QString str = QString("delete from %1;").arg(this->currentTableName);
+    QSqlQuery query;
+    if(query.exec(str))
+        return true;
+    return false;
+}

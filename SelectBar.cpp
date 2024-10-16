@@ -20,7 +20,7 @@ void SelectBar::WidgetInit()
 {
     QVBoxLayout *vLayout = new QVBoxLayout(this);
     vLayout->setAlignment(Qt::AlignTop);
-    vLayout->setContentsMargins(10,10,20,10);
+    vLayout->setContentsMargins(0,10,0,10);
     this->setLayout(vLayout);
 
     QHBoxLayout *hLayout1 = new QHBoxLayout(this);
@@ -38,6 +38,7 @@ void SelectBar::WidgetInit()
     // scrollArea->setAttribute(Qt::WA_StyledBackground);
     vLayout->addWidget(scrollArea);
     scrollArea->setWidgetResizable(true);
+    scrollArea->setContentsMargins(0,0,0,0);
 
     QVBoxLayout *vLayout3 = new QVBoxLayout(this);
     vLayout3->setAlignment(Qt::AlignTop);

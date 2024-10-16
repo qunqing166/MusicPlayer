@@ -1,6 +1,9 @@
 #include "CentralWidget.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QFile>
+#include <QJsonObject>
+#include <QDir>
 #include "SelectBar.h"
 #include "PlayerBar.h"
 #include "MainWidget.h"
@@ -30,6 +33,12 @@ TitleBar *CentralWidget::getTitleBar() const
     return titleBar;
 }
 
+void CentralWidget::SetStartUp(int index, const MusicDto &music)
+{
+    this->playerBar->SetMusicInfo(music, false);
+    this->mainWidget->getSideBar()->SetListCurrentIndex(index);
+}
+
 CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
@@ -56,6 +65,31 @@ CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
     });
 }
 
+CentralWidget::~CentralWidget()
+{
+    QJsonObject jsonObj;
+    jsonObj.insert("current_playing_index", mainWidget->getSideBar()->getSidePlayList()->currentRow());
+
+    MusicDto music = playerBar->CurrentMusic();
+    QJsonObject jsonMusic;
+
+    const QMetaObject *meta = music.metaObject();
+    for(int i = 0; i < meta->propertyCount(); i++)
+    {
+        QString pro = meta->property(i).name();
+        jsonMusic.insert(pro, music.property(pro.toStdString().c_str()).toJsonValue());
+    }
+
+    jsonObj.insert("current_playing_music", jsonMusic);
+
+    QByteArray jsonStr = QJsonDocument(jsonObj).toJson();
+    QFile file(QDir::currentPath() + "/start_up.json");
+    if (file.open(QFile::WriteOnly | QFile::Text)) {
+        file.write(jsonStr);
+        file.close();
+    }
+}
+
 bool CentralWidget::IsInTitleBar(QPoint pos)
 {
     return titleBar->geometry().contains(pos);
@@ -63,6 +97,9 @@ bool CentralWidget::IsInTitleBar(QPoint pos)
 
 void CentralWidget::ObjectInit()
 {
+    int index;
+    MusicDto music;
+    // ReadStartUp(index, music);
     titleBar = new TitleBar(this);
     selectBar = new SelectBar(this);
     playerBar = new PlayerBar(this);
@@ -89,3 +126,32 @@ void CentralWidget::WidgetInit()
     hLayout->addWidget(selectBar, 20);
     hLayout->addWidget(mainWidget, 80);
 }
+
+// void CentralWidget::ReadStartUp(int &index, MusicDto &music)
+// {
+//     QByteArray jsonStr;
+//     QFile file(QDir::currentPath() + "/start_up.json");
+//     if (file.open(QFile::ReadOnly | QFile::Text)) {
+//         jsonStr = file.readAll();
+//         // qDebug()<<QString(jsonStr.toStdString().c_str());
+//         file.close();
+//     }
+
+//     QJsonObject jsonObj = QJsonDocument::fromJson(jsonStr).object();
+
+//     index = jsonObj.value("current_playing_index").toInt();
+//     // MusicDto m;
+//     const QMetaObject *meta = music.metaObject();
+//     QJsonObject jsonMusic = jsonObj.value("current_playing_music").toObject();
+//     for(int i = 0; i < meta->propertyCount(); i++)
+//     {
+//         QString name = meta->property(i).name();
+//         if(jsonMusic.contains(name))
+//         {
+//             music.setProperty(name.toStdString().c_str(), jsonMusic.value(name));
+//         }
+//     }
+
+//     qDebug()<<index;
+//     music.Print();
+// }

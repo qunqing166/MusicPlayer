@@ -18,10 +18,9 @@ class CentralWidget:public QWidget
 
 public:
 
-
     CentralWidget(QWidget *parent = nullptr);
+    ~CentralWidget();
     bool IsInTitleBar(QPoint pos);
-
 
     MainWidget *getMainWidget() const;
 
@@ -31,17 +30,12 @@ public:
 
     TitleBar *getTitleBar() const;
 
+    void SetStartUp(int index, const MusicDto &music);
+
 private:
     void ObjectInit();
     void WidgetInit();
-
-    Q_PROPERTY(MainWidget *mainWidget READ getMainWidget CONSTANT FINAL)
-
-    Q_PROPERTY(PlayerBar *playerBar READ getPlayerBar CONSTANT FINAL)
-
-    Q_PROPERTY(SelectBar *selectBar READ getSelectBar CONSTANT FINAL)
-
-    Q_PROPERTY(TitleBar *titleBar READ getTitleBar CONSTANT FINAL)
+    // void ReadStartUp(int &index, MusicDto &music);
 
 signals:
     void Maximize();

@@ -54,7 +54,8 @@ void SidePlayListBar::Open(QRect geo)
 
 void SidePlayListBar::ObjectInit()
 {
-    pbClose = new QPushButton("X", this);
+    pbClose = new QPushButton(this);
+    pbClose->setIcon(QIcon(":/scr/icon/close.png"));
     geoAnima = new QPropertyAnimation(this, "DWidth");
     geoAnima->startTimer(1000);
     clickFilter = new ClickedEventFilter(this);
@@ -168,4 +169,9 @@ void SidePlayListBar::Close()
 SidePlayList *SidePlayListBar::getSidePlayList() const
 {
     return sidePlayList;
+}
+
+void SidePlayListBar::SetListCurrentIndex(int index)
+{
+    this->sidePlayList->setCurrentRow(index);
 }

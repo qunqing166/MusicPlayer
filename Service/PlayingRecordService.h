@@ -26,6 +26,7 @@ public:
     PlayingRecordService(const QString &tableName);
 
     QList<MusicDto> GetPlayingList();
+    bool Clear();
 
 private:
 

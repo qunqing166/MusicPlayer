@@ -34,10 +34,27 @@ void PlayListView::ShowPlayList(QString playListName)
 
 void PlayListView::Add(const MusicDto &value)
 {
-    musics.push_front(value);
-    UpdateWidget();
-    BaseService<MusicDto> service;
+    //如果已在列表中存在, 直接返回
+    foreach(auto m, musics)
+    {
+        //对本地音乐来说, 路径是唯一的
+        if(m.MusicPath() == value.MusicPath())
+        {
+            qDebug()<<"已存在";
+            return;
+        }
+    }
+    //插入至列表最前方
+    // musics.push_front(value);
+    // UpdateWidget();
+    // BaseService<MusicDto> service;
+    MusicService service;
+    //添加至数据库
     service.Add(value);
+
+    musics = service.GetAllByTableName(this->listName);
+    UpdateWidget();
+    // service.
 }
 
 void PlayListView::mousePressEvent(QMouseEvent *event)

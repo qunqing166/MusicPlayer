@@ -15,7 +15,7 @@ class ImageLabel:public QLabel
     bool isHoverable = false;
     bool isClickable = false;
 
-    int radius = 15;
+    int radius = 10;
 
 public:
     ImageLabel(QWidget *parent = nullptr);

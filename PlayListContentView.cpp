@@ -142,21 +142,23 @@ void PlayListContentView::WidgetInit()
 
 void PlayListContentView::OnPbAddClicked()
 {
+    //获取文件路径
     QString path = QFileDialog::getOpenFileName(this, "选择", QDir::homePath(), "*.mp3");
     QFileInfo fileInfo(path);
+    //如果路径无效, 直接返回
+    if(!fileInfo.isFile())
+        return;
+    //将数据写入对象
     QMediaPlayer p(this);
-    p.setSource(fileInfo.path());
+    p.setSource(QUrl::fromLocalFile(path));
     MusicDto music;
-    if(p.isAvailable())
-    {
-        music.setMusicPath(path);
-        music.setDuration(QTime::fromMSecsSinceStartOfDay(p.duration()).toString("mm:ss"));
-        music.setMusicName(fileInfo.completeBaseName());
-        music.InsertPlayList(this->sheetTitleLabel->text());
-        playListView->Add(music);
-    }
-    else
-    {
-        qDebug()<<"文件不合法";
-    }
+    music.setMusicPath(path);
+    qDebug()<<p.duration();
+    // p.
+    music.setDuration(QString::asprintf("%02lld:%02lld", p.duration() / 60000, p.duration() / 1000));
+    qDebug()<<music.Duration();
+    music.setMusicName(fileInfo.completeBaseName());
+    music.InsertPlayList(this->sheetTitleLabel->text());
+    //添加至列表
+    playListView->Add(music);
 }

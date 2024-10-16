@@ -12,6 +12,7 @@ class PlayerController:public QObject
     Q_OBJECT
 
     QMediaPlayer *mediaPlayer;
+    // QMediaPlayList
     QAudioOutput *audioOutput;
 
     bool isCheckMusic = false;
@@ -32,6 +33,7 @@ public slots:
     void OpenNewMusic(const MusicDto &info);
     void ChangePlayStatus(bool is);
     QMediaPlayer *MediaPlayer() const;
+    void LoadMusic(const MusicDto &music);
 
 signals:
     void UpdatePlayBarStatus(const MusicDto &music);

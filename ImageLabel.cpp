@@ -72,6 +72,9 @@ void ImageLabel::DrawShowPixmap()
     this->pixmap.setMask(mask);
     this->setPixmap(this->pixmap);
 
+    // painter.setPen(QColor(226, 228, 229));
+    // painter.drawRoundedRect(0, 0, size.width(), size.height(), radius, radius);
+
     if(!isHoverable)
         return;
 

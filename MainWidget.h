@@ -16,9 +16,11 @@ class MainWidget:public QWidget
     SidePlayListBar *sideBar;
     IndexWidget *indexWidget;
     QStackedLayout *stackedLayout;
+    int indexInit;
 
 public:
     MainWidget(QWidget *parent = nullptr);
+    MainWidget(int index, QWidget *parent = nullptr);
 
     PlayListContentView *getContentView() const;
 

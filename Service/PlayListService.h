@@ -3,14 +3,20 @@
 
 #include "BaseService.h"
 #include "../Dtos/PlayListDto.h"
+#include "../Dtos/MusicDto.h"
 
 class PlayListService:public BaseService<PlayListDto>
 {
+
+    QString tableName;
+
 public:
 
-    PlayListService(){}
+    PlayListService(const QString &tableName);
 
-    void GetMusicList(const QString &name);
+    QList<MusicDto> GetMusicList();
+    QList<MusicDto> GetMusicList(const QString &name);
+
 };
 
 #endif

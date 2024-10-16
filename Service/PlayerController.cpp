@@ -42,3 +42,8 @@ QMediaPlayer *PlayerController::MediaPlayer() const
 {
     return mediaPlayer;
 }
+
+void PlayerController::LoadMusic(const MusicDto &music)
+{
+    mediaPlayer->setSource(QUrl::fromLocalFile(music.MusicPath()));
+}

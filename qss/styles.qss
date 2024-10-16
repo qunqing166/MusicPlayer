@@ -51,7 +51,11 @@ SelectBar#select_bar
 PlayerBar#player_bar
 {
     background-color: rgb(255, 255, 255);
-    color: rgb(240, 247, 255);
+    /* color: rgb(240, 247, 255); */
+    /* border-top: black solid 1px; */
+    border-top: solid;
+    border-width: 1px;
+    border-color: #ecf1f7;
 }
 
 MainWidget#main_widget
@@ -78,6 +82,19 @@ QPushButton:hover#player_bar_button
     background-color: rgba(146, 146, 146, 0.411);      
     border: none;
     border-radius: 10px;
+}
+
+QLabel#PlayerBar_Label_MusicName
+{
+    color: #333333;
+    /* font: bold; */
+    font-size: 16px;
+}
+
+QLabel#PlayerBar_Label_Singers
+{
+    color: #808183;
+    font-size: 12px;
 }
 
 QPushButton:pressed#player_bar_button
@@ -451,4 +468,13 @@ QWidget:hover#more_menu_button
     border: none;
 } */
 
+QLabel#PlayListItem_musicName
+{
+    color: #333333;
+    font-size: 13px;
+}
 
+QLabel#PlayListItem_otherLabel
+{
+    color: #808283;
+}

@@ -32,7 +32,7 @@ void SidePlayListItem::ObjectInit()
     pbMore->setFixedSize(buttonSize, buttonSize);
     pbMore->setIcon(QIcon(":/scr/icon/more.png"));
 
-    pbDel = new QPushButton("X", this);
+    pbDel = new QPushButton(this);
     pbDel->setFixedSize(buttonSize, buttonSize);
     pbDel->setIcon(QIcon(":/scr/icon/close.png"));
 

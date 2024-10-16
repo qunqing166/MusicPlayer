@@ -34,6 +34,10 @@ bool DataBaseService::Add(const QObject *obj)
     for(int i = 1; i < meta->propertyCount(); i++)
     {
         QString propertyName = meta->property(i).name();
+        if(propertyName == "Id")
+        {
+            continue;
+        }
         query.bindValue(":"+propertyName, obj->property(propertyName.toStdString().c_str()));
     }
     qDebug()<<query.boundValueNames();

@@ -55,10 +55,13 @@ class PlayerBar:public QWidget
 
 public:
     PlayerBar(QWidget *parent = nullptr);
-    void SetMusicInfo(const MusicDto &musicInfo);
+    PlayerBar(const MusicDto &music, QWidget *parent = nullptr);
+    void SetMusicInfo(const MusicDto &musicInfo, bool isOpen = true);
     void SetPlayStatus(bool is);
 
     void OnDurationChanged(qint64 sec);
+
+    MusicDto CurrentMusic() const;
 
 private:
     void ObjectInit();
@@ -80,6 +83,7 @@ signals:
     void ChangeSideBarOpenStatus();
     void OpenSideBar();
     void SwitchMusic(bool isNext);
+    void LoadMusic(const MusicDto &music);
 };
 
 #endif // PLAYERBAR_H

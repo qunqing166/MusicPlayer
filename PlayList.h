@@ -40,6 +40,7 @@ class PlayList:public QWidget
 
 public:
     PlayList(QString title, QWidget *parent = nullptr);
+
     static QPixmap GetRadiusPiamap(QPixmap pixmap, int radius);
     void setTitle(QString value);
     void SetThisName(QString value){this->thisName = value;}

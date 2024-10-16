@@ -27,7 +27,6 @@ class SidePlayListBar:public QWidget
 
 public:
     SidePlayListBar(QWidget *parent = nullptr);
-
     //打开Bar, 传入父窗口信息, 用于位置判断和高度设置
     void Open(QRect geo);
     //关闭窗口
@@ -37,11 +36,11 @@ public:
     //获取当前的打开状态
     bool GetOpenStatus(){return this->isOpen;}
 
-
     int getDWidth() const;
     void setDWidth(int newWidth);
 
     SidePlayList* getSidePlayList() const;
+    void SetListCurrentIndex(int index);
 
 signals:
     void DWidthChanged();
