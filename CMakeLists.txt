@@ -15,6 +15,7 @@ find_package(Qt6 REQUIRED COMPONENTS Sql)
 find_package(Qt6 REQUIRED COMPONENTS Multimedia)
 
 
+
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
@@ -87,9 +88,20 @@ else()
     endif()
 endif()
 
+set(TAG_LIB_DIR D:/code/Qt/learning/MusicPlayer/lib/taglib)
+# set (TAG_LIB_DIR "C:/Program Files (x86)/taglib")
+
+include_directories(${TAG_LIB_DIR}/include)
+# link_directories(${TAG_LIB_DIR}/lib)
+# link_libraries(${TAG_LIB_DIR}/lib)
+
 target_link_libraries(MusicPlayer PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(MusicPlayer PRIVATE Qt6::Sql)
 target_link_libraries(MusicPlayer PRIVATE Qt6::Multimedia)
+
+# target_include_directories(MusicPlayer PRIVATE ${TAG_LIB_DIR}/include)
+target_link_libraries(MusicPlayer PRIVATE ${TAG_LIB_DIR}/lib/libtag.dll.a)
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -106,11 +118,15 @@ set_target_properties(MusicPlayer PROPERTIES
 )
 
 include(GNUInstallDirs)
+
 install(TARGETS MusicPlayer
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+# install(DIRECTORY D:/DEMO/3rd/opencv-3.0/bin/Release/
+# 	DESTINATION ${PROJECT_BINARY_DIR}/bin)
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(MusicPlayer)

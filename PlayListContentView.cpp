@@ -5,6 +5,10 @@
 #include "PlayListView.h"
 #include <QFileDialog>
 #include <QMediaPlayer>
+#include "taglib/tag.h"
+// #include "taglib/tag.h"
+#include "taglib/fileref.h"
+
 
 PlayListView *PlayListContentView::getPlayListView() const
 {
@@ -148,6 +152,34 @@ void PlayListContentView::OnPbAddClicked()
     //如果路径无效, 直接返回
     if(!fileInfo.isFile())
         return;
+
+    // TagLib::FileRef file(path.toStdString().c_str());
+    TagLib::FileRef file(path.toStdWString().c_str());
+    // TagLib::FileRef file(TagLib::FileName( QStringToTString(path).toCString(true)));
+    if(!file.isNull() && file.tag())
+    {
+        qDebug()<<"add";
+        TagLib::Tag *tag = file.tag();
+        TagLib::AudioProperties *properties = file.audioProperties();
+        QString title = tag->title().toCString();
+        QString artist = tag->artist().toCString();
+        QString album = tag->album().toCString();
+        int duration = properties->lengthInMilliseconds();
+
+        MusicDto music;
+        if(title == "")
+            music.setMusicName(fileInfo.completeBaseName());
+        else
+            music.setMusicName(title);
+        music.setMusicPath(path);
+        music.setAlbum(album);
+        music.setDuration(QTime::fromMSecsSinceStartOfDay(duration).toString("mm:ss"));
+        music.InsertPlayList(this->sheetTitleLabel->text());
+        music.setSingers(artist);
+        playListView->Add(music);
+        return;
+    }
+
     //将数据写入对象
     QMediaPlayer p(this);
     p.setSource(QUrl::fromLocalFile(path));
@@ -155,7 +187,7 @@ void PlayListContentView::OnPbAddClicked()
     music.setMusicPath(path);
     qDebug()<<p.duration();
     // p.
-    music.setDuration(QString::asprintf("%02lld:%02lld", p.duration() / 60000, p.duration() / 1000));
+    // music.setDuration(QString::asprintf("%02lld:%02lld", p.duration() / 60000, p.duration() / 1000));
     qDebug()<<music.Duration();
     music.setMusicName(fileInfo.completeBaseName());
     music.InsertPlayList(this->sheetTitleLabel->text());
