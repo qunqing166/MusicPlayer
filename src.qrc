@@ -31,5 +31,6 @@
         <file>scr/icon/remove.png</file>
         <file>scr/icon/close.png</file>
         <file>scr/icon/max.png</file>
+        <file>scr/icon/play.png</file>
     </qresource>
 </RCC>

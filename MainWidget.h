@@ -25,6 +25,7 @@ public:
     PlayListContentView *getContentView() const;
 
     SidePlayListBar *getSideBar() const;
+    IndexWidget *getIndexWidget() const;
 
     void ToIndex();
     void ToPlayList();

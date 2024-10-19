@@ -44,6 +44,9 @@ SidePlayListBar::SidePlayListBar(QWidget *parent):QWidget(parent)
 
 void SidePlayListBar::Open(QRect geo)
 {
+    //移至最上层
+    this->raise();
+    //获取父窗口数据, 根据父窗口设置height, 并启动动画
     this->parentGeo = geo;
     this->setFixedHeight(parentGeo.height() - 5);
     geoAnima->setStartValue(0);
@@ -106,9 +109,9 @@ void SidePlayListBar::WidgetInit()
     hLayout2->addWidget(pbClear);
     vLayout->addLayout(hLayout2);
 
-    // vLayout->addWidget(new SidePlayList(this));
     vLayout->addWidget(sidePlayList);
 
+    //阴影
     QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect(this);
     shadowEffect->setBlurRadius(15);
     shadowEffect->setXOffset(0);

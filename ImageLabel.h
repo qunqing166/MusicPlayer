@@ -3,6 +3,13 @@
 
 #include <QLabel>
 
+enum HoverStyle
+{
+    none,
+    HoverStyle_Open,
+    HoverStyle_Play
+};
+
 class ImageLabel:public QLabel
 {
     Q_OBJECT
@@ -17,16 +24,22 @@ class ImageLabel:public QLabel
 
     int radius = 10;
 
+    HoverStyle hoverStyle = none;
+
 public:
     ImageLabel(QWidget *parent = nullptr);
     void SetPixmap(QPixmap pixmap);
     void SetHoverable(bool is);
     void SetClickable(bool is);
     void SetRadius(int radius);
+    void SetHoverStyle(HoverStyle style);
 
 private:
     QPixmap DrawHoverPixmap();
     void DrawShowPixmap();
+
+    QPixmap DrawHoverStyleOpen();
+    QPixmap DrawHoverStylePlay();
 
 protected:
     virtual void mousePressEvent(QMouseEvent *ev) override;

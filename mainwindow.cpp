@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
     // connect(centarlWidget->getPlayerBar())
     // connect(centarlWidget->getPlayerBar(), &PlayerBar::LoadMusic, playerController, &PlayerController::LoadMusic);
 
+
     timer = new QTimer(this);
     // timer->setInterval(1000);
     // timer->start();

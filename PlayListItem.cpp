@@ -28,11 +28,13 @@ void PlayListItem::ObjectInit()
 
     songName = new QLabel(this);
     songName->setText(this->musicInfo.MusicName());
-    songName->setMaximumWidth(150);
+    songName->setContentsMargins(10,0,0,0);
+
     songName->setObjectName("PlayListItem_musicName");
 
     singers = new QLabel(this);
     singers->setText(this->musicInfo.Singers());
+
     singers->setObjectName("PlayListItem_otherLabel");
 
     album = new QLabel(this);
@@ -49,20 +51,35 @@ void PlayListItem::ObjectInit()
 
     pbMore->setObjectName("list_more_btn");
     pbMore->setIcon(QIcon(":/scr/icon/more.png"));
+
+    if(musicInfo.Singers().isEmpty())
+    {
+        singers->hide();
+        album->hide();
+    }
 }
 
 void PlayListItem::WidgetInit()
 {
     QHBoxLayout *hLayout = new QHBoxLayout(this);
     this->setLayout(hLayout);
-
+    hLayout->setSpacing(0);
     hLayout->addWidget(indexLabel);
     hLayout->addWidget(image);
-    hLayout->addWidget(songName, 6);
-    hLayout->addWidget(new QLabel(this), 1);
-    hLayout->addWidget(singers, 3);
-    hLayout->addWidget(album, 3);
+    if(this->musicInfo.Singers().isEmpty())
+    {
+        hLayout->addWidget(songName, 11);
+    }
+    else
+    {
+        hLayout->addWidget(songName, 4);
+        hLayout->addWidget(new QLabel(this), 1);
+        hLayout->addWidget(singers, 3, Qt::AlignLeft);
+        hLayout->addWidget(album, 3);
+    }
+
     hLayout->addWidget(duration, 1);
+    hLayout->addWidget(new QLabel(this), 1);
     hLayout->addWidget(pbMore, 1);
 }
 

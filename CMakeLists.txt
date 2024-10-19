@@ -66,6 +66,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         UI/IndexWidget.h UI/IndexWidget.cpp
         UI/MoreMenu.h UI/MoreMenu.cpp
         UI/ToolButton.h UI/ToolButton.cpp
+        UI/IndexPlayListItem.h UI/IndexPlayListItem.cpp
 
 
 

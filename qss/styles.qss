@@ -95,6 +95,7 @@ QLabel#PlayerBar_Label_Singers
 {
     color: #808183;
     font-size: 12px;
+    /* color: #80818349; */
 }
 
 QPushButton:pressed#player_bar_button
@@ -477,4 +478,21 @@ QLabel#PlayListItem_musicName
 QLabel#PlayListItem_otherLabel
 {
     color: #808283;
+}
+
+QScrollArea#MainWidget_Scrollarea
+{
+    background-color: transparent;
+    border: none;
+}
+
+QWidget#IndexWidget
+{
+    background-color: transparent;
+}
+
+QWidget#IndexWidget_listWidget
+{
+    background-color: transparent;
+    border: none;
 }

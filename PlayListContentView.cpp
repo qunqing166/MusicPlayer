@@ -24,6 +24,7 @@ PlayListContentView::PlayListContentView(QWidget *parent):QWidget(parent)
     // ShowPlayList()
 
     connect(pbAdd, &QPushButton::clicked, this, &PlayListContentView::OnPbAddClicked);
+    connect(pbPlay, &QPushButton::clicked, playListView, &PlayListView::OnPlayList);
 }
 
 PlayListContentView::PlayListContentView(const PlayListDto &info, QWidget *parent):QWidget(parent)
@@ -45,7 +46,7 @@ void PlayListContentView::ShowPlayList(const PlayListDto &info)
     sheetTitleLabel->setText(info.ListName());
     userImage->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\yyn.jpg"));
     userNameLabel->setText(info.Creator());
-    createTimeLabel->setText(QString("创建于 %1").arg(info.CreateDateTime().toString("yyyy-MM-dd")));
+    createTimeLabel->setText(QString("·创建于 %1").arg(info.CreateDateTime().toString("yyyy-MM-dd")));
     playListView->ShowPlayList(info.ListName());
     // createTimeLabel->setText("创建于11-45-14");
 }
@@ -92,7 +93,6 @@ void PlayListContentView::ObjectInit()
     pbAdd->setFixedSize(30, 30);
     pbAdd->setObjectName("sheet_button_edit");
 
-    emit ListCreated();
 }
 
 void PlayListContentView::WidgetInit()

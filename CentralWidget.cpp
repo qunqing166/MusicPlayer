@@ -37,6 +37,7 @@ void CentralWidget::SetStartUp(int index, const MusicDto &music)
 {
     this->playerBar->SetMusicInfo(music, false);
     this->mainWidget->getSideBar()->SetListCurrentIndex(index);
+    this->mainWidget->getIndexWidget()->SetCurrentMusicInfo(music);
 }
 
 CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
@@ -53,6 +54,10 @@ CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
     connect(titleBar, &TitleBar::PbMaxClicked, this, [&](){emit Maximize();});
     //打开某个歌单, 显示歌单内容
     connect(selectBar, &SelectBar::OpenPlayList, this, [&](const PlayListDto &info){
+        this->mainWidget->ToPlayList();
+        mainWidget->getContentView()->ShowPlayList(info);
+    });
+    connect(mainWidget->getIndexWidget(), &IndexWidget::OpenPlayList, this, [&](const PlayListDto &info){
         this->mainWidget->ToPlayList();
         mainWidget->getContentView()->ShowPlayList(info);
     });

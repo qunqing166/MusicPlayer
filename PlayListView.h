@@ -19,6 +19,12 @@ public:
     void ShowPlayList(QString playListName);
     void Add(const MusicDto &value);
     void Delete(int id);
+    QString ListName() const{return listName;}
+    QList<MusicDto> Musics() const{return musics;}
+
+    void OnPlayList();
+    void ResetHeight();
+    void SetPlayList(const QList<MusicDto> &list);
 
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;

@@ -39,8 +39,6 @@ private:
     void OnPbAddClicked();
     Q_PROPERTY(PlayListView *playListView READ getPlayListView CONSTANT FINAL)
 
-signals:
-    void ListCreated();
 };
 
 #endif // PLAYLISTCONTENTVIEW_H

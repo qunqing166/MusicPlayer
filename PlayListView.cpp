@@ -3,7 +3,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include "PlayListItem.h"
-#include "Service/BaseService.h"
+// #include "Service/BaseService.h"
 #include "Service/MusicInfoService.h"
 #include <QJsonArray>
 #include "Service/MusicInfoService.h"
@@ -55,6 +55,22 @@ void PlayListView::Add(const MusicDto &value)
     musics = service.GetAllByTableName(this->listName);
     UpdateWidget();
     // service.
+}
+
+void PlayListView::OnPlayList()
+{
+    emit UpdatePlayingList(this->listName, 0, musics);
+}
+
+void PlayListView::ResetHeight()
+{
+    this->setFixedHeight(70 * this->count());
+}
+
+void PlayListView::SetPlayList(const QList<MusicDto> &list)
+{
+    this->musics = list;
+    UpdateWidget();
 }
 
 void PlayListView::mousePressEvent(QMouseEvent *event)
