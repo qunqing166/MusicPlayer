@@ -55,6 +55,25 @@ public:
         return model;
     }
 
+    T GetOneByParameter(const QString &parameter)
+    {
+        QString str = QString("select * from %1 where %2;").arg(dbService->TableName()).arg(parameter);
+        QSqlQuery query(str);
+        T model;
+        query.next();
+        DataBaseService::QueryToObject(&model, query);
+        return model;
+    }
+
+    bool IsExist(const QString &parameter)
+    {
+        QString str = QString("select count(*) as count_value from %1 where '%2';").arg(dbService->TableName()).arg(parameter);
+        QSqlQuery query(str);
+        query.next();
+        int num = query.value("count_value").toInt();
+        return num;
+    }
+
     bool Update(T model)
     {
         model.UpdateTimeNow();

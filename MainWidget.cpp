@@ -52,6 +52,8 @@ MainWidget::MainWidget(QWidget *parent):QWidget(parent)
             sideBar->getSidePlayList(), &SidePlayList::PlayNewList);
     connect(sideBar->getSidePlayList(), &SidePlayList::PlayMusic,
             contentView->getPlayListView(), &PlayListView::OnPlayMusic);
+    connect(sideBar->getSidePlayList(), &SidePlayList::CurrentPlayListChanged, indexWidget, &IndexWidget::OnCurrentPlayListChanged);
+    connect(contentView, &PlayListContentView::PlayListDataChanged, indexWidget, &IndexWidget::SetPlayList);
 }
 
 MainWidget::MainWidget(int index, QWidget *parent)

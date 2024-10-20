@@ -10,6 +10,8 @@
 #include <QStandardItemModel>
 #include <QSharedPointer>
 #include "Dtos/PlayListDto.h"
+#include "UI/PlayListEditor.h"
+#include <QPointer>
 
 //显示歌单的列表
 class PlayList:public QWidget
@@ -38,6 +40,9 @@ class PlayList:public QWidget
     QString thisName;
     QStandardItemModel *model;
 
+    QPointer<PlayListEditor> playListEditor;
+    QList<QStandardItem*>items;
+
 public:
     PlayList(QString title, QWidget *parent = nullptr);
 
@@ -45,6 +50,7 @@ public:
     void setTitle(QString value);
     void SetThisName(QString value){this->thisName = value;}
 
+    void UpdateData();
     // void SetIsOPen(bool value);
 
 private:
@@ -56,6 +62,7 @@ private:
     int Angle(){return this->angle;}
     void setListHeight(int value){this->listHeight = value;}
     int ListHeight(){return this->listHeight;}
+    void CreateNewPlayList(const PlayListDto &newList);
 
 
 private slots:
@@ -66,6 +73,7 @@ signals:
     void ListHeightChanged();
     //打开歌单的信号
     void OpenPlayList(const PlayListDto &info);
+    // void PlayListChanged();
 };
 
 #endif // PLAYLIST_H

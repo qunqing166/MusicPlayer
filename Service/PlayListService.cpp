@@ -38,3 +38,40 @@ QList<MusicDto> PlayListService::GetMusicList(const QString &name)
     }
     return musics;
 }
+
+bool PlayListService::Add(const PlayListDto &info)
+{
+    QSqlQuery query;
+
+    QString str1 = QString("select count(*) as count_value from PlayList where ListName = '%1'").arg(info.ListName());
+
+    query.exec(str1);
+    query.next();
+    // qDebug()<<"num: "<<query.value("count_value");
+
+    if(query.value("count_value").toInt() != 0)
+        return false;
+
+    BaseService<PlayListDto>::Add(info);
+
+    QString str = QString("CREATE TABLE PlayList_%1 ("
+                          "Id  INTEGER PRIMARY KEY NOT NULL,"
+                          "CreateTime TEXT    NOT NULL,"
+                          "UpdateTime TEXT    NOT NULL,"
+                          "MusicId    INTEGER NOT NULL"
+                          ");").arg(info.ListName());
+    // QSqlQuery query;
+    return query.exec(str);
+    // qDebug()<<query.lastError().text();
+}
+
+// PlayListDto PlayListService::GetOne(const QString &listName)
+// {
+//     QString str = QString("select * from %1 where ListName = %2;").arg(tableName).arg(listName);
+//     QSqlQuery query(str);
+//     query.next();
+//     // return query;
+//     PlayListDto playList;
+//     DataBaseService::QueryToObject(&playList, query);
+//     return playList;
+// }

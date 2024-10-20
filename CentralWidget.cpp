@@ -68,6 +68,8 @@ CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
         if(!mainWidget->getSideBar()->GetOpenStatus())
             this->mainWidget->getSideBar()->Open(mainWidget->geometry());
     });
+
+    connect(mainWidget->getContentView(), &PlayListContentView::PlayListDataChanged, selectBar->GetPlayList(), &PlayList::UpdateData);
 }
 
 CentralWidget::~CentralWidget()

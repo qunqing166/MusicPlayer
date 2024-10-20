@@ -3,7 +3,7 @@
 #include "SidePlayListItem.h"
 // #include "../Service/BaseService.h"
 // #include "../Dtos/PlayingRecordDto.h"
-#include "../Service/PlayingRecordService.h"
+#include "../Service/PlayListItemService.h"
 #include <QDir>
 #include <QFile>
 #include <QMouseEvent>
@@ -15,7 +15,7 @@ SidePlayList::SidePlayList(QWidget *parent):QListWidget(parent)
     ObjectInit();
 
     //默认为播放列表
-    currentList = "CurrentPlayList";
+    currentList = "_Current";
     //初始化
     UpdateList(currentList);
     WidgetInit();
@@ -47,7 +47,7 @@ void SidePlayList::UpdateList(const QList<MusicDto> &musicList)
 
     foreach (auto m, *musicInfos) {
         // service.Add(m);
-        PlayingRecordDto a;
+        PlayListItemDto a;
         a.setMusicId(m.Id());
         service.Add(a);
     }
@@ -93,6 +93,7 @@ void SidePlayList::PlayNewList(const QString &name, int index, const QList<Music
     }
     this->playingListName = name;
     this->UpdateList(list);
+    emit CurrentPlayListChanged(index, list);
 }
 
 void SidePlayList::mousePressEvent(QMouseEvent *event)

@@ -7,7 +7,7 @@
 #include <QVBoxLayout>
 #include "../ImageLabel.h"
 #include "../PlayListView.h"
-#include "../Service/PlayingRecordService.h"
+#include "../Service/PlayListItemService.h"
 
 IndexWidget::IndexWidget(QWidget *parent)
     : QWidget{parent}
@@ -36,10 +36,16 @@ void IndexWidget::SetCurrentMusicInfo(const MusicDto &music)
 
 void IndexWidget::SetCurrentPlayList()
 {
-    PlayingRecordService service("CurrentPlayList");
+    PlayingRecordService service("_Current");
     QList<MusicDto> musics = service.GetPlayingList();
     // qDebug()<<"count:"<<musics.count();
     playList->SetPlayList(musics);
+}
+
+void IndexWidget::OnCurrentPlayListChanged(int index, const QList<MusicDto> &list)
+{
+    playList->SetPlayList(list);
+    playList->setCurrentRow(index);
 }
 
 void IndexWidget::SetPlayList()
@@ -66,7 +72,7 @@ void IndexWidget::ObjectInit()
     label3 = new QLabel("歌词: 当前无歌词", this);
     label3->setFont(font);
 
-    playList = new PlayListView(this);
+    playList = new PlayListView("_Current", this);
 
     listWidget = new QListWidget(this);
 }

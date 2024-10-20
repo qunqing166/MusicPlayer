@@ -56,17 +56,18 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         UI/SidePlayList.h UI/SidePlayList.cpp
         UI/ClickedEventFilter.h
         UI/SidePlayListItem.h UI/SidePlayListItem.cpp
-        Service/PlayingRecordService.h Service/PlayingRecordService.cpp
+        Service/PlayListItemService.h Service/PlayListItemService.cpp
         Dtos/BaseDto.h
         Dtos/MusicDto.h
         Dtos/PlayListDto.h
         Service/DataBaseService.cpp
         Service/MusicService.h Service/MusicService.cpp
-        Dtos/PlayingRecordDto.h Dtos/PlayingRecordDto.cpp
+        Dtos/PlayListItemDto.h Dtos/PlayListItemDto.cpp
         UI/IndexWidget.h UI/IndexWidget.cpp
         UI/MoreMenu.h UI/MoreMenu.cpp
         UI/ToolButton.h UI/ToolButton.cpp
         UI/IndexPlayListItem.h UI/IndexPlayListItem.cpp
+        UI/PlayListEditor.h UI/PlayListEditor.cpp
 
 
 

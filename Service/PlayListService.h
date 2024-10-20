@@ -12,10 +12,13 @@ class PlayListService:public BaseService<PlayListDto>
 
 public:
 
-    PlayListService(const QString &tableName);
+    PlayListService(const QString &tableName = "");
 
     QList<MusicDto> GetMusicList();
     QList<MusicDto> GetMusicList(const QString &name);
+
+    bool Add(const PlayListDto &info);
+    // PlayListDto GetOne(const QString &listName);
 
 };
 

@@ -2,23 +2,26 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include "Dtos/PlayListItemDto.h"
 #include "PlayListItem.h"
 // #include "Service/BaseService.h"
 #include "Service/MusicInfoService.h"
 #include <QJsonArray>
 #include "Service/MusicInfoService.h"
-#include "Service/MusicService.h"
+#include "Service/PlayListItemService.h"
 #include <QEvent>
 #include <QMouseEvent>
 
-PlayListView::PlayListView(QWidget *parent):QListWidget(parent)
+PlayListView::PlayListView(const QString &listName, QWidget *parent):QListWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
     this->setObjectName("song_list_view");
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
-    ShowPlayList("我喜欢");
+    this->listName = listName;
+
+    ShowPlayList(listName);
     UpdateWidget();
 }
 
@@ -26,35 +29,42 @@ void PlayListView::ShowPlayList(QString playListName)
 {
     this->listName = playListName;
     musics.clear();
-    // BaseService<MusicDto> service;
-    MusicService service;
-    musics = service.GetAllByTableName(playListName);
+
+    PlayingRecordService service(playListName);
+    musics = service.GetPlayingList();
     UpdateWidget();
 }
 
 void PlayListView::Add(const MusicDto &value)
 {
-    //如果已在列表中存在, 直接返回
-    foreach(auto m, musics)
-    {
-        //对本地音乐来说, 路径是唯一的
-        if(m.MusicPath() == value.MusicPath())
-        {
-            qDebug()<<"已存在";
-            return;
-        }
-    }
-    //插入至列表最前方
-    // musics.push_front(value);
-    // UpdateWidget();
-    // BaseService<MusicDto> service;
-    MusicService service;
-    //添加至数据库
-    service.Add(value);
+    BaseService<MusicDto> service;
+    PlayingRecordService service1(this->ListName());
 
-    musics = service.GetAllByTableName(this->listName);
-    UpdateWidget();
-    // service.
+    //查看数据库中是否保存过该音乐, 通过路径判断是否冲突
+    if(!service.IsExist(QString("MusicPath = '%1'").arg(value.MusicPath())))
+    {
+        qDebug()<<"存在于数据库";
+        //数据库中没有就加入数据库
+        service.Add(value);
+    }
+    //获取在数据库中的信息
+    MusicDto music = service.GetOneByParameter(QString("MusicPath = '%1'").arg(value.MusicPath()));
+    //判断歌单内是否保存过
+    if(service1.IsExist(QString("MusicId = %1").arg(music.Id())))
+    {
+        //有就不做处理
+        return;
+    }
+    else
+    {
+        qDebug()<<"不存在于歌单";
+        //添加至歌单
+        PlayListItemDto aa;
+        aa.setMusicId(music.Id());
+        service1.Add(aa);
+    }
+    //刷新数据
+    ShowPlayList(this->listName);
 }
 
 void PlayListView::OnPlayList()

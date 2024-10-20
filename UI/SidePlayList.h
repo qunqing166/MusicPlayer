@@ -36,6 +36,8 @@ public slots:
 signals:
     //播放音乐信号
     void PlayMusic(const MusicDto &music);
+    //
+    void CurrentPlayListChanged(int index, const QList<MusicDto> &list);
 
 protected:
     //拦截单击事件

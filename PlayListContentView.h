@@ -8,6 +8,8 @@
 #include <QPushButton>
 #include <QListWidget>
 #include "PlayListView.h"
+#include "UI/PlayListEditor.h"
+#include <QPointer>
 
 //歌单内容界面, 包括歌单创建信息和包括的歌曲列表
 class PlayListContentView:public QWidget
@@ -26,6 +28,8 @@ class PlayListContentView:public QWidget
 
     PlayListDto playList;
 
+    QPointer<PlayListEditor> playListEditor;
+
 public:
     PlayListContentView(QWidget *parent = nullptr);
     PlayListContentView(const PlayListDto &info, QWidget *parent = nullptr);
@@ -37,7 +41,11 @@ private:
     void ObjectInit();
     void WidgetInit();
     void OnPbAddClicked();
+    void OnEditPlayList(const PlayListDto &info);
     Q_PROPERTY(PlayListView *playListView READ getPlayListView CONSTANT FINAL)
+
+signals:
+    void PlayListDataChanged();
 
 };
 

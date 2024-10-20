@@ -104,3 +104,4 @@ void SelectBar::OnOpenPlayList(const PlayListDto &info)
         emit OpenPlayList(info);
     isInPageIndex = false;
 }
+

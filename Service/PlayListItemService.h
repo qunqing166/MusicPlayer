@@ -1,10 +1,10 @@
-#ifndef PLAYINGRECORDSERVICE_H
-#define PLAYINGRECORDSERVICE_H
+#ifndef PLAYLISTITEMSERVICE_H
+#define PLAYLISTITEMSERVICE_H
 
 // #include "Response.h"
 #include <QSqlDatabase>
 #include "BaseService.h"
-#include "../Dtos/PlayingRecordDto.h"
+#include "../Dtos/PlayListItemDto.h"
 // #include "DataBaseService.h"
 #include "../Dtos/MusicDto.h"
 // #include "../DataInfo/MusicInfo.h"
@@ -15,8 +15,14 @@ enum PlayingRecordType
     PlayingRecord
 };
 
+enum SortOrder
+{
+    Desc,
+    Asc
+};
+
 //用于查询当前播放列表和播放记录
-class PlayingRecordService:public BaseService<PlayingRecordDto>
+class PlayingRecordService:public BaseService<PlayListItemDto>
 {
 
     QString currentTableName;
@@ -25,11 +31,11 @@ public:
     PlayingRecordService(PlayingRecordType type = PlayingCurrent);
     PlayingRecordService(const QString &tableName);
 
-    QList<MusicDto> GetPlayingList();
+    QList<MusicDto> GetPlayingList(SortOrder oder = Desc);
     bool Clear();
 
 private:
 
 };
 
-#endif // PLAYINGRECORDSERVICE_H
+#endif // PLAYLISTITEMSERVICE_H

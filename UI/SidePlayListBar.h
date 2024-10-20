@@ -45,6 +45,7 @@ public:
 signals:
     void DWidthChanged();
     void OpenRecordList(const QString &tableName);
+    // void CurrentPlayListChanged(const QList<MusicDto> &list);
 
 private:
     void ObjectInit();

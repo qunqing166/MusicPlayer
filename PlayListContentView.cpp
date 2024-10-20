@@ -5,9 +5,11 @@
 #include "PlayListView.h"
 #include <QFileDialog>
 #include <QMediaPlayer>
+#include "Service/BaseService.h"
 #include "taglib/tag.h"
 // #include "taglib/tag.h"
 #include "taglib/fileref.h"
+#include "UI/PlayListEditor.h"
 
 
 PlayListView *PlayListContentView::getPlayListView() const
@@ -24,6 +26,11 @@ PlayListContentView::PlayListContentView(QWidget *parent):QWidget(parent)
     // ShowPlayList()
 
     connect(pbAdd, &QPushButton::clicked, this, &PlayListContentView::OnPbAddClicked);
+    connect(pbEdit, &QPushButton::clicked, this, [&](){
+        playListEditor = new PlayListEditor(this->playList);
+        playListEditor.data()->show();
+        connect(playListEditor, &PlayListEditor::SendInfo, this, &PlayListContentView::OnEditPlayList);
+    });
     connect(pbPlay, &QPushButton::clicked, playListView, &PlayListView::OnPlayList);
 }
 
@@ -41,7 +48,7 @@ PlayListContentView::PlayListContentView(const PlayListDto &info, QWidget *paren
 
 void PlayListContentView::ShowPlayList(const PlayListDto &info)
 {
-    // this->playList = info;
+    this->playList = info;
     imageLabel->SetPixmap(QPixmap(info.CoverImagePath()));
     sheetTitleLabel->setText(info.ListName());
     userImage->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\yyn.jpg"));
@@ -87,7 +94,7 @@ void PlayListContentView::ObjectInit()
     pbEdit->setIcon(QIcon(":/scr/icon/edit.png"));
     pbEdit->setFixedSize(30, 30);
 
-    playListView = new PlayListView(this);
+    playListView = new PlayListView("", this);
 
     pbAdd = new QPushButton("+", this);
     pbAdd->setFixedSize(30, 30);
@@ -193,4 +200,20 @@ void PlayListContentView::OnPbAddClicked()
     music.InsertPlayList(this->sheetTitleLabel->text());
     //添加至列表
     playListView->Add(music);
+}
+
+void PlayListContentView::OnEditPlayList(const PlayListDto &info)
+{
+    BaseService<PlayListDto> service;
+
+    QString str = QString("alter table PlayList_%1 rename to PlayList_%2;").arg(this->playList.ListName(), info.ListName());
+
+    this->playList = info;
+    service.Update(info);
+
+    QSqlQuery query(str);
+
+    ShowPlayList(this->playList);
+    emit PlayListDataChanged();
+    playListEditor->deleteLater();
 }

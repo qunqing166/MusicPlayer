@@ -149,7 +149,7 @@ void SidePlayListBar::OnPbRecordClicked()
     pbRecord->setCheckable(true);
     pbRecord->setChecked(true);
     // emit OpenRecordList("RecordPlayList");
-    sidePlayList->UpdateList("RecordPlayList");
+    sidePlayList->UpdateList("_Record");
 }
 
 void SidePlayListBar::OnPbCrtClicked()
@@ -159,7 +159,7 @@ void SidePlayListBar::OnPbCrtClicked()
     pbCrt->setCheckable(true);
     pbCrt->setChecked(true);
     // emit OpenRecordList("CurrentPlayList");
-    sidePlayList->UpdateList("CurrentPlayList");
+    sidePlayList->UpdateList("_Current");
 }
 
 void SidePlayListBar::Close()
@@ -177,4 +177,6 @@ SidePlayList *SidePlayListBar::getSidePlayList() const
 void SidePlayListBar::SetListCurrentIndex(int index)
 {
     this->sidePlayList->setCurrentRow(index);
+    // emit CurrentPlayListChanged()
 }
+

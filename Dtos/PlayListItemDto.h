@@ -2,7 +2,7 @@
 
 #include "BaseDto.h"
 
-class PlayingRecordDto:public BaseDto
+class PlayListItemDto:public BaseDto
 {
     Q_OBJECT
 
@@ -11,7 +11,7 @@ class PlayingRecordDto:public BaseDto
     Q_PROPERTY(int MusicId READ MusicId WRITE setMusicId NOTIFY MusicIdChanged FINAL)
 
 public:
-    PlayingRecordDto();
+    PlayListItemDto();
 
     const static QString TableName;
 
@@ -22,4 +22,4 @@ signals:
     void MusicIdChanged();
 };
 
-inline const QString PlayingRecordDto::TableName = "PlayingRecord";
+inline const QString PlayListItemDto::TableName = "PlayList_";

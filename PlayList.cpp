@@ -11,6 +11,7 @@
 #include <QPainter>
 #include "Dtos/PlayListDto.h"
 #include "Service/BaseService.h"
+#include "Service/PlayListService.h"
 
 PlayList::PlayList(QString title, QWidget *parent):QWidget(parent), title(title)
 {
@@ -40,6 +41,12 @@ PlayList::PlayList(QString title, QWidget *parent):QWidget(parent), title(title)
             emit OpenPlayList(playLists.at(index.row()));
         }
         // qDebug()<<"row "<<index.row();
+    });
+
+    connect(pbAdd, &QPushButton::clicked, this, [&](){
+        playListEditor = new PlayListEditor(PlayListDto(), Mode_Add);
+        playListEditor->show();
+        connect(playListEditor, &PlayListEditor::CreatePlayList, this, &PlayList::CreateNewPlayList);
     });
 }
 
@@ -116,24 +123,16 @@ void PlayList::WidgetInit()
 
 void PlayList::DataInit()
 {
-    // listWidget->addItem(new QListWidgetItem("nmsl"));
-    // listWidget->addItem(new QListWidgetItem("nmsl"));
-
-    QStandardItemModel *model = new QStandardItemModel(this);
     listView->setModel(model);
-    QList<QStandardItem*>items;
 
-    // PlayListInfoService service;
     BaseService<PlayListDto> service;
 
     if(this->title == "自建")
     {
-        // playLists = service.GetAll("qunqing166", Creator).Result();
         playLists = service.GetAll();
     }
     else
     {
-        // playLists = service.GetAll("qunqing166", Creator).Result();
     }
 
     for(int i = 0; i < playLists.count(); i++)
@@ -154,10 +153,46 @@ void PlayList::DataInit()
     listView->setFixedHeight(0);
 }
 
+void PlayList::CreateNewPlayList(const PlayListDto &newList)
+{
+    PlayListService service;
+    service.Add(newList);
+    playListEditor->disconnect();
+    playListEditor->deleteLater();
+    UpdateData();
+}
+
 void PlayList::setTitle(QString value)
 {
     this->title = value;
     this->labelInfo->setText(this->title);
+}
+
+void PlayList::UpdateData()
+{
+    // auto crtIndex = listView->currentIndex();
+
+    BaseService<PlayListDto> service;
+    playLists = service.GetAll();
+
+    items.clear();
+
+    for(int i = 0; i < playLists.count(); i++)
+    {
+        PlayListDto p = playLists.at(i);
+        QStandardItem *item = new QStandardItem();
+        QIcon icon(GetRadiusPiamap(QPixmap(p.CoverImagePath()), 4));
+        item->setIcon(icon);
+        item->setText(p.ListName());
+        items.append(item);
+    }
+    model->appendColumn(items);
+
+    listView->setFixedHeight((50) * listView->model()->rowCount());
+    // listView->update();
+    listView->setModel(nullptr);
+    listView->setModel(model);
+
 }
 
 void PlayList::OnPbOpenClicked()
@@ -177,7 +212,7 @@ void PlayList::OnPbOpenClicked()
 
         listHeiAnima->setStartValue(0);
         listHeiAnima->setEndValue((45 + 5) * listView->model()->rowCount());
-        qDebug()<<listView->model()->rowCount();
+        // qDebug()<<listView->model()->rowCount();
 
     }
     isContentOPen = !isContentOPen;

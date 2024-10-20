@@ -1,30 +1,34 @@
-#include "PlayingRecordService.h"
+#include "PlayListItemService.h"
 
 PlayingRecordService::PlayingRecordService(PlayingRecordType type)
 {
     if(type == PlayingCurrent)
     {
         this->currentTableName = "CurrentPlayList";
-        BaseService<PlayingRecordDto>("CurrentPlayList");
+        BaseService<PlayListItemDto>("CurrentPlayList");
     }
     else
     {
-        BaseService<PlayingRecordDto>("CurrentPlayList");
+        BaseService<PlayListItemDto>("CurrentPlayList");
         this->currentTableName = "CurrentPlayList";
     }
     // qDebug()<<;
 }
 
-PlayingRecordService::PlayingRecordService(const QString &tableName):BaseService<PlayingRecordDto>(tableName)
+PlayingRecordService::PlayingRecordService(const QString &tableName):BaseService<PlayListItemDto>(tableName)
 {
-    this->currentTableName = tableName;
+    this->currentTableName = PlayListItemDto::TableName + tableName;
 }
 
 
 
-QList<MusicDto> PlayingRecordService::GetPlayingList()
+QList<MusicDto> PlayingRecordService::GetPlayingList(SortOrder order)
 {
-    QString str = QString("select Music.* from Music, %1 where Music.Id = %1.MusicId;").arg(this->currentTableName);
+    QString orderStr;
+    if(order == Asc)orderStr = "asc";
+    else if(order == Desc)orderStr = "desc";
+
+    QString str = QString("select Music.* from Music, %1 where Music.Id = %1.MusicId order by %1.CreateTime %2;").arg(this->currentTableName).arg(orderStr);
     QSqlQuery query(str);
     QList<MusicDto> musics;
     while (query.next())

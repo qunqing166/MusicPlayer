@@ -24,6 +24,7 @@ public:
 
     void SetCurrentMusicInfo(const MusicDto &music);
     void SetCurrentPlayList();
+    void OnCurrentPlayListChanged(int index, const QList<MusicDto> &list);
     void SetPlayList();
 
     PlayListView *getPlayList() const{return playList;}

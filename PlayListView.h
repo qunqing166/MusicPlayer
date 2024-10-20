@@ -14,7 +14,7 @@ class PlayListView:public QListWidget
     QList<MusicDto> musics;
 
 public:
-    PlayListView(QWidget *parent = nullptr);
+    PlayListView(const QString &listName, QWidget *parent = nullptr);
     //根据分类名查询歌单列表
     void ShowPlayList(QString playListName);
     void Add(const MusicDto &value);
