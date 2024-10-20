@@ -30,7 +30,7 @@ void PlayListView::ShowPlayList(QString playListName)
     this->listName = playListName;
     musics.clear();
 
-    PlayingRecordService service(playListName);
+    PlayListItemService service(playListName);
     musics = service.GetPlayingList();
     UpdateWidget();
 }
@@ -38,7 +38,7 @@ void PlayListView::ShowPlayList(QString playListName)
 void PlayListView::Add(const MusicDto &value)
 {
     BaseService<MusicDto> service;
-    PlayingRecordService service1(this->ListName());
+    PlayListItemService service1(this->ListName());
 
     //查看数据库中是否保存过该音乐, 通过路径判断是否冲突
     if(!service.IsExist(QString("MusicPath = '%1'").arg(value.MusicPath())))

@@ -4,6 +4,7 @@
 #include <QScrollArea>
 #include <QStackedWidget>
 #include "UI/SidePlayListBar.h"
+#include "Service/PlayListItemService.h"
 
 PlayListContentView *MainWidget::getContentView() const
 {
@@ -52,8 +53,26 @@ MainWidget::MainWidget(QWidget *parent):QWidget(parent)
             sideBar->getSidePlayList(), &SidePlayList::PlayNewList);
     connect(sideBar->getSidePlayList(), &SidePlayList::PlayMusic,
             contentView->getPlayListView(), &PlayListView::OnPlayMusic);
+    connect(sideBar->getSidePlayList(), &SidePlayList::PlayMusic,
+            indexWidget, &IndexWidget::SetCurrentMusicInfo);
     connect(sideBar->getSidePlayList(), &SidePlayList::CurrentPlayListChanged, indexWidget, &IndexWidget::OnCurrentPlayListChanged);
     connect(contentView, &PlayListContentView::PlayListDataChanged, indexWidget, &IndexWidget::SetPlayList);
+    connect(sideBar->getSidePlayList(), &SidePlayList::PlayMusic, this, [&](const MusicDto &music){
+        PlayListItemService service("_Record");
+        PlayListItemDto item;
+        if(service.IsExist(QString("MusicId = %1").arg(music.Id())))
+        {
+            auto aa = service.GetOneByParameter(QString("MusicId = %1").arg(music.Id()));
+            service.Update(aa);
+        }
+        else
+        {
+            item.setMusicId(music.Id());
+            service.Add(item);
+        }
+        // sideBar->getSidePlayList()->UpdateList(sideBar->getSidePlayList()->PlayingListName());
+        // sideBar->ResetButton();
+    });
 }
 
 MainWidget::MainWidget(int index, QWidget *parent)

@@ -42,6 +42,8 @@ public:
     SidePlayList* getSidePlayList() const;
     void SetListCurrentIndex(int index);
 
+    void ResetButton();
+
 signals:
     void DWidthChanged();
     void OpenRecordList(const QString &tableName);

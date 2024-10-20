@@ -30,7 +30,7 @@ SidePlayList::~SidePlayList()
 void SidePlayList::UpdateList(const QString &tableName)
 {
     this->musicInfos->clear();
-    PlayingRecordService service(tableName);
+    PlayListItemService service(tableName);
     *musicInfos = service.GetPlayingList();
 
     UpdateMap();
@@ -42,7 +42,7 @@ void SidePlayList::UpdateList(const QList<MusicDto> &musicList)
     musicInfos->clear();
     *musicInfos = musicList;
 
-    PlayingRecordService service("CurrentPlayList");
+    PlayListItemService service("_Current");
     service.Clear();
 
     foreach (auto m, *musicInfos) {

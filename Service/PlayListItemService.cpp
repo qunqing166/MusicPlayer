@@ -1,6 +1,6 @@
 #include "PlayListItemService.h"
 
-PlayingRecordService::PlayingRecordService(PlayingRecordType type)
+PlayListItemService::PlayListItemService(PlayingRecordType type)
 {
     if(type == PlayingCurrent)
     {
@@ -15,14 +15,14 @@ PlayingRecordService::PlayingRecordService(PlayingRecordType type)
     // qDebug()<<;
 }
 
-PlayingRecordService::PlayingRecordService(const QString &tableName):BaseService<PlayListItemDto>(tableName)
+PlayListItemService::PlayListItemService(const QString &tableName):BaseService<PlayListItemDto>(PlayListItemDto::TableName + tableName)
 {
     this->currentTableName = PlayListItemDto::TableName + tableName;
 }
 
 
 
-QList<MusicDto> PlayingRecordService::GetPlayingList(SortOrder order)
+QList<MusicDto> PlayListItemService::GetPlayingList(SortOrder order)
 {
     QString orderStr;
     if(order == Asc)orderStr = "asc";
@@ -40,7 +40,7 @@ QList<MusicDto> PlayingRecordService::GetPlayingList(SortOrder order)
     return musics;
 }
 
-bool PlayingRecordService::Clear()
+bool PlayListItemService::Clear()
 {
     QString str = QString("delete from %1;").arg(this->currentTableName);
     QSqlQuery query;

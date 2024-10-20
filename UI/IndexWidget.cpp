@@ -36,7 +36,7 @@ void IndexWidget::SetCurrentMusicInfo(const MusicDto &music)
 
 void IndexWidget::SetCurrentPlayList()
 {
-    PlayingRecordService service("_Current");
+    PlayListItemService service("_Current");
     QList<MusicDto> musics = service.GetPlayingList();
     // qDebug()<<"count:"<<musics.count();
     playList->SetPlayList(musics);
@@ -47,6 +47,7 @@ void IndexWidget::OnCurrentPlayListChanged(int index, const QList<MusicDto> &lis
     playList->SetPlayList(list);
     playList->setCurrentRow(index);
 }
+
 
 void IndexWidget::SetPlayList()
 {

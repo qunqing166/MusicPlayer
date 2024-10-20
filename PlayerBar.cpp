@@ -21,6 +21,7 @@ PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
     // connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
     connect(pbToNext, &QPushButton::clicked, this, [&](){emit SwitchMusic(true);});
     connect(pbToLast, &QPushButton::clicked, this, [&](){emit SwitchMusic(false);});
+    // connect()
 }
 
 PlayerBar::PlayerBar(const MusicDto &music, QWidget *parent) :QWidget(parent)
@@ -37,7 +38,8 @@ PlayerBar::PlayerBar(const MusicDto &music, QWidget *parent) :QWidget(parent)
     // connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
     connect(pbToNext, &QPushButton::clicked, this, [&](){emit SwitchMusic(true);});
     connect(pbToLast, &QPushButton::clicked, this, [&](){emit SwitchMusic(false);});
-
+    connect(slider, &QSlider::valueChanged, this, [&](int value){emit ProgressBarValueChanged(value);qDebug()<<"position"<<value;});
+    // QSlider::
 }
 
 void PlayerBar::SetMusicInfo(const MusicDto &musicInfo, bool isOpen)
@@ -51,6 +53,8 @@ void PlayerBar::SetMusicInfo(const MusicDto &musicInfo, bool isOpen)
     QTime time = QTime::fromString(musicInfo.Duration(), "mm:ss");
     qDebug()<<time;
     this->slider->setRange(0, time.minute() * 60 + time.second());
+    // this->slider->setEnabled(true);
+    // this->slider->setTracking(false);
     qDebug()<<slider->maximum();
     this->labelNowTime->setText("00:00");
     //改变即播放, 更新播放状态
@@ -122,6 +126,13 @@ void PlayerBar::ObjectInit()
 
     labelTotleTime = new QLabel("00:00", this);
     labelNowTime = new QLabel("00:00", this);
+
+    slider = new QSlider(Qt::Horizontal, this);
+    slider->setFixedHeight(20);
+    slider->setRange(0, 100);
+    // slider->setTracking(false);
+    // slider->setSliderDown(true);
+    // slider->setEnabled(true);
 }
 
 void PlayerBar::WidgetInit()
@@ -156,9 +167,7 @@ void PlayerBar::WidgetInit()
     vLayout2->addLayout(hLayout2_1);
 
     QHBoxLayout *hLayout2_2 = new QHBoxLayout(this);
-    slider = new QSlider(Qt::Horizontal, this);
-    slider->setFixedHeight(20);
-    slider->setRange(0, 100);
+
     vLayout2->addLayout(hLayout2_2);
     hLayout2_2->addWidget(labelNowTime);
     hLayout2_2->addWidget(slider, Qt::AlignBottom);
@@ -226,11 +235,14 @@ void PlayerBar::SetPlayStatus(bool is)
 
 void PlayerBar::OnDurationChanged(qint64 ms)
 {
+    if(slider->isSliderDown())
+    {
+        return;
+    }
+
     this->slider->setValue(ms / 1000);
     labelNowTime->setText(QString::asprintf("%02lld:%02lld", (ms / (1000 * 60)) % 60, (ms / 1000) % 60));
-    // qDebug()<<sec;
-    // qDebug()<<time.toString("mm:ss");
-    // qDebug()<<time;
+
 }
 
 MusicDto PlayerBar::CurrentMusic() const

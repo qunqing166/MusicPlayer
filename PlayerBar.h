@@ -84,6 +84,7 @@ signals:
     void OpenSideBar();
     void SwitchMusic(bool isNext);
     void LoadMusic(const MusicDto &music);
+    void ProgressBarValueChanged(int value);
 };
 
 #endif // PLAYERBAR_H

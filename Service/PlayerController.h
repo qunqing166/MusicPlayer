@@ -34,6 +34,7 @@ public slots:
     void ChangePlayStatus(bool is);
     QMediaPlayer *MediaPlayer() const;
     void LoadMusic(const MusicDto &music);
+    void OnProgressBarValueChanged(int value);
 
 signals:
     void UpdatePlayBarStatus(const MusicDto &music);

@@ -44,6 +44,7 @@ SidePlayListBar::SidePlayListBar(QWidget *parent):QWidget(parent)
 
 void SidePlayListBar::Open(QRect geo)
 {
+    ResetButton();
     //移至最上层
     this->raise();
     //获取父窗口数据, 根据父窗口设置height, 并启动动画
@@ -178,5 +179,15 @@ void SidePlayListBar::SetListCurrentIndex(int index)
 {
     this->sidePlayList->setCurrentRow(index);
     // emit CurrentPlayListChanged()
+}
+
+void SidePlayListBar::ResetButton()
+{
+    pbRecord->setChecked(false);
+    pbRecord->setCheckable(false);
+    pbCrt->setCheckable(true);
+    pbCrt->setChecked(true);
+    // emit OpenRecordList("CurrentPlayList");
+    sidePlayList->UpdateList("_Current");
 }
 

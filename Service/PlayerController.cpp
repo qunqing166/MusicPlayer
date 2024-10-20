@@ -47,3 +47,8 @@ void PlayerController::LoadMusic(const MusicDto &music)
 {
     mediaPlayer->setSource(QUrl::fromLocalFile(music.MusicPath()));
 }
+
+void PlayerController::OnProgressBarValueChanged(int value)
+{
+    mediaPlayer->setPosition(value * 1000);
+}

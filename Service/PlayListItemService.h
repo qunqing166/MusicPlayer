@@ -22,14 +22,14 @@ enum SortOrder
 };
 
 //用于查询当前播放列表和播放记录
-class PlayingRecordService:public BaseService<PlayListItemDto>
+class PlayListItemService:public BaseService<PlayListItemDto>
 {
 
     QString currentTableName;
 
 public:
-    PlayingRecordService(PlayingRecordType type = PlayingCurrent);
-    PlayingRecordService(const QString &tableName);
+    PlayListItemService(PlayingRecordType type = PlayingCurrent);
+    PlayListItemService(const QString &tableName);
 
     QList<MusicDto> GetPlayingList(SortOrder oder = Desc);
     bool Clear();

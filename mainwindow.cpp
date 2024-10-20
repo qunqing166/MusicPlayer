@@ -53,6 +53,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(playerController->MediaPlayer(), &QMediaPlayer::positionChanged,
             centarlWidget->getPlayerBar(), &PlayerBar::OnDurationChanged);
+    connect(centarlWidget->getPlayerBar(), &PlayerBar::ProgressBarValueChanged,
+            playerController, &PlayerController::OnProgressBarValueChanged);
     // connect(centarlWidget->getPlayerBar(), &PlayerBar::PlayStatusChanged, this, [&]());
     // connect(centarlWidget->getPlayerBar())
     // connect(centarlWidget->getPlayerBar(), &PlayerBar::LoadMusic, playerController, &PlayerController::LoadMusic);
