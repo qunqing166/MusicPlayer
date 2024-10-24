@@ -1,16 +1,26 @@
 #include "ImageLabel.h"
 #include <QPainter>
 #include <QPaintEvent>
+#include <QDir>
+#include <QStandardPaths>
 
-ImageLabel::ImageLabel(QWidget *parent):QLabel(parent)
+ImageLabel::ImageLabel(QWidget *parent, const QString &imagePath)
 {
-
+    this->imagePath = imagePath;
 }
 
-void ImageLabel::SetPixmap(QPixmap pixmap)
+// void ImageLabel::SetPixmap(const QPixmap &pixmap)
+// {
+//     // this->pixmapOriginal = pixmap;
+//     // this->pixmap = GetRadiusPixmap(pixmap, radius);
+//     // DrawShowPixmap();
+//     // this->setPixmap(this->pixmap);
+// }
+
+void ImageLabel::SetPixmap(const QString &path)
 {
-    this->pixmapOriginal = pixmap;
-    DrawShowPixmap();
+    this->imagePath = path;
+    this->update();
 }
 
 void ImageLabel::SetHoverable(bool is)
@@ -42,26 +52,67 @@ void ImageLabel::SetHoverStyle(HoverStyle style)
     }
 }
 
-QPixmap ImageLabel::DrawHoverPixmap()
+QPixmap ImageLabel::GetHoverPixmap()
 {
+    //获取缩放图
+    QPixmap pix = QPixmap(imagePath).scaled(this->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    //添加圆角
+    pix = GetRadiusPixmap(pix, radius);
+    //绘制半透明层
+    QPainter painter(&pix);
+    painter.setPen(QColor(0,0,0,0));
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.setBrush(QColor(0, 0, 0, 150));
+    painter.drawRoundedRect(0, 0, pix.width(), pix.height(), radius, radius);
+    pix.setMask(GetRadiusMask(pix.size(), radius));
+    //绘制图标
+    QPixmap p;
+    int dy = 5;
 
-    if(this->hoverStyle == HoverStyle_Open)
+    if(hoverStyle == HoverStyle_Play)
     {
-        return DrawHoverStyleOpen();
+        p = QPixmap(":/scr/icon/play.png");
+
+        p = p.scaled(this->size() / 3, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        painter.setOpacity(0.7);
+        painter.drawPixmap((this->width() - p.width()) / 2, (this->height() - p.height()) / 2 - dy, p);
+        // qDebug()<<isHover<<":"<<"play";
     }
-    else if(this->hoverStyle == HoverStyle_Play)
+    else if(hoverStyle == HoverStyle_Open)
     {
-        return DrawHoverStylePlay();
+        qDebug()<<"open hover";
+        if(isContentOpen)
+        {
+            p = QPixmap(":/scr/icon/down_white.png");
+        }
+        else
+        {
+            p = QPixmap(":/scr/icon/up_white.png");
+        }
+        p = p.scaled(QSize(pix.width() * 0.8, pix.height() * 0.4) / 2, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        painter.setOpacity(0.9);
+        painter.drawPixmap((this->width() - p.width()) / 2, (this->height() - p.height()) / 2 - dy, p);
+        painter.setOpacity(0.7);
+        painter.drawPixmap((this->width() - p.width()) / 2, (this->height() - p.height()) / 2 + dy, p);
     }
 
-    return QPixmap();
+    return pix;
 }
 
-void ImageLabel::DrawShowPixmap()
+QPixmap ImageLabel::GetRadiusPixmap(const QPixmap &pixmap, int radius)
+{
+
+    auto mask = GetRadiusMask(pixmap.size(), radius);
+
+    auto pix = pixmap;
+    pix.setMask(mask);
+    return pix;
+}
+
+QBitmap ImageLabel::GetRadiusMask(const QSize &size, int radius)
 {
     //配置蒙板
-    QSize size = this->size();
-    // qDebug()<<size;
     QBitmap mask(size);
     QPainter painter(&mask);
     painter.setRenderHint(QPainter::Antialiasing);
@@ -69,84 +120,7 @@ void ImageLabel::DrawShowPixmap()
     painter.fillRect(0, 0, size.width(), size.height(), Qt::white);
     painter.setBrush(QColor(0, 0, 0));
     painter.drawRoundedRect(0, 0, size.width(), size.height(), radius, radius);
-
-    //缩放图片
-    this->pixmap = pixmapOriginal.scaled(size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    this->pixmap.setMask(mask);
-
-    QPainter painter2(&pixmap);
-    QPen pen;
-    pen.setColor(QColor(237, 246, 254, 200));
-    pen.setWidth(2);
-    painter2.setPen(pen);
-    painter2.setRenderHint(QPainter::Antialiasing);
-    painter2.setRenderHint(QPainter::SmoothPixmapTransform);
-    painter2.drawRoundedRect(0, 0, size.width(), size.height(), radius, radius);
-
-    this->setPixmap(this->pixmap);
-
-    // painter.setPen(QColor(226, 228, 229));
-    // painter.drawRoundedRect(0, 0, size.width(), size.height(), radius, radius);
-
-    if(!isHoverable)
-        return;
-
-    QPixmap pm = this->pixmap;
-    QPainter painter1(&pm);
-    painter1.setPen(QColor(0,0,0,0));
-    painter1.setRenderHint(QPainter::Antialiasing);
-    painter1.setRenderHint(QPainter::SmoothPixmapTransform);
-    painter1.setBrush(QColor(0, 0, 0, 150));
-    painter1.drawRoundedRect(0, 0, size.width(), size.height(), radius, radius);
-    pm.setMask(mask);
-    this->pixmapHover = pm;
-    // this->setPixmap(this->pixmap);
-}
-
-QPixmap ImageLabel::DrawHoverStyleOpen()
-{
-    QPixmap p;
-    if(isContentOpen)
-    {
-        p = QPixmap(":/scr/icon/down_white.png");
-    }
-    else
-    {
-        p = QPixmap(":/scr/icon/up_white.png");
-    }
-
-    QPixmap pm = this->pixmapHover;
-    QPainter painter(&pm);
-    QSize size(this->width() - 10, this->width() * 0.4);
-    int dy = 6;
-    // QPixmap p(":/scr/icon/up_white.png");
-    p = p.scaled(size / 2, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    painter.setOpacity(0.9);
-    painter.drawPixmap((this->width() - p.width()) / 2, (this->height() - p.height()) / 2 - dy, p);
-    painter.setOpacity(0.7);
-    painter.drawPixmap((this->width() - p.width()) / 2, (this->height() - p.height()) / 2 + dy, p);
-
-    return pm;
-}
-
-QPixmap ImageLabel::DrawHoverStylePlay()
-{
-    QPixmap p(":/scr/icon/play.png");
-
-    QPixmap pm = this->pixmapHover;
-    QPainter painter(&pm);
-    // QSize size(this->width() - 10, this->width() * 0.4);
-    int dy = 6;
-    // QPixmap p(":/scr/icon/up_white.png");
-    p = p.scaled(this->size() / 3, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    painter.setOpacity(0.7);
-    painter.drawPixmap((this->width() - p.width()) / 2, (this->height() - p.height()) / 2 - dy, p);
-    // painter.setOpacity(0.9);
-    // painter.drawPixmap((this->width() - p.width()) / 2, (this->height() - p.height()) / 2 - dy, p);
-    // painter.setOpacity(0.7);
-    // painter.drawPixmap((this->width() - p.width()) / 2, (this->height() - p.height()) / 2 + dy, p);
-
-    return pm;
+    return mask;
 }
 
 void ImageLabel::mousePressEvent(QMouseEvent *ev)
@@ -156,25 +130,53 @@ void ImageLabel::mousePressEvent(QMouseEvent *ev)
     emit Clicked();
     isContentOpen = !isContentOpen;
     // this->repaint();
-    this->setPixmap(DrawHoverPixmap());
+    this->update();
+    // this->setPixmap(DrawHoverPixmap());
 }
 
 void ImageLabel::enterEvent(QEnterEvent *event)
 {
+    qDebug()<<"enter";
     if(!isHoverable)
         return;
-    this->setPixmap(DrawHoverPixmap());
+    isHover = true;
+    this->update();
+    // this->setPixmap(DrawHoverPixmap());
 }
 
 void ImageLabel::leaveEvent(QEvent *event)
 {
     if(!isHoverable)
         return;
-    this->setPixmap(this->pixmap);
+    isHover = false;
+    this->update();
+    // this->setPixmap(this->pixmap);
+    // this->setPixmap(this->pixmap.scaled(this->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
 
-void ImageLabel::resizeEvent(QResizeEvent *event)
+// void ImageLabel::resizeEvent(QResizeEvent *event)
+// {
+//     // DrawShowPixmap();
+
+// }
+
+void ImageLabel::paintEvent(QPaintEvent *event)
 {
-    DrawShowPixmap();
+
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    QPixmap pix;
+    if(!isHover || !isHoverable)
+    {
+        pix = QPixmap(imagePath).scaled(this->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        painter.drawPixmap(0, 0, GetRadiusPixmap(pix, radius));
+    }
+    else
+    {
+        pix = GetHoverPixmap();
+        painter.drawPixmap(0,0, pix);
+    }
+
 }
 

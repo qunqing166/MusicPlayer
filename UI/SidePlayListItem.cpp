@@ -13,7 +13,7 @@ SidePlayListItem::SidePlayListItem(const MusicDto &info, QWidget *parent):QWidge
 void SidePlayListItem::SetMusicInfo(const MusicDto &info)
 {
     this->info = info;
-    image->SetPixmap(QPixmap(info.CoverImagePath()));
+    image->SetPixmap(info.CoverImagePath());
     musicName->setText(info.MusicName());
     singers->setText(info.Singers());
 }
@@ -21,7 +21,7 @@ void SidePlayListItem::SetMusicInfo(const MusicDto &info)
 void SidePlayListItem::ObjectInit()
 {
     int size = 50;
-    image = new ImageLabel(this);
+    image = new ImageLabel(this, info.CoverImagePath());
     image->setFixedSize(size, size);
 
     musicName = new QLabel(this);

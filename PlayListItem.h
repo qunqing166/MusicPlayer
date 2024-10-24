@@ -6,6 +6,8 @@
 #include "Dtos/MusicDto.h"
 #include "ImageLabel.h"
 #include <QPushButton>
+#include "UI/MoreMenu.h"
+#include <QPointer>
 // #include "Service/DataBaseService.h"
 
 //歌曲列表item界面
@@ -23,19 +25,26 @@ class PlayListItem:public QWidget
     QPushButton *pbMore;    //更多
     //保存数据
     MusicDto musicInfo;
+
+    QPointer<MoreMenu> menu;
+
     int index;
 
 public:
     PlayListItem(const MusicDto &value, int index, QWidget *parent = nullptr);
     //设置显示数据
-    void SetData(const MusicDto &value);
+    void SetData(MusicDto &value);
     //获取数据
     MusicDto getMusicInfo() const;
 
 private:
     void ObjectInit();
     void WidgetInit();
-    Q_PROPERTY(MusicDto musicInfo READ getMusicInfo CONSTANT FINAL)
+    // Q_PROPERTY(MusicDto musicInfo READ getMusicInfo CONSTANT FINAL)
+
+// signals:
+//     void Play();
+//     void Remove();
 };
 
 #endif // PLAYLISTITEM_H

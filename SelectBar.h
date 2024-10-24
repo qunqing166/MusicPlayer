@@ -14,17 +14,22 @@ class SelectBar : public QWidget
 {
     Q_OBJECT
 
-    ImageLabel *labelHeadImage;
+    //用户头像
+    ImageLabel *labelUserHeadImage;
+    //用户名
     QLabel *labelUserName;
+    //按钮, 进入用户信息编辑界面
     QPushButton *pbUserInfo;
-    QPushButton *pbIndex;
+    //按钮, 进入首页
+    QPushButton *btnToIndex;
+    //显示歌单的列表
     PlayList *playList;
-
+    //是否处于首页
     bool isInPageIndex = true;
 
 public:
     SelectBar(QWidget* parent);
-    const PlayList* GetPlayList(){return playList;}
+    PlayList* GetPlayList() const{return playList;}
 
 private:
     void WidgetInit();

@@ -4,27 +4,41 @@
 #include <QFrame>
 #include <QMenuBar>
 #include <QAction>
+#include <QPainter>
+#include <QGraphicsDropShadowEffect>
 
 MoreMenu::MoreMenu(QWidget *parent):QWidget(parent)
 {
-    this->setAttribute(Qt::WA_StyledBackground);
-    this->setObjectName("more_menu");
+    this->setWindowFlag(Qt::FramelessWindowHint);
+    // this->setAttribute(Qt::WA_StyledBackground);
+    this->setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明化
+    // this->setObjectName("more_menu");
     this->setFixedSize(150, 250);
+    this->setWindowFlags(Qt::Popup);
+    // this->setStyleSheet("background-color:white;");
+    this->setObjectName("MoreMenu");
 
     ObjectInit();
     WidgetInit();
 
-    // connect(pbAddToList, &ToolButton::Hover, this, [&](){
-    //     auto menu = CreateSelectList();
-    //     menu->show();
-    //     menu->move(QCursor::pos());
-    // });
+    connect(btnPlay, &QPushButton::clicked, this, [&](){
+        emit Play();
+    });
+    connect(btnRemoveFromList, &QPushButton::clicked, this, [&](){
+        emit Remove();
+    });
+}
+
+MoreMenu::~MoreMenu()
+{
+    this->disconnect();
+    qDebug()<<"menu delete";
 }
 
 void MoreMenu::ObjectInit()
 {
 
-    btnPlay = new QPushButton("   播放", this);
+    btnPlay = new QPushButton("         播放    ", this);
     btnPlay->setObjectName("more_menu_button");
     btnPlay->setFixedHeight(40);
     btnPlay->setIcon(QIcon(":/scr/icon/stopping.png"));
@@ -45,6 +59,8 @@ void MoreMenu::ObjectInit()
     btnRemoveFromList->setObjectName("more_menu_button");
     btnRemoveFromList->setFixedHeight(40);
     btnRemoveFromList->setIcon(QIcon(":/scr/icon/remove.png"));
+
+    // clickedFilter = new ClickedEventFilter(this);
 }
 
 void MoreMenu::WidgetInit()
@@ -61,6 +77,13 @@ void MoreMenu::WidgetInit()
 
     vLayout->addWidget(btnAddToList);
     vLayout->addWidget(btnRemoveFromList);
+
+    // QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect(this);
+    // shadowEffect->setBlurRadius(15);
+    // shadowEffect->setXOffset(-5);
+    // shadowEffect->setYOffset(-5);
+    // shadowEffect->setColor(QColor(200, 200, 200));
+    // this->setGraphicsEffect(shadowEffect);
 }
 
 QMenu *MoreMenu::CreateSelectList() const
@@ -69,4 +92,18 @@ QMenu *MoreMenu::CreateSelectList() const
     menu->addAction("nmsl");
     menu->addAction("nmsl");
     return menu;
+}
+
+void MoreMenu::leaveEvent(QEvent *event)
+{
+    // this->deleteLater();
+}
+
+void MoreMenu::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    painter.setPen(QColor(239, 242, 247));
+    painter.setBrush(Qt::white);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.drawRoundedRect(this->rect(), 15, 15);
 }

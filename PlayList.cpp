@@ -175,14 +175,20 @@ void PlayList::UpdateData()
     BaseService<PlayListDto> service;
     playLists = service.GetAll();
 
+    foreach(auto p, items)
+    {
+        delete p;
+    }
     items.clear();
 
     for(int i = 0; i < playLists.count(); i++)
     {
         PlayListDto p = playLists.at(i);
         QStandardItem *item = new QStandardItem();
-        QIcon icon(GetRadiusPiamap(QPixmap(p.CoverImagePath()), 4));
-        item->setIcon(icon);
+        // QIcon icon(GetRadiusPiamap(QPixmap(p.CoverImagePath()), 4));
+        // QPixmap pixmap = QPixmap(p.CoverImagePath()).scaled(QSize(40, 40), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        // QIcon icon(ImageLabel::GetRadiusPixmap(pixmap, 5));
+        item->setIcon(QIcon(p.CoverImagePath()));
         item->setText(p.ListName());
         items.append(item);
     }

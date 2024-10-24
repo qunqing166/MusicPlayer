@@ -496,3 +496,10 @@ QWidget#IndexWidget_listWidget
     background-color: transparent;
     border: none;
 }
+
+QWidget#MoreMenu
+{
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+}

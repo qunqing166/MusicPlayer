@@ -7,9 +7,6 @@ QSqlQuery DataBaseService::GetAll()
 {
     QString str = QString("select * from %1;").arg(tableName);
     return QSqlQuery(str);
-    // QSqlQuery query(str);
-    // query.next();
-    // return query;
 }
 
 QSqlQuery DataBaseService::GetOne(int id)
@@ -25,7 +22,6 @@ bool DataBaseService::Add(const QObject *obj)
     QString keys = SerializeProperty(obj->metaObject(), "%1");
     QString values = SerializeProperty(obj->metaObject(), ":%1");
     QString str = QString("insert into %1 (%2) values (%3);").arg(tableName).arg(keys).arg(values);
-    // QString ss = QString::asprintf("insert into %1 (%2) values (%2);", tableNam)
 
     QSqlQuery query;
     query.prepare(str);
@@ -102,16 +98,17 @@ void DataBaseService::QueryToObject(QObject *obj, const QSqlQuery &query)
 bool DataBaseService::Connect()
 {
     QSqlDatabase dataBase;
-    // if(dataBase.contains(ConnectName))
-    // {
-    //     dataBase = QSqlDatabase::database(ConnectName);
-    // }
-    // else
-    // {
-    dataBase = QSqlDatabase::addDatabase("QSQLITE");
-    // dataBase.setDatabaseName(qApp->applicationDirPath() + "/scr/db/db.db");
-    dataBase.setDatabaseName("D:\\code\\Qt\\learning\\MusicPlayer\\scr\\db\\db.db");
-    // }
+    const QString connectName = "nmsl";
+    if(dataBase.contains(connectName))
+    {
+        dataBase = QSqlDatabase::database(connectName);
+    }
+    else
+    {
+        dataBase = QSqlDatabase::addDatabase("QSQLITE");
+        // dataBase.setDatabaseName(qApp->applicationDirPath() + "/scr/db/db.db");
+        dataBase.setDatabaseName("D:\\code\\Qt\\learning\\MusicPlayer\\scr\\db\\db.db");
+    }
 
     if(dataBase.open())
     {

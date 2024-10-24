@@ -28,7 +28,7 @@ IndexWidget::IndexWidget(QWidget *parent)
 
 void IndexWidget::SetCurrentMusicInfo(const MusicDto &music)
 {
-    imageLabel->SetPixmap(QPixmap(music.CoverImagePath()));
+    imageLabel->SetPixmap(music.CoverImagePath());
     label1->setText(QString("歌名: %1").arg(music.MusicName()));
     label2->setText(QString("作者: ").arg(music.Singers()));
     label3->setText(QString("歌词: 当前无歌词"));
@@ -38,7 +38,6 @@ void IndexWidget::SetCurrentPlayList()
 {
     PlayListItemService service("_Current");
     QList<MusicDto> musics = service.GetPlayingList();
-    // qDebug()<<"count:"<<musics.count();
     playList->SetPlayList(musics);
 }
 
@@ -95,7 +94,7 @@ void IndexWidget::WidgetInit()
     hLayout1->addWidget(imageLabel);
     imageLabel->setFixedSize(imageSize, imageSize);
     imageLabel->SetRadius(15);
-    imageLabel->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\liyue.webp"));
+    imageLabel->SetPixmap("C:\\Users\\qunqing\\Desktop\\图片\\liyue.webp");
 
     QVBoxLayout *vLayout1_1 = new QVBoxLayout(this);
     vLayout1_1->setAlignment(Qt::AlignTop);

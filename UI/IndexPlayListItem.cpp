@@ -14,10 +14,10 @@ IndexPlayListItem::IndexPlayListItem(const PlayListDto &playList, QWidget *paren
     font.setBold(true);
     // font.setFamily("黑体");
 
-    imageLabel = new ImageLabel(this);
+    imageLabel = new ImageLabel(this, playListInfo.CoverImagePath());
     imageLabel->SetClickable(true);
     // imageLabel->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\liyue.webp"));
-    imageLabel->SetPixmap(QPixmap(playList.CoverImagePath()));
+    imageLabel->SetPixmap(playList.CoverImagePath());
     imageLabel->setFixedSize(width, width);
     imageLabel->SetHoverStyle(HoverStyle_Play);
     QLabel *label1 = new QLabel(playList.ListName(), this);

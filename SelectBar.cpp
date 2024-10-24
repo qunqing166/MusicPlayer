@@ -12,7 +12,7 @@ SelectBar::SelectBar(QWidget* parent) :QWidget(parent)
     DataInit();
     WidgetInit();
 
-    connect(pbIndex, &QPushButton::clicked, this, &SelectBar::OnPbIndexClicked);
+    connect(btnToIndex, &QPushButton::clicked, this, &SelectBar::OnPbIndexClicked);
     connect(playList, &PlayList::OpenPlayList, this, &SelectBar::OpenPlayList);
 }
 
@@ -26,11 +26,11 @@ void SelectBar::WidgetInit()
     QHBoxLayout *hLayout1 = new QHBoxLayout(this);
     vLayout->addLayout(hLayout1);
     hLayout1->setSpacing(3);
-    hLayout1->addWidget(labelHeadImage);
+    hLayout1->addWidget(labelUserHeadImage);
     hLayout1->addWidget(labelUserName);
     hLayout1->addWidget(pbUserInfo, Qt::AlignRight);
 
-    vLayout->addWidget(pbIndex);
+    vLayout->addWidget(btnToIndex);
 
     QScrollArea *scrollArea = new QScrollArea(this);
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -62,10 +62,10 @@ void SelectBar::WidgetInit()
 
 void SelectBar::ObjectInit()
 {
-    labelHeadImage = new ImageLabel(this);
-    labelHeadImage->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\hj.png"));
+    labelUserHeadImage = new ImageLabel(this);
+    labelUserHeadImage->SetPixmap("C:\\Users\\qunqing\\Desktop\\图片\\hj.png");
     int imageSize = 35;
-    labelHeadImage->setFixedSize(imageSize, imageSize);
+    labelUserHeadImage->setFixedSize(imageSize, imageSize);
 
     labelUserName = new QLabel("qunqing166", this);
     labelUserName->setObjectName("select_bar_user_name");
@@ -78,9 +78,9 @@ void SelectBar::ObjectInit()
 
     playList = new PlayList("自建", this);
     playList->setObjectName("song_sheet_list");
-    pbIndex = new QPushButton("首页", this);
-    pbIndex->setObjectName("button_index");
-    pbIndex->setFixedHeight(30);
+    btnToIndex = new QPushButton("首页", this);
+    btnToIndex->setObjectName("button_index");
+    btnToIndex->setFixedHeight(30);
 }
 
 void SelectBar::DataInit()

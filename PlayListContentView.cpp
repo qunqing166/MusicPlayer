@@ -48,10 +48,11 @@ PlayListContentView::PlayListContentView(const PlayListDto &info, QWidget *paren
 
 void PlayListContentView::ShowPlayList(const PlayListDto &info)
 {
+
     this->playList = info;
-    imageLabel->SetPixmap(QPixmap(info.CoverImagePath()));
+    imageLabel->SetPixmap(info.CoverImagePath());
     sheetTitleLabel->setText(info.ListName());
-    userImage->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\yyn.jpg"));
+    userImage->SetPixmap("C:\\Users\\qunqing\\Desktop\\图片\\yyn.jpg");
     userNameLabel->setText(info.Creator());
     createTimeLabel->setText(QString("·创建于 %1").arg(info.CreateDateTime().toString("yyyy-MM-dd")));
     playListView->ShowPlayList(info.ListName());
@@ -72,7 +73,7 @@ void PlayListContentView::ObjectInit()
 
     int userImageSize = 20;
     userImage = new ImageLabel(this);
-    userImage->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\yyn.jpg"));
+    userImage->SetPixmap("C:\\Users\\qunqing\\Desktop\\图片\\yyn.jpg");
     userImage->setFixedSize(userImageSize, userImageSize);
 
     userNameLabel = new QLabel(this);

@@ -22,7 +22,7 @@ PlayListEditor::PlayListEditor(const PlayListDto &info, EditMode mode):QDialog(n
 
     imageLabel = new ImageLabel(this);
     imageLabel->setFixedSize(150, 150);
-    imageLabel->SetPixmap(QPixmap(":/scr/icon/cover_empty.png"));
+    imageLabel->SetPixmap(":/scr/icon/cover_empty.png");
     hLayout->addWidget(imageLabel);
 
     QPushButton *button = new QPushButton("选择封面", this);
@@ -49,7 +49,7 @@ PlayListEditor::PlayListEditor(const PlayListDto &info, EditMode mode):QDialog(n
         if(IsImageFilePath(filePath))
         {
             this->info.setCoverImagePath(filePath);
-            imageLabel->SetPixmap(QPixmap(this->info.CoverImagePath()));
+            imageLabel->SetPixmap(this->info.CoverImagePath());
         }
     });
     connect(btnCancel, &QPushButton::clicked, this, [&](){

@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include "ToolButton.h"
 #include <QTimer>
+// #include "ClickedEventFilter.h"
 
 class MoreMenu:public QWidget
 {
@@ -14,11 +15,24 @@ class MoreMenu:public QWidget
     ToolButton *btnAddToList;
     QPushButton *btnRemoveFromList;
 
+    static MoreMenu* thisObj;
+    // ClickedEventFilter *clickedFilter;
+
 public:
     MoreMenu(QWidget *parent = nullptr);
+    ~MoreMenu();
 
     QPushButton *BtnPlay() const{return btnPlay;}
     QPushButton *BtnPlayNext() const{return btnPlayNext;}
+
+    static MoreMenu* Create()
+    {
+        if(thisObj == nullptr)
+        {
+            thisObj = new MoreMenu();
+        }
+        return thisObj;
+    }
 
 private:
     void ObjectInit();
@@ -26,7 +40,14 @@ private:
 
     QMenu *CreateSelectList() const;
 
-// signals:
-//     void Play();
-//     void AddToNext();
+protected:
+    virtual void leaveEvent(QEvent *event) override;
+    virtual void paintEvent(QPaintEvent *event) override;
+
+signals:
+    void Play();
+    void AddToNext();
+    void Remove();
 };
+
+inline MoreMenu *MoreMenu::thisObj = nullptr;

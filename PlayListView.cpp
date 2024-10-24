@@ -4,10 +4,7 @@
 #include <QPushButton>
 #include "Dtos/PlayListItemDto.h"
 #include "PlayListItem.h"
-// #include "Service/BaseService.h"
-#include "Service/MusicInfoService.h"
 #include <QJsonArray>
-#include "Service/MusicInfoService.h"
 #include "Service/PlayListItemService.h"
 #include <QEvent>
 #include <QMouseEvent>
@@ -105,6 +102,7 @@ void PlayListView::mouseMoveEvent(QMouseEvent *event)
 void PlayListView::UpdateWidget()
 {
     this->clear();
+
     for(int i = 0; i < musics.count(); i++)
     {
         QListWidgetItem *item = new QListWidgetItem(this);

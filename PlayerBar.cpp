@@ -68,7 +68,7 @@ void PlayerBar::ObjectInit()
     imageLabel->SetHoverable(true);
     imageLabel->setObjectName("image");
     imageLabel->setFixedSize(60, 60);
-    imageLabel->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\jntm.jpg"));
+    imageLabel->SetPixmap("C:\\Users\\qunqing\\Desktop\\图片\\jntm.jpg");
 
     int buttonSize = 30;
     pbStop = new QPushButton(this);
@@ -217,7 +217,7 @@ void PlayerBar::SetSongCover(QPixmap pixmap)
 
     pixmap = pixmap.scaled(size);
     pixmap.setMask(mask);
-    imageLabel->setPixmap(pixmap);
+    // imageLabel->setPixmap(pixmap);
 }
 
 void PlayerBar::SetPlayStatus(bool is)

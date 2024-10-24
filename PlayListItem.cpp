@@ -13,7 +13,21 @@ PlayListItem::PlayListItem(const MusicDto &value, int index, QWidget *parent):QW
     this->index = index;
     ObjectInit();
     WidgetInit();
+
+    connect(pbMore, &QPushButton::clicked, this, [&](){
+        menu = MoreMenu::Create();//new MoreMenu();
+        menu->move(QCursor::pos());
+        menu->show();
+
+        // connect(menu, &MoreMenu::Play, this, [&](){
+
+        // });
+        // connect(menu, &MoreMenu::Remove, this, [&](){
+
+        // });
+    });
 }
+
 
 void PlayListItem::ObjectInit()
 {
@@ -22,7 +36,7 @@ void PlayListItem::ObjectInit()
     indexLabel = new QLabel(this);
     indexLabel->setText(QString::number(this->index));
     indexLabel->setFixedSize(25, height);
-    image = new ImageLabel(this);
+    image = new ImageLabel(this, musicInfo.CoverImagePath());
     image->setFixedSize(height, height);
     image->SetPixmap(this->musicInfo.CoverImagePath());
 

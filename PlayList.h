@@ -45,19 +45,22 @@ class PlayList:public QWidget
 
 public:
     PlayList(QString title, QWidget *parent = nullptr);
-
+    //制作圆角的图片
     static QPixmap GetRadiusPiamap(QPixmap pixmap, int radius);
+    //更新数据
+    void UpdateData();
+
+    //属性访问
     void setTitle(QString value);
     void SetThisName(QString value){this->thisName = value;}
 
-    void UpdateData();
     // void SetIsOPen(bool value);
 
 private:
     void ObjectInit();
     void WidgetInit();
     void DataInit();
-
+    //属性访问
     void setAngle(int value){this->angle = value;}
     int Angle(){return this->angle;}
     void setListHeight(int value){this->listHeight = value;}
