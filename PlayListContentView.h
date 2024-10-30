@@ -16,6 +16,7 @@ class PlayListContentView:public QWidget
 {
     Q_OBJECT
 
+    //界面
     ImageLabel *imageLabel;
     QLabel *sheetTitleLabel;
     ImageLabel *userImage;
@@ -25,12 +26,13 @@ class PlayListContentView:public QWidget
     QPushButton *pbEdit;
     PlayListView *playListView;
     QPushButton *pbAdd;
-
+    //歌单信息编辑器
+    QPointer<PlayListEditor> playListEditor;
+    //歌单数据
     PlayListDto playList;
 
-    QPointer<PlayListEditor> playListEditor;
-
 public:
+
     PlayListContentView(QWidget *parent = nullptr);
     PlayListContentView(const PlayListDto &info, QWidget *parent = nullptr);
     void ShowPlayList(const PlayListDto &info);

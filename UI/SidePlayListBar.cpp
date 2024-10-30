@@ -6,7 +6,7 @@
 #include <QGraphicsDropShadowEffect>
 #include "SidePlayList.h"
 
-int SidePlayListBar::getDWidth() const
+int SidePlayListBar::DWidth() const
 {
     return dWidth;
 }
@@ -40,6 +40,8 @@ SidePlayListBar::SidePlayListBar(QWidget *parent):QWidget(parent)
     connect(pbRecord, &QPushButton::clicked, this, &SidePlayListBar::OnPbRecordClicked);
 
     connect(pbCrt, &QPushButton::clicked, this, &SidePlayListBar::OnPbCrtClicked);
+    
+    // connect(musicNa)
 }
 
 void SidePlayListBar::Open(QRect geo)
@@ -64,6 +66,8 @@ void SidePlayListBar::ObjectInit()
     geoAnima->startTimer(1000);
     clickFilter = new ClickedEventFilter(this);
     sidePlayList = new SidePlayList(this);
+    
+    // musicManager = PlayingListManager::Instance();
 }
 
 void SidePlayListBar::WidgetInit()
@@ -149,7 +153,6 @@ void SidePlayListBar::OnPbRecordClicked()
     pbCrt->setCheckable(false);
     pbRecord->setCheckable(true);
     pbRecord->setChecked(true);
-    // emit OpenRecordList("RecordPlayList");
     sidePlayList->UpdateList("_Record");
 }
 
@@ -175,19 +178,19 @@ SidePlayList *SidePlayListBar::getSidePlayList() const
     return sidePlayList;
 }
 
-void SidePlayListBar::SetListCurrentIndex(int index)
+void SidePlayListBar::setCurrentMusicIndex(int index)
 {
-    this->sidePlayList->setCurrentRow(index);
-    // emit CurrentPlayListChanged()
+    sidePlayList->setCurrentMusicIndex(index);
 }
 
 void SidePlayListBar::ResetButton()
 {
+    //更改按钮状态
     pbRecord->setChecked(false);
     pbRecord->setCheckable(false);
     pbCrt->setCheckable(true);
     pbCrt->setChecked(true);
-    // emit OpenRecordList("CurrentPlayList");
+    //获取信息
     sidePlayList->UpdateList("_Current");
 }
 

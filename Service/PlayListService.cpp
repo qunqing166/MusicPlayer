@@ -65,6 +65,7 @@ bool PlayListService::Add(const PlayListDto &info)
     // qDebug()<<query.lastError().text();
 }
 
+
 // PlayListDto PlayListService::GetOne(const QString &listName)
 // {
 //     QString str = QString("select * from %1 where ListName = %2;").arg(tableName).arg(listName);

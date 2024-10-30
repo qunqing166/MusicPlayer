@@ -9,13 +9,11 @@ class SidePlayList:public QListWidget
     Q_OBJECT
 
     //保存播放列表数据
-    QList<MusicDto> *musicInfos;
-    //musicInfos索引对Id的映射
-    QMap<int, int> *musicsMap;
+    QList<MusicDto> musics;
     //当前播放列表
     QString playingListName;
-    //
-    QString currentList;
+
+    int currentMusicIndex;
 
 public:
     SidePlayList(QWidget *parent = nullptr);
@@ -29,9 +27,12 @@ public:
     //当前播放列表名
     QString PlayingListName() const;
 
+    void setCurrentMusicIndex(int index);
+
 public slots:
     //用于响应歌单内播放音乐，加载如播放列表
     void PlayNewList(const QString &name, int index, const QList<MusicDto> &list);
+    void OnCurrentMusicListChanged(const QList<MusicDto> &list, int index);
 
 signals:
     //播放音乐信号

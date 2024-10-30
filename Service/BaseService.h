@@ -55,6 +55,19 @@ public:
         return model;
     }
 
+    T GetOneByParameter(const QString &field, const QVariant &value)
+    {
+        QString str = QString("select * from %1 where %2 = :%2;").arg(dbService->TableName()).arg(field);
+        QSqlQuery query;
+        query.prepare(str);
+        query.bindValue(":"+field, value);
+        query.exec();
+        query.next();
+        T model;
+        DataBaseService::QueryToObject(&model, query);
+        return model;
+    }
+
     T GetOneByParameter(const QString &parameter)
     {
         QString str = QString("select * from %1 where %2;").arg(dbService->TableName()).arg(parameter);
@@ -63,6 +76,19 @@ public:
         query.next();
         DataBaseService::QueryToObject(&model, query);
         return model;
+    }
+
+    bool IsExist(const QString &field, const QVariant &value)
+    {
+        QString str = QString("select count(*) as count_value from %1 where %2 = :%2;")
+                          .arg(dbService->TableName()).arg(field);
+        QSqlQuery query;
+        query.prepare(str);
+        query.bindValue(":"+field, value);
+        query.exec();
+        query.next();
+        int num = query.value("count_value").toInt();
+        return num;
     }
 
     bool IsExist(const QString &parameter)

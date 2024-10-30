@@ -35,12 +35,14 @@ private:
     void ObjectInit();
     void UpdateWidget();
 
-public slots:
-    void OnPlayMusic(const MusicDto &music);
+    void PlayMusic();
 
-signals:
-    //播放音乐, 传入音乐信息
-    void UpdatePlayingList(const QString &listName, int index, const QList<MusicDto> &list);
+// public slots:
+//     void OnPlayMusic(const MusicDto &music);
+
+// signals:
+//     //播放音乐, 传入音乐信息
+//     void UpdatePlayingList(const QString &listName, int index, const QList<MusicDto> &list);
 };
 
 #endif // PLAYLISTVIEW_H

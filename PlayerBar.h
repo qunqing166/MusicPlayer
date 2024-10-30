@@ -5,6 +5,7 @@
 #include <QLabel>
 #include "Dtos/MusicDto.h"
 #include "ImageLabel.h"
+#include "ProgressBar.h"
 #include <QPushButton>
 // #include "DataInfo/MusicInfo.h"
 #include <QSlider>
@@ -51,15 +52,16 @@ class PlayerBar:public QWidget
     QLabel *labelTotleTime;
     QLabel *labelNowTime;
 
-    QSlider *slider;
+    // QSlider *slider;
+
+    ProgressBar *progressBar;
 
 public:
     PlayerBar(QWidget *parent = nullptr);
-    PlayerBar(const MusicDto &music, QWidget *parent = nullptr);
     void SetMusicInfo(const MusicDto &musicInfo, bool isOpen = true);
     void SetPlayStatus(bool is);
 
-    void OnDurationChanged(qint64 sec);
+    void OnPositionChanged(qint64 sec);
 
     MusicDto CurrentMusic() const;
 

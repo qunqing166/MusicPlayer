@@ -11,6 +11,7 @@
 // #include "DataInfo/MusicInfo.h"
 // #include "Service/MusicInfoService.h"
 #include "Service/DataBaseSerice.h"
+#include "Service/PlayerController.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -22,9 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
     WidgetInit();
 
     ReadStartUp();
-    // this->setWindowFlag(Qt::FramelessWindowHint);
-    // this->setAttribute(Qt::WA_StyledBackground);
-    // this->setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明化
+    this->setWindowFlag(Qt::FramelessWindowHint);
+    this->setAttribute(Qt::WA_StyledBackground);
+    this->setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明化
     // this->setContentsMargins(QMargins(0,0,0,0));
 
     connect(centarlWidget, &CentralWidget::Maximize, this, [&](){
@@ -38,23 +39,23 @@ MainWindow::MainWindow(QWidget *parent)
 
     // connect(centarlWidget->getMainWidget()->getContentView()->getPlayListView(), &PlayListView::PlayMusic,
     //         playerController, &PlayerController::OpenNewMusic);
-    connect(centarlWidget->getPlayerBar(), &PlayerBar::PlayStatusChanged,
-            playerController, &PlayerController::ChangePlayStatus);
+    // connect(centarlWidget->getPlayerBar(), &PlayerBar::PlayStatusChanged,
+    //         playerController, &PlayerController::ChangePlayStatus);
 
-    connect(centarlWidget->getMainWidget()->getSideBar()->getSidePlayList(), &SidePlayList::PlayMusic,
-            playerController, &PlayerController::OpenNewMusic);
+    // connect(centarlWidget->getMainWidget()->getSideBar()->getSidePlayList(), &SidePlayList::PlayMusic,
+    //         playerController, &PlayerController::OpenNewMusic);
 
+    // // connect(playerController, &PlayerController::UpdatePlayBarStatus,
+    // //         centarlWidget->getPlayerBar(), &PlayerBar::SetMusicInfo);
     // connect(playerController, &PlayerController::UpdatePlayBarStatus,
-    //         centarlWidget->getPlayerBar(), &PlayerBar::SetMusicInfo);
-    connect(playerController, &PlayerController::UpdatePlayBarStatus,
-            this, [&](const MusicDto &music){
-        centarlWidget->getPlayerBar()->SetMusicInfo(music);
-    });
+    //         this, [&](const MusicDto &music){
+    //     centarlWidget->getPlayerBar()->SetMusicInfo(music);
+    // });
 
-    connect(playerController->MediaPlayer(), &QMediaPlayer::positionChanged,
-            centarlWidget->getPlayerBar(), &PlayerBar::OnDurationChanged);
-    connect(centarlWidget->getPlayerBar(), &PlayerBar::ProgressBarValueChanged,
-            playerController, &PlayerController::OnProgressBarValueChanged);
+    // connect(playerController->MediaPlayer(), &QMediaPlayer::positionChanged,
+    //         centarlWidget->getPlayerBar(), &PlayerBar::OnDurationChanged);
+    // connect(centarlWidget->getPlayerBar(), &PlayerBar::ProgressBarValueChanged,
+    //         playerController, &PlayerController::OnProgressBarValueChanged);
     // connect(centarlWidget->getPlayerBar(), &PlayerBar::PlayStatusChanged, this, [&]());
     // connect(centarlWidget->getPlayerBar())
     // connect(centarlWidget->getPlayerBar(), &PlayerBar::LoadMusic, playerController, &PlayerController::LoadMusic);
@@ -73,7 +74,7 @@ MainWindow::~MainWindow()
 void MainWindow::ObjectInit()
 {
     centarlWidget = new CentralWidget(this);
-    playerController = new PlayerController(this);
+    // playerController = new PlayerController(this);
 }
 
 void MainWindow::WidgetInit()
@@ -125,7 +126,10 @@ void MainWindow::ReadStartUp()
     }
 
     centarlWidget->SetStartUp(index, music);
-    playerController->LoadMusic(music);
+
+    PlayerController::Instance()->ReadStartUp(index);
+
+    // playerController->LoadMusic(music);
     // qDebug()<<index;
     // music.Print();
 }

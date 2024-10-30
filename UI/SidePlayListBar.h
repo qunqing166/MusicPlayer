@@ -31,16 +31,15 @@ public:
     void Open(QRect geo);
     //关闭窗口
     void Close();
-
-    // void SetIsOpenDrive(bool is){this->isButtonDrive = is;}
     //获取当前的打开状态
     bool GetOpenStatus(){return this->isOpen;}
 
-    int getDWidth() const;
+    int DWidth() const;
     void setDWidth(int newWidth);
 
     SidePlayList* getSidePlayList() const;
-    void SetListCurrentIndex(int index);
+
+    void setCurrentMusicIndex(int index);
 
     void ResetButton();
 
@@ -61,7 +60,7 @@ private:
     //打开播放列表
     void OnPbCrtClicked();
 
-    Q_PROPERTY(int DWidth READ getDWidth WRITE setDWidth NOTIFY DWidthChanged FINAL)
+    Q_PROPERTY(int DWidth READ DWidth WRITE setDWidth NOTIFY DWidthChanged FINAL)
 };
 
 #endif // SIDEPLAYLISTBAR_H

@@ -31,8 +31,9 @@ public:
     PlayListItemService(PlayingRecordType type = PlayingCurrent);
     PlayListItemService(const QString &tableName);
 
-    QList<MusicDto> GetPlayingList(SortOrder oder = Desc);
+    QList<MusicDto> GetPlayingList(QString orderCriteria = "CreateTime", SortOrder oder = Desc);
     bool Clear();
+    bool UpdateNewList(const QList<MusicDto> &list);
 
 private:
 

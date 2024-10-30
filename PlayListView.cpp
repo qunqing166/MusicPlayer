@@ -6,6 +6,7 @@
 #include "PlayListItem.h"
 #include <QJsonArray>
 #include "Service/PlayListItemService.h"
+#include "Service/PlayerController.h"
 #include <QEvent>
 #include <QMouseEvent>
 
@@ -38,16 +39,16 @@ void PlayListView::Add(const MusicDto &value)
     PlayListItemService service1(this->ListName());
 
     //查看数据库中是否保存过该音乐, 通过路径判断是否冲突
-    if(!service.IsExist(QString("MusicPath = '%1'").arg(value.MusicPath())))
+    if(!service.IsExist("MusicPath", value.MusicPath()))
     {
         qDebug()<<"存在于数据库";
         //数据库中没有就加入数据库
         service.Add(value);
     }
     //获取在数据库中的信息
-    MusicDto music = service.GetOneByParameter(QString("MusicPath = '%1'").arg(value.MusicPath()));
+    MusicDto music = service.GetOneByParameter("MusicPath", value.MusicPath());
     //判断歌单内是否保存过
-    if(service1.IsExist(QString("MusicId = %1").arg(music.Id())))
+    if(service1.IsExist("MusicId", music.Id()))
     {
         //有就不做处理
         return;
@@ -66,7 +67,11 @@ void PlayListView::Add(const MusicDto &value)
 
 void PlayListView::OnPlayList()
 {
-    emit UpdatePlayingList(this->listName, 0, musics);
+    if(this->musics.count() > 0)
+    {
+        PlayerController::Instance()->setCurrentMusicList(musics, 0);
+        setCurrentRow(0);
+    }
 }
 
 void PlayListView::ResetHeight()
@@ -87,11 +92,11 @@ void PlayListView::mousePressEvent(QMouseEvent *event)
 
 void PlayListView::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    // qDebug()<<"double clicked";
     auto index = this->indexAt(event->pos());
-    this->setCurrentIndex(index);
-    // emit PlayMusic(index.row(), musics.at(index.row()));
-    emit UpdatePlayingList(this->listName, index.row(), musics);
+
+    this->setCurrentRow(index.row());
+
+    this->PlayMusic();
 }
 
 void PlayListView::mouseMoveEvent(QMouseEvent *event)
@@ -112,13 +117,20 @@ void PlayListView::UpdateWidget()
     }
 }
 
-void PlayListView::OnPlayMusic(const MusicDto &music)
+void PlayListView::PlayMusic()
 {
-    for(int i = 0; i < musics.count(); i++)
-    {
-        if(musics.at(i).Id() == music.Id())
-        {
-            this->setCurrentRow(i);
-        }
-    }
+    PlayerController *controller = PlayerController::Instance();
+    // controller->setCurrentPlaylistName(this->ListName());
+    controller->setCurrentMusicList(this->musics, this->currentRow());
 }
+
+// void PlayListView::OnPlayMusic(const MusicDto &music)
+// {
+//     for(int i = 0; i < musics.count(); i++)
+//     {
+//         if(musics.at(i).Id() == music.Id())
+//         {
+//             this->setCurrentRow(i);
+//         }
+//     }
+// }

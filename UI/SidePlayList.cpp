@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QFile>
 #include <QMouseEvent>
+#include "../Service/PlayerController.h"
 
 SidePlayList::SidePlayList(QWidget *parent):QListWidget(parent)
 {
@@ -11,13 +12,15 @@ SidePlayList::SidePlayList(QWidget *parent):QListWidget(parent)
     this->setObjectName("side_play_list");
     ObjectInit();
 
-    //默认为播放列表
-    currentList = "_Current";
     //初始化
-    UpdateList(currentList);
+    UpdateList("_Current");
     WidgetInit();
     DataInit();
     // QJsonObject json = QJsonDocument::fromJson()
+    // connect(PlayerController::Instance(), &PlayerController::CurrentMusicListChanged,
+    //         this, &SidePlayList::OnCurrentMusicListChanged);
+    connect(PlayerController::Instance(), &PlayerController::CurrentMusicIndexChanged,
+            this, &SidePlayList::setCurrentMusicIndex);
 }
 
 SidePlayList::~SidePlayList()
@@ -26,47 +29,47 @@ SidePlayList::~SidePlayList()
 
 void SidePlayList::UpdateList(const QString &tableName)
 {
-    this->musicInfos->clear();
-    PlayListItemService service(tableName);
-    *musicInfos = service.GetPlayingList();
+    //清除原来的数据
+    musics.clear();
 
-    UpdateMap();
-    UpdateWidget();
+    PlayListItemService service(tableName);
+
+    if(tableName == "_Current")
+    {
+        musics = service.GetPlayingList();
+        //更新视图
+        UpdateWidget();
+        //显示正在播放
+        this->setCurrentRow(currentMusicIndex);
+    }
+    else if(tableName == "_Record")
+    {
+        musics = service.GetPlayingList("UpdateTime");
+        UpdateWidget();
+        this->setCurrentRow(0);
+    }
 }
 
 void SidePlayList::UpdateList(const QList<MusicDto> &musicList)
 {
-    musicInfos->clear();
-    *musicInfos = musicList;
+    musics.clear();
+    musics = musicList;
 
     PlayListItemService service("_Current");
     service.Clear();
 
-    foreach (auto m, *musicInfos) {
+    foreach (auto m, musics) {
         // service.Add(m);
         PlayListItemDto a;
         a.setMusicId(m.Id());
         service.Add(a);
     }
-
-    UpdateMap();
     UpdateWidget();
 }
 
 void SidePlayList::Add(const MusicDto &value)
 {
-    if(musicsMap->contains(value.Id()))
-    {
-        //如果歌曲在列表中, 将其更新到顶部
-        int index = musicsMap->value(value.Id());
-        musicInfos->remove(index);      //删除原来位置的数据
-        musicInfos->push_front(value);  //插入第一位
-    }
-    else
-    {
-        musicInfos->push_front(value);
-    }
-    UpdateMap();
+
 }
 
 QString SidePlayList::PlayingListName() const
@@ -74,23 +77,33 @@ QString SidePlayList::PlayingListName() const
     return playingListName;
 }
 
+void SidePlayList::setCurrentMusicIndex(int index)
+{
+    currentMusicIndex = index;
+}
+
 void SidePlayList::PlayNewList(const QString &name, int index, const QList<MusicDto> &list)
 {
-    if(playingListName == name)
-    {
-        PlayMusic(list.at(index));
-        for(int i = 0; i < musicInfos->count(); i++)
-        {
-            if(musicInfos->at(i).Id() == list.at(index).Id())
-            {
-                this->setCurrentRow(i);
-            }
-        }
-        return;
-    }
-    this->playingListName = name;
-    this->UpdateList(list);
-    emit CurrentPlayListChanged(index, list);
+    // if(playingListName == name)
+    // {
+    //     PlayMusic(list.at(index));
+    //     for(int i = 0; i < musicInfos->count(); i++)
+    //     {
+    //         if(musicInfos->at(i).Id() == list.at(index).Id())
+    //         {
+    //             this->setCurrentRow(i);
+    //         }
+    //     }
+    //     return;
+    // }
+    // this->playingListName = name;
+    // this->UpdateList(list);
+    // emit CurrentPlayListChanged(index, list);
+}
+
+void SidePlayList::OnCurrentMusicListChanged(const QList<MusicDto> &list, int index)
+{
+    currentMusicIndex = index;
 }
 
 void SidePlayList::mousePressEvent(QMouseEvent *event)
@@ -102,7 +115,7 @@ void SidePlayList::mouseDoubleClickEvent(QMouseEvent *event)
 {
     auto index = this->indexAt(event->pos());
     this->setCurrentIndex(index);
-    emit PlayMusic(musicInfos->at(index.row()));
+    PlayerController::Instance()->setCurrentMusicIndex(index.row());
 }
 
 void SidePlayList::mouseMoveEvent(QMouseEvent *event)
@@ -112,8 +125,6 @@ void SidePlayList::mouseMoveEvent(QMouseEvent *event)
 
 void SidePlayList::ObjectInit()
 {
-    musicInfos = new QList<MusicDto>();
-    musicsMap = new QMap<int, int>();
 }
 
 void SidePlayList::WidgetInit()
@@ -152,9 +163,9 @@ void SidePlayList::DataInit()
 void SidePlayList::UpdateWidget()
 {
     this->clear();
-    for(int i = 0; i < musicInfos->count(); i++)
+    for(int i = 0; i < musics.count(); i++)
     {
-        auto music = musicInfos->at(i);
+        auto music = musics.at(i);
         QListWidgetItem *item = new QListWidgetItem(this);
         item->setSizeHint(QSize(200, 60));
         this->addItem(item);
@@ -164,16 +175,6 @@ void SidePlayList::UpdateWidget()
 
 void SidePlayList::Delete(int index)
 {
-    musicInfos->remove(index);
-    UpdateMap();
+    musics.remove(index);
 }
 
-void SidePlayList::UpdateMap()
-{
-    //重置map
-    musicsMap->clear();
-    for(int i = 0; i < musicInfos->count(); i++)
-    {
-        musicsMap->insert(musicInfos->at(i).Id(), i);
-    }
-}

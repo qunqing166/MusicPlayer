@@ -1,4 +1,6 @@
 #include "PlayerBar.h"
+#include "Service/MusicService.h"
+#include "Service/PlayerController.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -9,6 +11,7 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QTime>
+#include <QStyle>
 
 PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
 {
@@ -18,32 +21,28 @@ PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
     ObjectInit();
     WidgetInit();
 
-    // connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
+    connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
     connect(pbToNext, &QPushButton::clicked, this, [&](){emit SwitchMusic(true);});
     connect(pbToLast, &QPushButton::clicked, this, [&](){emit SwitchMusic(false);});
-    // connect()
-}
 
-PlayerBar::PlayerBar(const MusicDto &music, QWidget *parent) :QWidget(parent)
-{
-    this->setAttribute(Qt::WA_StyledBackground);
-    this->setObjectName("player_bar");
-    this->setFixedHeight(70);
+    connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, [&](const MusicDto &music){
+        this->SetMusicInfo(music);
+    });
+    connect(PlayerController::Instance()->getMediaPlayer(), &QMediaPlayer::positionChanged, this, &PlayerBar::OnPositionChanged);
 
-    this->musicInfo = music;
-
-    ObjectInit();
-    WidgetInit();
-    SetMusicInfo(music);
-    // connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
-    connect(pbToNext, &QPushButton::clicked, this, [&](){emit SwitchMusic(true);});
-    connect(pbToLast, &QPushButton::clicked, this, [&](){emit SwitchMusic(false);});
-    connect(slider, &QSlider::valueChanged, this, [&](int value){emit ProgressBarValueChanged(value);qDebug()<<"position"<<value;});
-    // QSlider::
+    connect(progressBar, &ProgressBar::ValueChanged, [&](int value){
+        PlayerController::Instance()->getMediaPlayer()->setPosition(value * 1000);
+    });
+    connect(progressBar, &ProgressBar::SliderMoved, this, [&](int value){
+        labelNowTime->setText(QString::asprintf("%02d:%02d", (value / 60) % 60, value % 60));
+    });
 }
 
 void PlayerBar::SetMusicInfo(const MusicDto &musicInfo, bool isOpen)
 {
+    MusicService service;
+    if(!service.IsExist(QString("Id = %1").arg(musicInfo.Id())))
+        return;
     //更新显示信息
     this->musicInfo = musicInfo;//musicInfo;
     this->imageLabel->SetPixmap(musicInfo.CoverImagePath());
@@ -51,11 +50,12 @@ void PlayerBar::SetMusicInfo(const MusicDto &musicInfo, bool isOpen)
     this->labelMusicName->setText(musicInfo.MusicName());
     this->labelTotleTime->setText(musicInfo.Duration());
     QTime time = QTime::fromString(musicInfo.Duration(), "mm:ss");
-    qDebug()<<time;
-    this->slider->setRange(0, time.minute() * 60 + time.second());
+    // qDebug()<<time;
+    // this->slider->setRange(0, time.minute() * 60 + time.second());
+    this->progressBar->setRange(time.minute() * 60 + time.second());
     // this->slider->setEnabled(true);
     // this->slider->setTracking(false);
-    qDebug()<<slider->maximum();
+    // qDebug()<<slider->maximum();
     this->labelNowTime->setText("00:00");
     //改变即播放, 更新播放状态
     this->SetPlayStatus(isOpen);
@@ -75,7 +75,7 @@ void PlayerBar::ObjectInit()
     pbStop->setIcon(QIcon(":/scr/icon/stopping.png"));
     pbStop->setObjectName("player_bar_button");
     pbStop->setFixedSize(buttonSize, buttonSize);
-    connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
+    // connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
 
     pbToLast = new QPushButton(this);
     pbToLast->setObjectName("player_bar_button");
@@ -119,17 +119,27 @@ void PlayerBar::ObjectInit()
 
     labelSingers = new QLabel("坤哥", this);
     labelSingers->setObjectName("PlayerBar_Label_Singers");
+
     // QFont font;
     // font.setFamily("黑体");
     // font.setPointSize(18);
+
     // labelMusicName->setFont(font);
+
 
     labelTotleTime = new QLabel("00:00", this);
     labelNowTime = new QLabel("00:00", this);
 
-    slider = new QSlider(Qt::Horizontal, this);
-    slider->setFixedHeight(20);
-    slider->setRange(0, 100);
+    QPalette pa;
+    pa.setColor(QPalette::WindowText, QColor("#808283"));
+    labelTotleTime->setPalette(pa);
+    labelNowTime->setPalette(pa);
+
+    // slider = new QSlider(Qt::Horizontal, this);
+    // slider->setFixedHeight(20);
+    // slider->setRange(0, 100);
+
+    progressBar = new ProgressBar(this);
     // slider->setTracking(false);
     // slider->setSliderDown(true);
     // slider->setEnabled(true);
@@ -169,8 +179,10 @@ void PlayerBar::WidgetInit()
     QHBoxLayout *hLayout2_2 = new QHBoxLayout(this);
 
     vLayout2->addLayout(hLayout2_2);
+    hLayout2_2->setSpacing(10);
     hLayout2_2->addWidget(labelNowTime);
-    hLayout2_2->addWidget(slider, Qt::AlignBottom);
+    // hLayout2_2->addWidget(slider, Qt::AlignBottom);
+    hLayout2_2->addWidget(progressBar, Qt::AlignBottom);
     hLayout2_2->addWidget(labelTotleTime);
 
     QHBoxLayout *hLayout3 = new QHBoxLayout(this);
@@ -180,10 +192,11 @@ void PlayerBar::WidgetInit()
     hLayout3->addWidget(pbPlayMode);
     hLayout3->addWidget(pbVolume);
     QFrame *frame = new QFrame(this);
-    QSlider *slider1 = new QSlider(Qt::Horizontal, this);
+    // QSlider *slider1 = new QSlider(Qt::Horizontal, this);
+
     // slider1->setMinimumWidth(20);
-    slider1->setFixedWidth(50);
-    hLayout3->addWidget(slider1);
+    // slider1->setFixedWidth(50);
+    // hLayout3->addWidget(progressBar);
     hLayout3->addWidget(frame);
     hLayout3->setSpacing(5);
     frame->setFixedWidth(1);
@@ -233,16 +246,12 @@ void PlayerBar::SetPlayStatus(bool is)
     }
 }
 
-void PlayerBar::OnDurationChanged(qint64 ms)
+void PlayerBar::OnPositionChanged(qint64 ms)
 {
-    if(slider->isSliderDown())
-    {
+    if(progressBar->IsDragged())
         return;
-    }
-
-    this->slider->setValue(ms / 1000);
+    progressBar->setValue(ms / 1000);
     labelNowTime->setText(QString::asprintf("%02lld:%02lld", (ms / (1000 * 60)) % 60, (ms / 1000) % 60));
-
 }
 
 MusicDto PlayerBar::CurrentMusic() const
@@ -253,8 +262,18 @@ MusicDto PlayerBar::CurrentMusic() const
 void PlayerBar::OnPbStopClicked()
 {
     isPlaying = !isPlaying;
-    SetPlayStatus(isPlaying);
-    emit PlayStatusChanged(isPlaying);
+    if(!isPlaying)
+    {
+        pbStop->setIcon(QIcon(":/scr/icon/stopping.png"));
+    }
+    else
+    {
+        pbStop->setIcon(QIcon(":/scr/icon/playing.png"));
+    }
+    // SetPlayStatus(isPlaying);
+    PlayerController::Instance()->setPlayStatus(isPlaying);
+
+    // emit PlayStatusChanged(isPlaying);
 }
 
 void PlayerBar::OnPbVolumeClicked()

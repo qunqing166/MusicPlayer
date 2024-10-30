@@ -9,7 +9,7 @@
 #include "Service/DataBaseSerice.h"
 #include <QMediaPlayer>
 #include <QAudioOutput>
-#include "Service/PlayerController.h"
+// #include "Service/PlayerController.h"
 #include <QTimer>
 
 class MainWindow : public QMainWindow
@@ -26,7 +26,7 @@ class MainWindow : public QMainWindow
     // QMediaPlayer *mediaPlayer;
     // QAudioOutput *audioOutput;
 
-    PlayerController *playerController;
+    // PlayerController *playerController;
 
 
     // DataBaseSerice<MusicInfo> *dbService;

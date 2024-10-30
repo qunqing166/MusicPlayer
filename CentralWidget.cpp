@@ -36,7 +36,7 @@ TitleBar *CentralWidget::getTitleBar() const
 void CentralWidget::SetStartUp(int index, const MusicDto &music)
 {
     this->playerBar->SetMusicInfo(music, false);
-    this->mainWidget->getSideBar()->SetListCurrentIndex(index);
+    this->mainWidget->getSideBar()->setCurrentMusicIndex(index);
     this->mainWidget->getIndexWidget()->SetCurrentMusicInfo(music);
 }
 
@@ -111,6 +111,8 @@ void CentralWidget::ObjectInit()
     selectBar = new SelectBar(this);
     playerBar = new PlayerBar(this);
     mainWidget = new MainWidget(this);
+
+    // playerBar->hide();
 }
 
 void CentralWidget::WidgetInit()
@@ -119,6 +121,7 @@ void CentralWidget::WidgetInit()
     QVBoxLayout *vLayout = new QVBoxLayout(this);
     QHBoxLayout *hLayout = new QHBoxLayout(this);
 
+    // vLayout->setContentsMargins(0,0,0,0);
     // titleBar->setObjectName("title_bar");
     this->setLayout(vLayout);
     // this->layout()->addItem(vLayout)

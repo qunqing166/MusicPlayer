@@ -26,11 +26,13 @@ PlayListContentView::PlayListContentView(QWidget *parent):QWidget(parent)
     // ShowPlayList()
 
     connect(pbAdd, &QPushButton::clicked, this, &PlayListContentView::OnPbAddClicked);
+
     connect(pbEdit, &QPushButton::clicked, this, [&](){
         playListEditor = new PlayListEditor(this->playList);
         playListEditor.data()->show();
         connect(playListEditor, &PlayListEditor::SendInfo, this, &PlayListContentView::OnEditPlayList);
     });
+
     connect(pbPlay, &QPushButton::clicked, playListView, &PlayListView::OnPlayList);
 }
 
@@ -188,19 +190,19 @@ void PlayListContentView::OnPbAddClicked()
         return;
     }
 
-    //将数据写入对象
-    QMediaPlayer p(this);
-    p.setSource(QUrl::fromLocalFile(path));
-    MusicDto music;
-    music.setMusicPath(path);
-    qDebug()<<p.duration();
-    // p.
-    // music.setDuration(QString::asprintf("%02lld:%02lld", p.duration() / 60000, p.duration() / 1000));
-    qDebug()<<music.Duration();
-    music.setMusicName(fileInfo.completeBaseName());
-    music.InsertPlayList(this->sheetTitleLabel->text());
-    //添加至列表
-    playListView->Add(music);
+    // //将数据写入对象
+    // QMediaPlayer p(this);
+    // p.setSource(QUrl::fromLocalFile(path));
+    // MusicDto music;
+    // music.setMusicPath(path);
+    // qDebug()<<p.duration();
+    // // p.
+    // // music.setDuration(QString::asprintf("%02lld:%02lld", p.duration() / 60000, p.duration() / 1000));
+    // qDebug()<<music.Duration();
+    // music.setMusicName(fileInfo.completeBaseName());
+    // music.InsertPlayList(this->sheetTitleLabel->text());
+    // //添加至列表
+    // playListView->Add(music);
 }
 
 void PlayListContentView::OnEditPlayList(const PlayListDto &info)
