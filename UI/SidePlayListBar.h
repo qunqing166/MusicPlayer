@@ -7,6 +7,7 @@
 #include <QTimer>
 #include "ClickedEventFilter.h"
 #include "SidePlayList.h"
+#include <QLabel>
 
 class SidePlayListBar:public QWidget
 {
@@ -19,6 +20,7 @@ class SidePlayListBar:public QWidget
     ClickedEventFilter *clickFilter;//过滤器, 用作打开bar后的全局点击事件检测
     QRect parentGeo;                //父窗口的窗口数据
     SidePlayList *sidePlayList;     //显示歌曲列表
+    QLabel *labelNumber;
 
     int dWidth = 0;     //用作动画的移动的偏移量
     bool isButtonDrive = true;

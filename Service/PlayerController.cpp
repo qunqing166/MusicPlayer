@@ -1,6 +1,7 @@
 #include "PlayerController.h"
 #include "PlayListItemService.h"
-#include "MusicService.h"
+#include <QDir>
+#include <QFile>
 
 QList<MusicDto> PlayerController::CurrentMusicList() const
 {
@@ -25,6 +26,13 @@ void PlayerController::setCurrentMusicList(const QList<MusicDto> &value, int ind
     //通知sidebar的index更改
     emit CurrentMusicIndexChanged(currentMusicIndex);
     // emit CurrentMusicListChanged(currentMusicList, currentMusicIndex);
+}
+
+MusicDto PlayerController::CurrentMusic() const
+{
+    if(currentMusicIndex < 0 || currentMusicIndex > currentMusicList.count())
+        return MusicDto();
+    return currentMusicList.at(currentMusicIndex);
 }
 
 int PlayerController::CurrentMusicIndex() const
@@ -54,9 +62,59 @@ void PlayerController::setCurrentPlaylistName(const QString &value)
     isListNameChanged = true;
 }
 
+long long PlayerController::Position() const
+{
+    return position;
+}
+
+PlayMode PlayerController::getPlayMode() const
+{
+    return playMode;
+}
+
+void PlayerController::setPlayMode(const PlayMode &value)
+{
+    playMode = value;
+}
+
 PlayerController::PlayerController(QObject *parent):QObject(parent)
 {
     ObjectInit();
+
+    ReadStartUp();
+
+    connect(mediaPlayer, &QMediaPlayer::mediaStatusChanged, this, [&](QMediaPlayer::MediaStatus status){
+        if(status == QMediaPlayer::EndOfMedia)
+        {
+            if(playMode == OneLoop)
+            {
+                mediaPlayer->play();
+            }
+            else
+            {
+                currentMusicIndex = (currentMusicIndex + 1) % currentMusicList.count();
+                PlayMusic(currentMusicList.at(currentMusicIndex));
+            }
+        }
+    });
+
+    connect(this, &PlayerController::CurrentMusicChanged, this, &PlayerController::AddToRecord);
+}
+
+PlayerController::~PlayerController()
+{
+    QJsonObject jsonObj;
+    jsonObj.insert("current_music_index", this->currentMusicIndex);
+    jsonObj.insert("current_music_position", this->mediaPlayer->position());
+    jsonObj.insert("play_mode", this->playMode);
+    jsonObj.insert("play_volume", this->audioOutput->volume());
+
+    QByteArray jsonStr = QJsonDocument(jsonObj).toJson();
+    QFile file(QDir::currentPath() + "/start_up.json");
+    if (file.open(QFile::WriteOnly | QFile::Text)) {
+        file.write(jsonStr);
+        file.close();
+    }
 }
 
 inline PlayerController* PlayerController::instance = nullptr;
@@ -135,11 +193,24 @@ void PlayerController::setPlayStatus(bool is)
     }
 }
 
-void PlayerController::ReadStartUp(int index)
+void PlayerController::ReadStartUp()
 {
+    QByteArray jsonStr;
+    QFile file(QDir::currentPath() + "/start_up.json");
+    if (file.open(QFile::ReadOnly | QFile::Text)) {
+        jsonStr = file.readAll();
+        file.close();
+    }
+
+    QJsonObject jsonObj = QJsonDocument::fromJson(jsonStr).object();
+
+    currentMusicIndex = jsonObj.value("current_music_index").toInt();
+    position = jsonObj.value("current_music_position").toInteger();
+    playMode = (PlayMode)jsonObj.value("play_mode").toInt();
+    audioOutput->setVolume(jsonObj.value("play_volume").toDouble());
+
     PlayListItemService service("_Current");
     currentMusicList = service.GetPlayingList();
-    currentPlayingIndex = index;
     if(currentMusicIndex < 0 || currentMusicIndex > currentMusicList.count())
         return;
     mediaPlayer->setSource(QUrl::fromLocalFile(currentMusicList.at(currentMusicIndex).MusicPath()));
@@ -148,6 +219,11 @@ void PlayerController::ReadStartUp(int index)
 QMediaPlayer *PlayerController::getMediaPlayer() const
 {
     return mediaPlayer;
+}
+
+QAudioOutput *PlayerController::getAudioOutput() const
+{
+    return audioOutput;
 }
 
 QMediaPlayer *PlayerController::MediaPlayer() const

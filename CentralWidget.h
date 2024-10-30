@@ -30,12 +30,9 @@ public:
 
     TitleBar *getTitleBar() const;
 
-    void SetStartUp(int index, const MusicDto &music);
-
 private:
     void ObjectInit();
     void WidgetInit();
-    // void ReadStartUp(int &index, MusicDto &music);
 
 signals:
     void Maximize();

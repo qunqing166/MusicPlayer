@@ -33,13 +33,6 @@ TitleBar *CentralWidget::getTitleBar() const
     return titleBar;
 }
 
-void CentralWidget::SetStartUp(int index, const MusicDto &music)
-{
-    this->playerBar->SetMusicInfo(music, false);
-    this->mainWidget->getSideBar()->setCurrentMusicIndex(index);
-    this->mainWidget->getIndexWidget()->SetCurrentMusicInfo(music);
-}
-
 CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
@@ -74,27 +67,6 @@ CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
 
 CentralWidget::~CentralWidget()
 {
-    QJsonObject jsonObj;
-    jsonObj.insert("current_playing_index", mainWidget->getSideBar()->getSidePlayList()->currentRow());
-
-    MusicDto music = playerBar->CurrentMusic();
-    QJsonObject jsonMusic;
-
-    const QMetaObject *meta = music.metaObject();
-    for(int i = 0; i < meta->propertyCount(); i++)
-    {
-        QString pro = meta->property(i).name();
-        jsonMusic.insert(pro, music.property(pro.toStdString().c_str()).toJsonValue());
-    }
-
-    jsonObj.insert("current_playing_music", jsonMusic);
-
-    QByteArray jsonStr = QJsonDocument(jsonObj).toJson();
-    QFile file(QDir::currentPath() + "/start_up.json");
-    if (file.open(QFile::WriteOnly | QFile::Text)) {
-        file.write(jsonStr);
-        file.close();
-    }
 }
 
 bool CentralWidget::IsInTitleBar(QPoint pos)

@@ -7,23 +7,8 @@
 #include "ImageLabel.h"
 #include "ProgressBar.h"
 #include <QPushButton>
-// #include "DataInfo/MusicInfo.h"
+#include "Service/PlayerController.h"
 #include <QSlider>
-
-
-enum PlayMode
-{
-    OneLoop,
-    ListLoop
-};
-
-enum PlaySpeed
-{
-    zero_point_five_x,
-    one_x,
-    one_point_five_x,
-    two_x,
-};
 
 //播放控制栏
 class PlayerBar:public QWidget
@@ -35,7 +20,7 @@ class PlayerBar:public QWidget
     bool isPlaying = false;
     bool isMute = false;
     int volume = 50;
-    PlayMode playMode = ListLoop;
+    PlayMode playMode;
     PlaySpeed playSpeed = one_x;
     // QLabel *imageLabel;
     ImageLabel *imageLabel;
@@ -53,10 +38,12 @@ class PlayerBar:public QWidget
     QLabel *labelNowTime;
 
     // QSlider *slider;
+    bool isFirstPlay = true;
 
     ProgressBar *progressBar;
 
 public:
+
     PlayerBar(QWidget *parent = nullptr);
     void SetMusicInfo(const MusicDto &musicInfo, bool isOpen = true);
     void SetPlayStatus(bool is);
@@ -65,12 +52,18 @@ public:
 
     MusicDto CurrentMusic() const;
 
+    PlayMode getPlayMode() const;
+    void setPlayMode(PlayMode value);
+    void ResetPlayMode();
+
 private:
+
     void ObjectInit();
     void WidgetInit();
     void SetSongCover(QPixmap pixmap);
 
 private slots:
+
     void OnPbStopClicked();
     void OnPbVolumeClicked();
     void OnPbPlaySpeedClicked();
@@ -78,15 +71,9 @@ private slots:
     void OnPbListClicked();
 
 signals:
-    void PlayStatusChanged(bool isPlaying);
-    void PlayModeChanged(PlayMode playMode);
-    void PlayVolumeChanged(int volume);
-    void PlaySpeedChanged(PlaySpeed playSpeed);
-    void ChangeSideBarOpenStatus();
+
     void OpenSideBar();
-    void SwitchMusic(bool isNext);
-    void LoadMusic(const MusicDto &music);
-    void ProgressBarValueChanged(int value);
+
 };
 
 #endif // PLAYERBAR_H

@@ -13,6 +13,31 @@
 #include <QTime>
 #include <QStyle>
 
+PlayMode PlayerBar::getPlayMode() const
+{
+    return playMode;
+}
+
+void PlayerBar::setPlayMode(PlayMode value)
+{
+    if (playMode == value)
+        return;
+    playMode = value;
+    if(playMode == OneLoop)
+    {
+        pbPlayMode->setIcon(QIcon(":/scr/icon/one_loop.png"));
+    }
+    else if(playMode == ListLoop)
+    {
+        pbPlayMode->setIcon(QIcon(":/scr/icon/list_loop.png"));
+    }
+}
+
+void PlayerBar::ResetPlayMode()
+{
+    setPlayMode({}); // TODO: Adapt to use your actual default defaultValue
+}
+
 PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
@@ -21,9 +46,14 @@ PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
     ObjectInit();
     WidgetInit();
 
+    auto music = PlayerController::Instance()->CurrentMusic();
+    this->SetMusicInfo(music, false);
+    this->OnPositionChanged(PlayerController::Instance()->Position());
+    setPlayMode(PlayerController::Instance()->getPlayMode());
+
     connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
-    connect(pbToNext, &QPushButton::clicked, this, [&](){emit SwitchMusic(true);});
-    connect(pbToLast, &QPushButton::clicked, this, [&](){emit SwitchMusic(false);});
+    // connect(pbToNext, &QPushButton::clicked, this, [&](){emit SwitchMusic(true);});
+    // connect(pbToLast, &QPushButton::clicked, this, [&](){emit SwitchMusic(false);});
 
     connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, [&](const MusicDto &music){
         this->SetMusicInfo(music);
@@ -36,6 +66,7 @@ PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
     connect(progressBar, &ProgressBar::SliderMoved, this, [&](int value){
         labelNowTime->setText(QString::asprintf("%02d:%02d", (value / 60) % 60, value % 60));
     });
+    connect(pbPlayMode, &QPushButton::clicked, this, &PlayerBar::OnPbPlayModeClicked);
 }
 
 void PlayerBar::SetMusicInfo(const MusicDto &musicInfo, bool isOpen)
@@ -50,12 +81,7 @@ void PlayerBar::SetMusicInfo(const MusicDto &musicInfo, bool isOpen)
     this->labelMusicName->setText(musicInfo.MusicName());
     this->labelTotleTime->setText(musicInfo.Duration());
     QTime time = QTime::fromString(musicInfo.Duration(), "mm:ss");
-    // qDebug()<<time;
-    // this->slider->setRange(0, time.minute() * 60 + time.second());
     this->progressBar->setRange(time.minute() * 60 + time.second());
-    // this->slider->setEnabled(true);
-    // this->slider->setTracking(false);
-    // qDebug()<<slider->maximum();
     this->labelNowTime->setText("00:00");
     //改变即播放, 更新播放状态
     this->SetPlayStatus(isOpen);
@@ -99,7 +125,7 @@ void PlayerBar::ObjectInit()
     pbPlayMode->setFixedSize(buttonSize, buttonSize);
     pbPlayMode->setIcon(QIcon(":/scr/icon/list_loop.png"));
     pbPlayMode->setIconSize(QSize(iconSize, iconSize));
-    connect(pbPlayMode, &QPushButton::clicked, this, &PlayerBar::OnPbPlayModeClicked);
+
 
     pbVolume = new QPushButton(this);
     pbVolume->setObjectName("player_bar_button");
@@ -120,13 +146,6 @@ void PlayerBar::ObjectInit()
     labelSingers = new QLabel("坤哥", this);
     labelSingers->setObjectName("PlayerBar_Label_Singers");
 
-    // QFont font;
-    // font.setFamily("黑体");
-    // font.setPointSize(18);
-
-    // labelMusicName->setFont(font);
-
-
     labelTotleTime = new QLabel("00:00", this);
     labelNowTime = new QLabel("00:00", this);
 
@@ -135,14 +154,7 @@ void PlayerBar::ObjectInit()
     labelTotleTime->setPalette(pa);
     labelNowTime->setPalette(pa);
 
-    // slider = new QSlider(Qt::Horizontal, this);
-    // slider->setFixedHeight(20);
-    // slider->setRange(0, 100);
-
     progressBar = new ProgressBar(this);
-    // slider->setTracking(false);
-    // slider->setSliderDown(true);
-    // slider->setEnabled(true);
 }
 
 void PlayerBar::WidgetInit()
@@ -248,10 +260,12 @@ void PlayerBar::SetPlayStatus(bool is)
 
 void PlayerBar::OnPositionChanged(qint64 ms)
 {
+    qDebug()<<ms;
     if(progressBar->IsDragged())
         return;
-    progressBar->setValue(ms / 1000);
-    labelNowTime->setText(QString::asprintf("%02lld:%02lld", (ms / (1000 * 60)) % 60, (ms / 1000) % 60));
+    int s = (ms / 1000) % progressBar->Range();
+    progressBar->setValue(s);
+    labelNowTime->setText(QString::asprintf("%02d:%02d", (s / 60) % 60, s % 60));
 }
 
 MusicDto PlayerBar::CurrentMusic() const
@@ -271,6 +285,11 @@ void PlayerBar::OnPbStopClicked()
         pbStop->setIcon(QIcon(":/scr/icon/playing.png"));
     }
     // SetPlayStatus(isPlaying);
+    if(isFirstPlay)
+    {
+        PlayerController::Instance()->getMediaPlayer()->setPosition(progressBar->Value() * 1000);
+        isFirstPlay = false;
+    }
     PlayerController::Instance()->setPlayStatus(isPlaying);
 
     // emit PlayStatusChanged(isPlaying);
@@ -281,12 +300,12 @@ void PlayerBar::OnPbVolumeClicked()
     if(isMute)
     {
         pbVolume->setIcon(QIcon(":/scr/icon/volume.png"));
-        emit PlayVolumeChanged(0);
+        // emit PlayVolumeChanged(0);
     }
     else
     {
         pbVolume->setIcon(QIcon(":/scr/icon/mute.png"));
-        emit PlayVolumeChanged(volume);
+        // emit PlayVolumeChanged(volume);
     }
     isMute = !isMute;
 }
@@ -300,19 +319,16 @@ void PlayerBar::OnPbPlayModeClicked()
 {
     if(playMode == ListLoop)
     {
-        playMode = OneLoop;
-        pbPlayMode->setIcon(QIcon(":/scr/icon/one_loop.png"));
+        setPlayMode(OneLoop);
     }
     else if(playMode == OneLoop)
     {
-        playMode = ListLoop;
-        pbPlayMode->setIcon(QIcon(":/scr/icon/list_loop.png"));
+        setPlayMode(ListLoop);
     }
-    emit PlayModeChanged(playMode);
+    PlayerController::Instance()->setPlayMode(this->playMode);
 }
 
 void PlayerBar::OnPbListClicked()
 {
-    // emit ChangeSideBarOpenStatus();
     emit OpenSideBar();
 }

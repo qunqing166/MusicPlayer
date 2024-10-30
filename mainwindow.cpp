@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
     ObjectInit();
     WidgetInit();
 
-    ReadStartUp();
     this->setWindowFlag(Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_StyledBackground);
     this->setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明化
@@ -37,30 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
     });
     connect(centarlWidget, &CentralWidget::Minimize, this, [&](){this->showMinimized();});
 
-    // connect(centarlWidget->getMainWidget()->getContentView()->getPlayListView(), &PlayListView::PlayMusic,
-    //         playerController, &PlayerController::OpenNewMusic);
-    // connect(centarlWidget->getPlayerBar(), &PlayerBar::PlayStatusChanged,
-    //         playerController, &PlayerController::ChangePlayStatus);
-
-    // connect(centarlWidget->getMainWidget()->getSideBar()->getSidePlayList(), &SidePlayList::PlayMusic,
-    //         playerController, &PlayerController::OpenNewMusic);
-
-    // // connect(playerController, &PlayerController::UpdatePlayBarStatus,
-    // //         centarlWidget->getPlayerBar(), &PlayerBar::SetMusicInfo);
-    // connect(playerController, &PlayerController::UpdatePlayBarStatus,
-    //         this, [&](const MusicDto &music){
-    //     centarlWidget->getPlayerBar()->SetMusicInfo(music);
-    // });
-
-    // connect(playerController->MediaPlayer(), &QMediaPlayer::positionChanged,
-    //         centarlWidget->getPlayerBar(), &PlayerBar::OnDurationChanged);
-    // connect(centarlWidget->getPlayerBar(), &PlayerBar::ProgressBarValueChanged,
-    //         playerController, &PlayerController::OnProgressBarValueChanged);
-    // connect(centarlWidget->getPlayerBar(), &PlayerBar::PlayStatusChanged, this, [&]());
-    // connect(centarlWidget->getPlayerBar())
-    // connect(centarlWidget->getPlayerBar(), &PlayerBar::LoadMusic, playerController, &PlayerController::LoadMusic);
-
-
     timer = new QTimer(this);
     // timer->setInterval(1000);
     // timer->start();
@@ -69,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    PlayerController::Instance()->~PlayerController();
 }
 
 void MainWindow::ObjectInit()
@@ -96,44 +72,6 @@ void MainWindow::LoadStyleSheet()
         this->setStyleSheet(styleSheet);
     }
 }
-
-void MainWindow::ReadStartUp()
-{
-    int index;
-    MusicDto music;
-
-    QByteArray jsonStr;
-    QFile file(QDir::currentPath() + "/start_up.json");
-    if (file.open(QFile::ReadOnly | QFile::Text)) {
-        jsonStr = file.readAll();
-        // qDebug()<<QString(jsonStr.toStdString().c_str());
-        file.close();
-    }
-
-    QJsonObject jsonObj = QJsonDocument::fromJson(jsonStr).object();
-
-    index = jsonObj.value("current_playing_index").toInt();
-    // MusicDto m;
-    const QMetaObject *meta = music.metaObject();
-    QJsonObject jsonMusic = jsonObj.value("current_playing_music").toObject();
-    for(int i = 0; i < meta->propertyCount(); i++)
-    {
-        QString name = meta->property(i).name();
-        if(jsonMusic.contains(name))
-        {
-            music.setProperty(name.toStdString().c_str(), jsonMusic.value(name));
-        }
-    }
-
-    centarlWidget->SetStartUp(index, music);
-
-    PlayerController::Instance()->ReadStartUp(index);
-
-    // playerController->LoadMusic(music);
-    // qDebug()<<index;
-    // music.Print();
-}
-
 
 bool MainWindow::event(QEvent *event)
 {
@@ -167,17 +105,3 @@ bool MainWindow::event(QEvent *event)
 
     return QWidget::event(event);
 }
-
-// void MainWindow::paintEvent(QPaintEvent *event)
-// {
-//     QPainter painter(this);
-
-//     QPen pen;
-//     pen.setWidth(2);
-//     painter.setBrush(Qt::white);
-//     painter.setPen(pen);
-
-//     painter.setRenderHint(QPainter::SmoothPixmapTransform);
-//     int radius = 15;
-//     painter.drawRoundedRect(this->rect(), radius, radius);
-// }

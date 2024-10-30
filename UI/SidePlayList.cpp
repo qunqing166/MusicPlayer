@@ -21,6 +21,16 @@ SidePlayList::SidePlayList(QWidget *parent):QListWidget(parent)
     //         this, &SidePlayList::OnCurrentMusicListChanged);
     connect(PlayerController::Instance(), &PlayerController::CurrentMusicIndexChanged,
             this, &SidePlayList::setCurrentMusicIndex);
+    connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, [&](const MusicDto &music){
+        for(int i = 0; i < musics.count(); i++)
+        {
+            if(musics.at(i).Id() == music.Id())
+            {
+                this->setCurrentRow(i);
+                break;
+            }
+        }
+    });
 }
 
 SidePlayList::~SidePlayList()
@@ -40,13 +50,21 @@ void SidePlayList::UpdateList(const QString &tableName)
         //更新视图
         UpdateWidget();
         //显示正在播放
-        this->setCurrentRow(currentMusicIndex);
     }
     else if(tableName == "_Record")
     {
         musics = service.GetPlayingList("UpdateTime");
         UpdateWidget();
-        this->setCurrentRow(0);
+    }
+
+    auto music = PlayerController::Instance()->CurrentMusic();
+    for(int i = 0; i < musics.count(); i++)
+    {
+        if(musics.at(i).Id() == music.Id())
+        {
+            this->setCurrentRow(i);
+            break;
+        }
     }
 }
 
@@ -170,6 +188,16 @@ void SidePlayList::UpdateWidget()
         item->setSizeHint(QSize(200, 60));
         this->addItem(item);
         this->setItemWidget(item, new SidePlayListItem(music, this));
+    }
+
+    auto crtMusic = PlayerController::Instance()->CurrentMusic();
+    for(int i = 0; i < musics.count(); i++)
+    {
+        if(musics.at(i).Id() == crtMusic.Id())
+        {
+            this->setCurrentRow(i);
+            break;
+        }
     }
 }
 

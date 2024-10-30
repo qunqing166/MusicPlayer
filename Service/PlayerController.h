@@ -4,8 +4,21 @@
 #include <QObject>
 #include <QMediaPlayer>
 #include <QAudioOutput>
-// #include "../DataInfo/MusicInfo.h"
 #include "../Dtos/MusicDto.h"
+
+enum PlayMode
+{
+    OneLoop,
+    ListLoop
+};
+
+enum PlaySpeed
+{
+    zero_point_five_x,
+    one_x,
+    one_point_five_x,
+    two_x,
+};
 
 class PlayerController:public QObject
 {
@@ -19,18 +32,22 @@ class PlayerController:public QObject
 
     QList<MusicDto> playingList;
 
-    int currentPlayingIndex = 0;
-
     QList<MusicDto> currentMusicList;
     int currentMusicIndex;
     QString currentPlaylistName;
 
     bool isListNameChanged = false;
 
+    long long position;
+
     static PlayerController* instance;
+
+    PlayMode playMode;
+    PlaySpeed playSpeed;
 
 public:
     PlayerController(QObject *parent = nullptr);
+    ~PlayerController();
 
     static PlayerController* Instance();
 
@@ -41,6 +58,8 @@ public:
     QList<MusicDto> CurrentMusicList() const;
     void setCurrentMusicList(const QList<MusicDto> &value, int index = 0);
 
+    MusicDto CurrentMusic() const;
+
     int CurrentMusicIndex() const;
     void setCurrentMusicIndex(int value);
 
@@ -49,10 +68,17 @@ public:
 
     void setPlayStatus(bool is);
 
-    void ReadStartUp(int index);
+    void ReadStartUp();
 
     QMediaPlayer *getMediaPlayer() const;
+    QAudioOutput *getAudioOutput() const;
 
+
+    long long Position() const;
+
+    PlayMode getPlayMode() const;
+
+    void setPlayMode(const PlayMode &value);
 
 private:
     void ObjectInit();

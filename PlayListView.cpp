@@ -21,6 +21,17 @@ PlayListView::PlayListView(const QString &listName, QWidget *parent):QListWidget
 
     ShowPlayList(listName);
     UpdateWidget();
+
+    connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, [&](const MusicDto &music){
+        for(int i = 0; i < musics.count(); i++)
+        {
+            if(musics.at(i).Id() == music.Id())
+            {
+                this->setCurrentRow(i);
+                break;
+            }
+        }
+    });
 }
 
 void PlayListView::ShowPlayList(QString playListName)
@@ -114,6 +125,16 @@ void PlayListView::UpdateWidget()
         item->setSizeHint(QSize(200, 60));
         this->addItem(item);
         this->setItemWidget(item, new PlayListItem(musics.at(i), i + 1, this));
+    }
+
+    auto crtMusic = PlayerController::Instance()->CurrentMusic();
+    for(int i = 0; i < musics.count(); i++)
+    {
+        if(musics.at(i).Id() == crtMusic.Id())
+        {
+            this->setCurrentRow(i);
+            break;
+        }
     }
 }
 

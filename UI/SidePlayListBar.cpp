@@ -66,7 +66,7 @@ void SidePlayListBar::ObjectInit()
     geoAnima->startTimer(1000);
     clickFilter = new ClickedEventFilter(this);
     sidePlayList = new SidePlayList(this);
-    
+    labelNumber = new QLabel("总共0首", this);
     // musicManager = PlayingListManager::Instance();
 }
 
@@ -104,7 +104,6 @@ void SidePlayListBar::WidgetInit()
     hLayout1_1->addWidget(pbCrt);
     hLayout1_1->addWidget(pbRecord);
 
-    QLabel *labelNumber = new QLabel("总共0首", this);
     QPushButton *pbClear = new QPushButton("清空列表", this);
 
     pbClear->setObjectName("side_bar_btn_clear");
@@ -154,6 +153,7 @@ void SidePlayListBar::OnPbRecordClicked()
     pbRecord->setCheckable(true);
     pbRecord->setChecked(true);
     sidePlayList->UpdateList("_Record");
+    labelNumber->setText(QString("总共%1首").arg(sidePlayList->count()));
 }
 
 void SidePlayListBar::OnPbCrtClicked()
@@ -164,6 +164,7 @@ void SidePlayListBar::OnPbCrtClicked()
     pbCrt->setChecked(true);
     // emit OpenRecordList("CurrentPlayList");
     sidePlayList->UpdateList("_Current");
+    labelNumber->setText(QString("总共%1首").arg(sidePlayList->count()));
 }
 
 void SidePlayListBar::Close()
@@ -192,5 +193,6 @@ void SidePlayListBar::ResetButton()
     pbCrt->setChecked(true);
     //获取信息
     sidePlayList->UpdateList("_Current");
+    labelNumber->setText(QString("总共%1首").arg(sidePlayList->count()));
 }
 
