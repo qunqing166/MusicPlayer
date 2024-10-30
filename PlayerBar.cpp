@@ -52,8 +52,8 @@ PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
     setPlayMode(PlayerController::Instance()->getPlayMode());
 
     connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
-    // connect(pbToNext, &QPushButton::clicked, this, [&](){emit SwitchMusic(true);});
-    // connect(pbToLast, &QPushButton::clicked, this, [&](){emit SwitchMusic(false);});
+    connect(pbToNext, &QPushButton::clicked, this, [&](){PlayerController::Instance()->ToNextMusic();});
+    connect(pbToLast, &QPushButton::clicked, this, [&](){PlayerController::Instance()->ToLastMusic();});
 
     connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, [&](const MusicDto &music){
         this->SetMusicInfo(music);

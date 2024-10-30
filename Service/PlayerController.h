@@ -73,6 +73,9 @@ public:
     QMediaPlayer *getMediaPlayer() const;
     QAudioOutput *getAudioOutput() const;
 
+    void ToNextMusic();
+    void ToLastMusic();
+
 
     long long Position() const;
 

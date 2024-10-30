@@ -92,8 +92,7 @@ PlayerController::PlayerController(QObject *parent):QObject(parent)
             }
             else
             {
-                currentMusicIndex = (currentMusicIndex + 1) % currentMusicList.count();
-                PlayMusic(currentMusicList.at(currentMusicIndex));
+                ToNextMusic();
             }
         }
     });
@@ -224,6 +223,18 @@ QMediaPlayer *PlayerController::getMediaPlayer() const
 QAudioOutput *PlayerController::getAudioOutput() const
 {
     return audioOutput;
+}
+
+void PlayerController::ToNextMusic()
+{
+    currentMusicIndex = (currentMusicIndex + 1) % currentMusicList.count();
+    PlayMusic(currentMusicList.at(currentMusicIndex));
+}
+
+void PlayerController::ToLastMusic()
+{
+    currentMusicIndex = (currentMusicIndex + currentMusicList.count() - 1) % currentMusicList.count();
+    PlayMusic(currentMusicList.at(currentMusicIndex));
 }
 
 QMediaPlayer *PlayerController::MediaPlayer() const
