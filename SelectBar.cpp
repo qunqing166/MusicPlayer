@@ -1,4 +1,5 @@
 #include "SelectBar.h"
+#include "Dtos/UserDto.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QScrollArea>
@@ -9,7 +10,6 @@ SelectBar::SelectBar(QWidget* parent) :QWidget(parent)
     this->setObjectName("select_bar");
 
     ObjectInit();
-    DataInit();
     WidgetInit();
 
     connect(btnToIndex, &QPushButton::clicked, this, &SelectBar::OnPbIndexClicked);
@@ -62,12 +62,12 @@ void SelectBar::WidgetInit()
 
 void SelectBar::ObjectInit()
 {
-    labelUserHeadImage = new ImageLabel(this);
-    labelUserHeadImage->SetPixmap("C:\\Users\\qunqing\\Desktop\\图片\\hj.png");
-    int imageSize = 35;
+    labelUserHeadImage = new ImageLabel(this, UserDto::MyUserInfo()->HeadImagePath());
+    int imageSize = 36;
+    labelUserHeadImage->SetRadius(imageSize / 2);
     labelUserHeadImage->setFixedSize(imageSize, imageSize);
 
-    labelUserName = new QLabel("qunqing166", this);
+    labelUserName = new QLabel(UserDto::MyUserInfo()->UserName(), this);
     labelUserName->setObjectName("select_bar_user_name");
     labelUserName->setFixedHeight(40);
 
@@ -81,14 +81,6 @@ void SelectBar::ObjectInit()
     btnToIndex = new QPushButton("首页", this);
     btnToIndex->setObjectName("button_index");
     btnToIndex->setFixedHeight(30);
-}
-
-void SelectBar::DataInit()
-{
-    // QTreeWidgetItem *headItem = new QTreeWidgetItem(treeWidget);
-    // treeWidget->setRootIsDecorated(false);
-    // headItem->addChild(new QTreeWidgetItem({"nmsl"}));
-    // QTreeWidgetItem *headItem1 = new QTreeWidgetItem(treeWidget);
 }
 
 void SelectBar::OnPbIndexClicked()

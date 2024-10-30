@@ -8,6 +8,7 @@
 #include "../ImageLabel.h"
 #include "../PlayListView.h"
 #include "../Service/PlayListItemService.h"
+#include "../Service/PlayListService.h"
 
 IndexWidget::IndexWidget(QWidget *parent)
     : QWidget{parent}
@@ -50,9 +51,8 @@ void IndexWidget::OnCurrentPlayListChanged(int index, const QList<MusicDto> &lis
 
 void IndexWidget::SetPlayList()
 {
-    BaseService<PlayListDto> service;
-    auto list = service.GetAll();
-    myPlayList = list;
+    PlayListService service;
+    myPlayList = service.GetPlayListFromUser();
     UpdatePlayListWidget();
 }
 

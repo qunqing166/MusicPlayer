@@ -15,16 +15,14 @@ PlayListItem::PlayListItem(const MusicDto &value, int index, QWidget *parent):QW
     WidgetInit();
 
     connect(pbMore, &QPushButton::clicked, this, [&](){
-        menu = MoreMenu::Create();//new MoreMenu();
+        menu = MoreMenu::Instance();//new MoreMenu();
         menu->move(QCursor::pos());
         menu->show();
-
-        // connect(menu, &MoreMenu::Play, this, [&](){
-
-        // });
-        // connect(menu, &MoreMenu::Remove, this, [&](){
-
-        // });
+        connect(menu, &MoreMenu::Operate, this, [&](const MenuOperate &op){
+            emit MenuOperateTrigger(this->musicInfo, op);
+            menu->disconnect();
+            menu->hide();
+        });
     });
 }
 
@@ -36,6 +34,8 @@ void PlayListItem::ObjectInit()
     indexLabel = new QLabel(this);
     indexLabel->setText(QString::number(this->index));
     indexLabel->setFixedSize(25, height);
+    indexLabel->setObjectName("PlayListItem_otherLabel");
+
     image = new ImageLabel(this, musicInfo.CoverImagePath());
     image->setFixedSize(height, height);
     image->SetPixmap(this->musicInfo.CoverImagePath());
@@ -76,6 +76,7 @@ void PlayListItem::ObjectInit()
 void PlayListItem::WidgetInit()
 {
     QHBoxLayout *hLayout = new QHBoxLayout(this);
+    // hLayout->setContentsMargins(0,0,0,0);
     this->setLayout(hLayout);
     hLayout->setSpacing(0);
     hLayout->addWidget(indexLabel);

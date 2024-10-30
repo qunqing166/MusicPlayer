@@ -1,5 +1,5 @@
 #include "PlayListService.h"
-
+#include "../Dtos/UserDto.h"
 // void PlayListService::GetMusicList(const QString &name)
 // {
 //     QString str = QString("select * from Music")
@@ -63,6 +63,17 @@ bool PlayListService::Add(const PlayListDto &info)
     // QSqlQuery query;
     return query.exec(str);
     // qDebug()<<query.lastError().text();
+}
+
+QList<PlayListDto> PlayListService::GetPlayListFromUser()
+{
+    int id = UserDto::MyUserInfo()->Id();
+    return this->GetAllByParameter("CreatorId", id);
+}
+
+QList<PlayListDto> PlayListService::GetPlayListFromUser(int id)
+{
+    return this->GetAllByParameter("CreatorId", id);
 }
 
 

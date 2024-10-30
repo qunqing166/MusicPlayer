@@ -9,33 +9,33 @@ class PlayListDto:public BaseDto
     Q_OBJECT
 
     QString listName = "新建歌单";
-    QString creator = "";
+    int creatorId = 0;
     QString coverImagePath = ":/scr/icon/cover_empty.png";
     int count = 0;
 
 public:
     PlayListDto(){}
-    PlayListDto(const PlayListDto &a):BaseDto(a)
-    {
-        this->listName = a.listName;
-        this->creator = a.creator;
-        this->coverImagePath = a.coverImagePath;
-        this->count = a.count;
-    }
+    // PlayListDto(const PlayListDto &a):BaseDto(a)
+    // {
+    //     this->listName = a.listName;
+    //     this->creator = a.creator;
+    //     this->coverImagePath = a.coverImagePath;
+    //     this->count = a.count;
+    // }
 
     const static QString TableName;
 
     QString ListName() const;
     void setListName(const QString &value);
 
-    QString Creator() const;
-    void setCreator(const QString &value);
-
     QString CoverImagePath() const;
     void setCoverImagePath(const QString &value);
 
     int Count() const;
     void setCount(int value);
+
+    int CreatorId() const;
+    void setCreatorId(int value);
 
 signals:
     void ListNameChanged(QString listName);
@@ -46,27 +46,16 @@ signals:
 
     void CountChanged(int count);
 
+    void CreatorIdChanged(int creatorId);
+
 private:
     Q_PROPERTY(QString ListName READ ListName WRITE setListName NOTIFY ListNameChanged FINAL)
-    Q_PROPERTY(QString Creator READ Creator WRITE setCreator NOTIFY CreatorChanged FINAL)
     Q_PROPERTY(QString CoverImagePath READ CoverImagePath WRITE setCoverImagePath NOTIFY CoverImagePathChanged FINAL)
     Q_PROPERTY(int Count READ Count WRITE setCount NOTIFY CountChanged FINAL)
+    Q_PROPERTY(int CreatorId READ CreatorId WRITE setCreatorId NOTIFY CreatorIdChanged FINAL)
 };
 
 inline const QString PlayListDto::TableName = "PlayList";
-
-inline QString PlayListDto::Creator() const
-{
-    return creator;
-}
-
-inline void PlayListDto::setCreator(const QString &value)
-{
-    if (creator == value)
-        return;
-    creator = value;
-    emit CreatorChanged(creator);
-}
 
 inline QString PlayListDto::CoverImagePath() const
 {
@@ -92,6 +81,19 @@ inline void PlayListDto::setCount(int value)
         return;
     count = value;
     emit CountChanged(count);
+}
+
+inline int PlayListDto::CreatorId() const
+{
+    return creatorId;
+}
+
+inline void PlayListDto::setCreatorId(int value)
+{
+    if (creatorId == value)
+        return;
+    creatorId = value;
+    emit CreatorIdChanged(creatorId);
 }
 
 inline QString PlayListDto::ListName() const

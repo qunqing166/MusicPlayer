@@ -40,11 +40,11 @@ public:
 private:
     void ObjectInit();
     void WidgetInit();
-    // Q_PROPERTY(MusicDto musicInfo READ getMusicInfo CONSTANT FINAL)
 
-// signals:
-//     void Play();
-//     void Remove();
+signals:
+
+    void MenuOperateTrigger(const MusicDto &music, const MenuOperate &op);
+
 };
 
 #endif // PLAYLISTITEM_H

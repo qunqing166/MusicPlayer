@@ -49,6 +49,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::ObjectInit()
 {
+    PlayerController::Instance();
     centarlWidget = new CentralWidget(this);
     // playerController = new PlayerController(this);
 }

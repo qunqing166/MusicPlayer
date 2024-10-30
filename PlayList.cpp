@@ -125,11 +125,12 @@ void PlayList::DataInit()
 {
     listView->setModel(model);
 
-    BaseService<PlayListDto> service;
+    // BaseService<PlayListDto> service;
+    PlayListService service;
 
     if(this->title == "自建")
     {
-        playLists = service.GetAll();
+        playLists = service.GetPlayListFromUser();
     }
     else
     {

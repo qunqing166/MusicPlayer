@@ -7,7 +7,7 @@
 #include <QMediaPlayer>
 #include "Service/BaseService.h"
 #include "taglib/tag.h"
-// #include "taglib/tag.h"
+#include "Dtos/UserDto.h"
 #include "taglib/fileref.h"
 #include "UI/PlayListEditor.h"
 
@@ -55,7 +55,7 @@ void PlayListContentView::ShowPlayList(const PlayListDto &info)
     imageLabel->SetPixmap(info.CoverImagePath());
     sheetTitleLabel->setText(info.ListName());
     userImage->SetPixmap("C:\\Users\\qunqing\\Desktop\\图片\\yyn.jpg");
-    userNameLabel->setText(info.Creator());
+    userNameLabel->setText(UserDto::MyUserInfo()->UserName());
     createTimeLabel->setText(QString("·创建于 %1").arg(info.CreateDateTime().toString("yyyy-MM-dd")));
     playListView->ShowPlayList(info.ListName());
     // createTimeLabel->setText("创建于11-45-14");

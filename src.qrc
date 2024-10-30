@@ -32,5 +32,8 @@
         <file>scr/icon/close.png</file>
         <file>scr/icon/max.png</file>
         <file>scr/icon/play.png</file>
+        <file>scr/image/yyn.jpg</file>
+        <file>scr/image/default_cover1.png</file>
+        <file>scr/image/default_cover2.png</file>
     </qresource>
 </RCC>

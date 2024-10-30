@@ -2,6 +2,7 @@
 #include "PlayListItemService.h"
 #include <QDir>
 #include <QFile>
+#include "../Dtos/UserDto.h"
 
 QList<MusicDto> PlayerController::CurrentMusicList() const
 {
@@ -107,6 +108,8 @@ PlayerController::~PlayerController()
     jsonObj.insert("current_music_position", this->mediaPlayer->position());
     jsonObj.insert("play_mode", this->playMode);
     jsonObj.insert("play_volume", this->audioOutput->volume());
+    jsonObj.insert("user_id", UserDto::MyUserInfo()->Id());
+
 
     QByteArray jsonStr = QJsonDocument(jsonObj).toJson();
     QFile file(QDir::currentPath() + "/start_up.json");
@@ -207,6 +210,7 @@ void PlayerController::ReadStartUp()
     position = jsonObj.value("current_music_position").toInteger();
     playMode = (PlayMode)jsonObj.value("play_mode").toInt();
     audioOutput->setVolume(jsonObj.value("play_volume").toDouble());
+    UserDto::GetUserInfo(jsonObj.value("user_id").toInt());
 
     PlayListItemService service("_Current");
     currentMusicList = service.GetPlayingList();

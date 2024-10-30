@@ -3,6 +3,7 @@
 
 #include <QListWidget>
 #include "Dtos/MusicDto.h"
+#include "UI/MoreMenu.h"
 
 //歌曲列表显示的列表
 class PlayListView:public QListWidget
@@ -36,6 +37,8 @@ private:
     void UpdateWidget();
 
     void PlayMusic();
+
+    void OnMenuOperateTrigger(const MusicDto &music, const MenuOperate &op);
 
 // public slots:
 //     void OnPlayMusic(const MusicDto &music);

@@ -6,6 +6,14 @@
 #include <QTimer>
 // #include "ClickedEventFilter.h"
 
+enum MenuOperate
+{
+    Play,
+    AddToNext,
+    AddToList,
+    Remove
+};
+
 class MoreMenu:public QWidget
 {
     Q_OBJECT
@@ -15,24 +23,14 @@ class MoreMenu:public QWidget
     ToolButton *btnAddToList;
     QPushButton *btnRemoveFromList;
 
-    static MoreMenu* thisObj;
+    static MoreMenu* instance;
     // ClickedEventFilter *clickedFilter;
 
 public:
     MoreMenu(QWidget *parent = nullptr);
     ~MoreMenu();
 
-    QPushButton *BtnPlay() const{return btnPlay;}
-    QPushButton *BtnPlayNext() const{return btnPlayNext;}
-
-    static MoreMenu* Create()
-    {
-        if(thisObj == nullptr)
-        {
-            thisObj = new MoreMenu();
-        }
-        return thisObj;
-    }
+    static MoreMenu* Instance();
 
 private:
     void ObjectInit();
@@ -45,9 +43,5 @@ protected:
     virtual void paintEvent(QPaintEvent *event) override;
 
 signals:
-    void Play();
-    void AddToNext();
-    void Remove();
+    void Operate(const MenuOperate &op);
 };
-
-inline MoreMenu *MoreMenu::thisObj = nullptr;

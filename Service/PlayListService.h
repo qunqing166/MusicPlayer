@@ -18,7 +18,9 @@ public:
     QList<MusicDto> GetMusicList(const QString &name);
 
     bool Add(const PlayListDto &info);
-    // PlayListDto GetOne(const QString &listName);
+
+    QList<PlayListDto> GetPlayListFromUser();
+    QList<PlayListDto> GetPlayListFromUser(int id);
 
 };
 

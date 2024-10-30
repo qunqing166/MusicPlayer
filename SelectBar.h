@@ -34,7 +34,6 @@ public:
 private:
     void WidgetInit();
     void ObjectInit();
-    void DataInit();
 
     void OnPbIndexClicked();
     void OnOpenPlayList(const PlayListDto &info);

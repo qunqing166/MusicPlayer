@@ -68,6 +68,23 @@ public:
         return model;
     }
 
+    QList<T> GetAllByParameter(const QString &field, const QVariant &value)
+    {
+        QString str = QString("select * from %1 where %2 = :%2;").arg(dbService->TableName()).arg(field);
+        QSqlQuery query;
+        query.prepare(str);
+        query.bindValue(":"+field, value);
+        query.exec();
+        QList<T> list;
+        while(query.next())
+        {
+            T model;
+            DataBaseService::QueryToObject(&model, query);
+            list.append(model);
+        }
+        return list;
+    }
+
     T GetOneByParameter(const QString &parameter)
     {
         QString str = QString("select * from %1 where %2;").arg(dbService->TableName()).arg(parameter);
@@ -109,6 +126,17 @@ public:
     bool Delete(int id)
     {
         return dbService->Delete(id);
+    }
+
+    bool DeleteByParameter(const QString &field, const QVariant &value)
+    {
+        QString str = QString("delete from %1 where %2 = :%2").arg(dbService->TableName()).arg(field);
+        QSqlQuery query;
+        query.prepare(str);
+        query.bindValue(":" + field, value);
+        if(!query.exec())
+            return false;
+        return true;
     }
 
     bool Add(const T &model)

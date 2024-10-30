@@ -22,7 +22,11 @@ class MusicDto:public BaseDto
 
 public:
     // explicit MusicDto(QString musicName) : musicName(std::move(musicName)) {}
-    MusicDto(){}
+    MusicDto()
+    {
+        int r = rand() % 2 + 1;
+        coverImagePath = QString(":/scr/image/default_cover%1").arg(r);
+    }
 
     // MusicDto(const MusicDto &a):BaseDto(a)
     // {

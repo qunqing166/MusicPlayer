@@ -497,9 +497,10 @@ QWidget#IndexWidget_listWidget
     border: none;
 }
 
-QWidget#MoreMenu
+/* QWidget#MoreMenu
 {
-    background-color: white;
+    background-color: transparent;
     border: none;
     border-radius: 10px;
-}
+
+} */

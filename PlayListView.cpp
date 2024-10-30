@@ -32,6 +32,7 @@ PlayListView::PlayListView(const QString &listName, QWidget *parent):QListWidget
             }
         }
     });
+
 }
 
 void PlayListView::ShowPlayList(QString playListName)
@@ -124,7 +125,10 @@ void PlayListView::UpdateWidget()
         QListWidgetItem *item = new QListWidgetItem(this);
         item->setSizeHint(QSize(200, 60));
         this->addItem(item);
-        this->setItemWidget(item, new PlayListItem(musics.at(i), i + 1, this));
+        PlayListItem *itemWidget = new PlayListItem(musics.at(i), i + 1, this);
+        this->setItemWidget(item, itemWidget);
+
+        connect(itemWidget, &PlayListItem::MenuOperateTrigger, this, &PlayListView::OnMenuOperateTrigger);
     }
 
     auto crtMusic = PlayerController::Instance()->CurrentMusic();
@@ -145,13 +149,29 @@ void PlayListView::PlayMusic()
     controller->setCurrentMusicList(this->musics, this->currentRow());
 }
 
-// void PlayListView::OnPlayMusic(const MusicDto &music)
-// {
-//     for(int i = 0; i < musics.count(); i++)
-//     {
-//         if(musics.at(i).Id() == music.Id())
-//         {
-//             this->setCurrentRow(i);
-//         }
-//     }
-// }
+void PlayListView::OnMenuOperateTrigger(const MusicDto &music, const MenuOperate &op)
+{
+    if(op == Play)
+    {
+        for(int i = 0; i < musics.count(); i++)
+        {
+            if(music.Id() == musics.at(i).Id())
+            {
+                setCurrentRow(i);
+                break;
+            }
+        }
+
+        this->PlayMusic();
+    }
+    else if(op == AddToNext)
+    {
+        PlayerController::Instance()->AddToPlayList(music);
+    }
+    else if(op == Remove)
+    {
+        PlayListItemService service(this->ListName());
+        service.DeleteByParameter("MusicId", music.Id());
+        ShowPlayList(this->ListName());
+    }
+}

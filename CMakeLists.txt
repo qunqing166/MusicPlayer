@@ -69,6 +69,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         UI/IndexPlayListItem.h UI/IndexPlayListItem.cpp
         UI/PlayListEditor.h UI/PlayListEditor.cpp
         Service/PlayingListManager.h Service/PlayingListManager.cpp
+        Dtos/UserDto.h
+        Service/UserService.h Service/UserService.cpp
+
+
 
 
 

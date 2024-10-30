@@ -177,6 +177,11 @@ void ImageLabel::paintEvent(QPaintEvent *event)
         pix = GetHoverPixmap();
         painter.drawPixmap(0,0, pix);
     }
+    QPen pen;
+    pen.setWidth(2);
+    pen.setColor(QColor(242, 246, 255, 150));
+    painter.setPen(pen);
 
+    painter.drawRoundedRect(this->rect(), radius, radius);
 }
 

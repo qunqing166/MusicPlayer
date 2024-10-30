@@ -7,32 +7,38 @@
 #include <QPainter>
 #include <QGraphicsDropShadowEffect>
 
+inline MoreMenu *MoreMenu::instance = nullptr;
+
 MoreMenu::MoreMenu(QWidget *parent):QWidget(parent)
 {
     this->setWindowFlag(Qt::FramelessWindowHint);
-    // this->setAttribute(Qt::WA_StyledBackground);
+    this->setAttribute(Qt::WA_StyledBackground);
     this->setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明化
-    // this->setObjectName("more_menu");
     this->setFixedSize(150, 250);
     this->setWindowFlags(Qt::Popup);
-    // this->setStyleSheet("background-color:white;");
-    this->setObjectName("MoreMenu");
+    // this->setObjectName("MoreMenu");
 
     ObjectInit();
     WidgetInit();
 
-    connect(btnPlay, &QPushButton::clicked, this, [&](){
-        emit Play();
-    });
-    connect(btnRemoveFromList, &QPushButton::clicked, this, [&](){
-        emit Remove();
-    });
+    connect(btnPlay, &QPushButton::clicked, this, [&](){emit Operate(Play);});
+    connect(btnRemoveFromList, &QPushButton::clicked, this, [&](){emit Operate(Remove);});
+    connect(btnRemoveFromList, &QPushButton::clicked, this, [&](){emit Operate(Remove);});
+    connect(btnPlayNext, &QPushButton::clicked, this, [&](){emit Operate(AddToNext);});
 }
 
 MoreMenu::~MoreMenu()
 {
     this->disconnect();
-    qDebug()<<"menu delete";
+}
+
+MoreMenu *MoreMenu::Instance()
+{
+    if(instance == nullptr)
+    {
+        instance = new MoreMenu();
+    }
+    return instance;
 }
 
 void MoreMenu::ObjectInit()
@@ -105,5 +111,6 @@ void MoreMenu::paintEvent(QPaintEvent *event)
     painter.setPen(QColor(239, 242, 247));
     painter.setBrush(Qt::white);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.setRenderHint(QPainter::Antialiasing);
     painter.drawRoundedRect(this->rect(), 15, 15);
 }
