@@ -32,7 +32,7 @@ void PlayerController::setCurrentMusicList(const QList<MusicDto> &value, int ind
 
 MusicDto PlayerController::CurrentMusic() const
 {
-    if(currentMusicIndex < 0 || currentMusicIndex > currentMusicList.count())
+    if(currentMusicIndex < 0 || currentMusicIndex >= currentMusicList.count())
         return MusicDto();
     return currentMusicList.at(currentMusicIndex);
 }
@@ -241,23 +241,14 @@ void PlayerController::ReadStartUp()
 
     QJsonObject jsonObj = QJsonDocument::fromJson(jsonStr).object();
 
-    QFileInfo fileInfo(qApp->applicationDirPath() + "/db.db");
-    if(!fileInfo.isFile())
-    {
-        DataBaseService::CreateDataBase();
-    }
-
-
     currentMusicIndex = jsonObj.value("current_music_index").toInt();
     position = jsonObj.value("current_music_position").toInteger();
     playMode = (PlayMode)jsonObj.value("play_mode").toInt();
-    // audioOutput->setVolume(jsonObj.value("play_volume").toDouble());
-    // UserDto::GetUserInfo(jsonObj.value("user_id").toInt());
     UserDto::GetUserInfo(1);
 
     PlayListItemService service("_Current");
     currentMusicList = service.GetPlayingList();
-    if(currentMusicIndex < 0 || currentMusicIndex > currentMusicList.count())
+    if(currentMusicIndex < 0 || currentMusicIndex >= currentMusicList.count())
         return;
     mediaPlayer->setSource(QUrl::fromLocalFile(currentMusicList.at(currentMusicIndex).MusicPath()));
 }
