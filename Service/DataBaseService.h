@@ -46,15 +46,15 @@ public:
     //断开数据库
     static void Disconnect();
 
+    static void CreateDataBase();
+
     QString SerializeProperty(const QMetaObject* meta, const QString &format);
 
-    QString TableName() const;
+    QString TableName() const
+    {
+        return this->tableName;
+    }
 
 };
-
-inline QString DataBaseService::TableName() const
-{
-    return this->tableName;
-}
 
 #endif // DATABASESERVICE_H

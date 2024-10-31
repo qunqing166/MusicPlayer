@@ -2,6 +2,10 @@
 #include <QMetaObject>
 #include <QSqlResult>
 #include <QSqlError>
+#include <QApplication>
+#include "../Dtos/UserDto.h"
+#include "BaseService.h"
+#include "../Dtos/PlayListDto.h"
 
 QSqlQuery DataBaseService::GetAll()
 {
@@ -90,7 +94,6 @@ void DataBaseService::QueryToObject(QObject *obj, const QSqlQuery &query)
         if(query.record().contains(property.name()))
         {
             obj->setProperty(property.name(), query.value(property.name()));
-            // qDebug()<<property.name()<<":"<<obj->property(property.name());
         }
     }
 }
@@ -106,8 +109,8 @@ bool DataBaseService::Connect()
     else
     {
         dataBase = QSqlDatabase::addDatabase("QSQLITE");
-        // dataBase.setDatabaseName(qApp->applicationDirPath() + "/scr/db/db.db");
-        dataBase.setDatabaseName("D:\\code\\Qt\\learning\\MusicPlayer\\scr\\db\\db.db");
+        dataBase.setDatabaseName(qApp->applicationDirPath() + "/db.db");
+        // dataBase.setDatabaseName("D:\\code\\Qt\\learning\\MusicPlayer\\scr\\db\\db.db");
     }
 
     if(dataBase.open())
@@ -120,6 +123,7 @@ bool DataBaseService::Connect()
         qDebug()<<"数据库连接失败";
         return false;
     }
+
 }
 
 void DataBaseService::Disconnect()
@@ -132,11 +136,99 @@ void DataBaseService::Disconnect()
     // else
     // {
     dataBase = QSqlDatabase::addDatabase("QSQLITE");
-    // dataBase.setDatabaseName(qApp->applicationDirPath() + "/scr/db/db.db");
-    dataBase.setDatabaseName("D:\\code\\Qt\\learning\\MusicPlayer\\scr\\db\\db.db");
+    dataBase.setDatabaseName(qApp->applicationDirPath() + "/db.db");
+    // dataBase.setDatabaseName("D:\\code\\Qt\\learning\\MusicPlayer\\scr\\db\\db.db");
     // }
 
     dataBase.close();
+}
+
+void DataBaseService::CreateDataBase()
+{
+    Connect();
+    QSqlQuery query;
+    QString str = "CREATE TABLE Music ("
+                        "Id                INTEGER PRIMARY KEY"
+                        "                          NOT NULL"
+                        "                          UNIQUE,"
+                        "MusicName         TEXT    NOT NULL,"
+                        "Singers           TEXT    NOT NULL,"
+                        "Album             TEXT    NOT NULL,"
+                        "Duration          TEXT    NOT NULL,"
+                        "MusicPath         TEXT    NOT NULL,"
+                        "CoverImagePath    TEXT    NOT NULL,"
+                        "CreateTime        TEXT    NOT NULL"
+                        "                          DEFAULT (114514),"
+                        "UpdateTime        TEXT    NOT NULL"
+                        "                          DEFAULT (114514),"
+                        "BelongingPlayList TEXT    DEFAULT ListAll"
+                        "                          NOT NULL"
+                       ");";
+    query.exec(str);    //音乐库
+
+    str =   "CREATE TABLE PlayList ("
+            "Id             INTEGER PRIMARY KEY"
+            "    NOT NULL,"
+            "CreateTime     TEXT    NOT NULL,"
+            "UpdateTime     TEXT    NOT NULL,"
+            "ListName       TEXT    NOT NULL,"
+            "CreatorId      INTEGER NOT NULL,"
+            "Count          INTEGER NOT NULL,"
+            "CoverImagePath TEXT"
+          ");";
+    query.exec(str);    //歌单库
+
+    str =   "CREATE TABLE PlayList__Current ("
+            "Id         INTEGER PRIMARY KEY "
+            "    NOT NULL,"
+            "CreateTime TEXT    NOT NULL,"
+            "UpdateTime TEXT    NOT NULL,"
+            "MusicId    INTEGER NOT NULL"
+          ");";
+    query.exec(str);    //播放列表
+
+    str =  "CREATE TABLE PlayList__Record ("
+          "Id         INTEGER PRIMARY KEY "
+          "    NOT NULL,"
+          "CreateTime TEXT    NOT NULL,"
+          "UpdateTime TEXT    NOT NULL,"
+          "MusicId    INTEGER NOT NULL"
+          ");";
+    query.exec(str);    //播放记录
+
+    str = "CREATE TABLE PlayList_默认列表 ("
+          "Id         INTEGER PRIMARY KEY "
+          "    NOT NULL,"
+          "CreateTime TEXT    NOT NULL,"
+          "UpdateTime TEXT    NOT NULL,"
+          "MusicId    INTEGER NOT NULL"
+          ");";
+    query.exec(str);    //默认列表
+
+    str =   "CREATE TABLE User ("
+            "Id            INTEGER PRIMARY KEY"
+            "    NOT NULL,"
+            "CreateTime    TEXT    NOT NULL,"
+            "UpdateTime    TEXT    NOT NULL,"
+            "UserName      TEXT    NOT NULL,"
+            "HeadImagePath TEXT    NOT NULL"
+          ");";
+    query.exec(str);    //用户
+
+    UserDto user;
+    user.setId(1);
+    user.setUserName("qunqing166");
+    user.setHeadImagePath(":/scr/image/yyn.jpg");
+    BaseService<UserDto> service;
+    service.Add(user);
+
+    PlayListDto playlist;
+    playlist.setListName("默认列表");
+    playlist.setCoverImagePath(":/scr/image/default_cover1.png");
+    playlist.setCreatorId(1);
+
+    BaseService<PlayListDto> service1;
+    service1.Add(playlist);
 }
 
 QString DataBaseService::SerializeProperty(const QMetaObject *meta, const QString &format)
@@ -163,7 +255,6 @@ DataBaseService::DataBaseService(QString tableName)
 {
     this->tableName = tableName;
     Connect();
-    // qDebug()<<"db: "<<tableName;
 }
 
 DataBaseService::~DataBaseService()
@@ -175,3 +266,5 @@ void DataBaseService::SetTableName(const QString &tableName)
 {
     this->tableName = tableName;
 }
+
+

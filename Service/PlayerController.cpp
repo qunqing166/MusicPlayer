@@ -2,6 +2,7 @@
 #include "PlayListItemService.h"
 #include <QDir>
 #include <QFile>
+#include <QApplication>
 #include "../Dtos/UserDto.h"
 
 QList<MusicDto> PlayerController::CurrentMusicList() const
@@ -84,7 +85,7 @@ PlayerController::PlayerController(QObject *parent):QObject(parent)
 
     ReadStartUp();
 
-    volume = audioOutput->volume();
+    // volume = audioOutput->volume();
     connect(mediaPlayer, &QMediaPlayer::mediaStatusChanged, this, [&](QMediaPlayer::MediaStatus status){
         if(status == QMediaPlayer::EndOfMedia)
         {
@@ -105,11 +106,12 @@ PlayerController::PlayerController(QObject *parent):QObject(parent)
 PlayerController::~PlayerController()
 {
     QJsonObject jsonObj;
+
     jsonObj.insert("current_music_index", this->currentMusicIndex);
     jsonObj.insert("current_music_position", this->mediaPlayer->position());
     jsonObj.insert("play_mode", this->playMode);
-    jsonObj.insert("play_volume", this->audioOutput->volume());
-    jsonObj.insert("user_id", UserDto::MyUserInfo()->Id());
+    // jsonObj.insert("play_volume", this->audioOutput->volume());
+    // jsonObj.insert("user_id", UserDto::MyUserInfo()->Id());
 
 
     QByteArray jsonStr = QJsonDocument(jsonObj).toJson();
@@ -197,14 +199,14 @@ void PlayerController::AddToRecord(const MusicDto &music)
 
 void PlayerController::SetVolume(bool isMute)
 {
-    if(isMute)
-    {
-        audioOutput->setVolume(0);
-    }
-    else
-    {
-        audioOutput->setVolume(volume);
-    }
+    // if(isMute)
+    // {
+    //     audioOutput->setVolume(0);
+    // }
+    // else
+    // {
+    //     audioOutput->setVolume(volume);
+    // }
 }
 
 void PlayerController::OpenNewMusic(const MusicDto &info)
@@ -239,11 +241,19 @@ void PlayerController::ReadStartUp()
 
     QJsonObject jsonObj = QJsonDocument::fromJson(jsonStr).object();
 
+    QFileInfo fileInfo(qApp->applicationDirPath() + "/db.db");
+    if(!fileInfo.isFile())
+    {
+        DataBaseService::CreateDataBase();
+    }
+
+
     currentMusicIndex = jsonObj.value("current_music_index").toInt();
     position = jsonObj.value("current_music_position").toInteger();
     playMode = (PlayMode)jsonObj.value("play_mode").toInt();
-    audioOutput->setVolume(jsonObj.value("play_volume").toDouble());
-    UserDto::GetUserInfo(jsonObj.value("user_id").toInt());
+    // audioOutput->setVolume(jsonObj.value("play_volume").toDouble());
+    // UserDto::GetUserInfo(jsonObj.value("user_id").toInt());
+    UserDto::GetUserInfo(1);
 
     PlayListItemService service("_Current");
     currentMusicList = service.GetPlayingList();
