@@ -93,7 +93,7 @@ void CentralWidget::WidgetInit()
     QVBoxLayout *vLayout = new QVBoxLayout(this);
     QHBoxLayout *hLayout = new QHBoxLayout(this);
 
-    // vLayout->setContentsMargins(0,0,0,0);
+    vLayout->setContentsMargins(0,0,0,8);
     // titleBar->setObjectName("title_bar");
     this->setLayout(vLayout);
     // this->layout()->addItem(vLayout)

@@ -25,6 +25,7 @@ void SelectBar::WidgetInit()
 
     QHBoxLayout *hLayout1 = new QHBoxLayout(this);
     vLayout->addLayout(hLayout1);
+    hLayout1->setContentsMargins(10,0,0,0);
     hLayout1->setSpacing(3);
     hLayout1->addWidget(labelUserHeadImage);
     hLayout1->addWidget(labelUserName);

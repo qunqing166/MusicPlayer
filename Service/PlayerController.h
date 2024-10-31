@@ -40,6 +40,8 @@ class PlayerController:public QObject
 
     long long position;
 
+    float volume = 100;
+
     static PlayerController* instance;
 
     PlayMode playMode;
@@ -82,6 +84,8 @@ public:
     PlayMode getPlayMode() const;
 
     void setPlayMode(const PlayMode &value);
+
+    void SetVolume(bool isMute);
 
 private:
     void ObjectInit();

@@ -84,6 +84,7 @@ PlayerController::PlayerController(QObject *parent):QObject(parent)
 
     ReadStartUp();
 
+    volume = audioOutput->volume();
     connect(mediaPlayer, &QMediaPlayer::mediaStatusChanged, this, [&](QMediaPlayer::MediaStatus status){
         if(status == QMediaPlayer::EndOfMedia)
         {
@@ -191,6 +192,18 @@ void PlayerController::AddToRecord(const MusicDto &music)
         PlayListItemDto item;
         item.setMusicId(music.Id());
         service.Add(item);
+    }
+}
+
+void PlayerController::SetVolume(bool isMute)
+{
+    if(isMute)
+    {
+        audioOutput->setVolume(0);
+    }
+    else
+    {
+        audioOutput->setVolume(volume);
     }
 }
 

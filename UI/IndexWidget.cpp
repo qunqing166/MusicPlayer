@@ -9,6 +9,7 @@
 #include "../PlayListView.h"
 #include "../Service/PlayListItemService.h"
 #include "../Service/PlayListService.h"
+#include "../Service/PlayerController.h"
 
 IndexWidget::IndexWidget(QWidget *parent)
     : QWidget{parent}
@@ -18,13 +19,12 @@ IndexWidget::IndexWidget(QWidget *parent)
 
     ObjectInit();
     WidgetInit();
+    SetCurrentMusicInfo(PlayerController::Instance()->CurrentMusic());
     SetCurrentPlayList();
     SetPlayList();
     UpdatePlayListWidget();
 
-    // connect(playList, &PlayListView::UpdatePlayingList, this, [&](const QString &listName, int index, const QList<MusicDto> &list){
-
-    // });
+    connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, &IndexWidget::SetCurrentMusicInfo);
 }
 
 void IndexWidget::SetCurrentMusicInfo(const MusicDto &music)

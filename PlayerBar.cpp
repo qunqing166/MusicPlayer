@@ -67,6 +67,7 @@ PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
         labelNowTime->setText(QString::asprintf("%02d:%02d", (value / 60) % 60, value % 60));
     });
     connect(pbPlayMode, &QPushButton::clicked, this, &PlayerBar::OnPbPlayModeClicked);
+    connect(pbVolume, &QPushButton::clicked, this, &PlayerBar::OnPbVolumeClicked);
 }
 
 void PlayerBar::SetMusicInfo(const MusicDto &musicInfo, bool isOpen)
@@ -131,7 +132,7 @@ void PlayerBar::ObjectInit()
     pbVolume->setObjectName("player_bar_button");
     pbVolume->setFixedSize(buttonSize, buttonSize);
     pbVolume->setIcon(QIcon(":/scr/icon/volume.png"));
-    connect(pbVolume, &QPushButton::clicked, this, &PlayerBar::OnPbVolumeClicked);
+
     // pbVolume->setIconSize(QSize(iconSize, iconSize));
     pbList = new QPushButton(this);
     pbList->setObjectName("player_bar_button");
@@ -300,7 +301,6 @@ void PlayerBar::OnPbVolumeClicked()
     if(isMute)
     {
         pbVolume->setIcon(QIcon(":/scr/icon/volume.png"));
-        // emit PlayVolumeChanged(0);
     }
     else
     {
@@ -308,6 +308,7 @@ void PlayerBar::OnPbVolumeClicked()
         // emit PlayVolumeChanged(volume);
     }
     isMute = !isMute;
+    PlayerController::Instance()->SetVolume(isMute);
 }
 
 void PlayerBar::OnPbPlaySpeedClicked()
