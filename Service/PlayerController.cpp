@@ -132,9 +132,29 @@ PlayerController *PlayerController::Instance()
 
 void PlayerController::AddToPlayList(const MusicDto &music)
 {
-    currentMusicList.insert(currentMusicIndex + 1, music);
+    auto crtMusic = currentMusicList.at(currentMusicIndex);
 
-    emit CurrentMusicListChanged(currentMusicList, currentMusicIndex);
+    for(int i = 0; i < currentMusicList.count(); i++)
+    {
+        if(currentMusicList.at(i).Id() == music.Id())
+        {
+            currentMusicList.removeAt(i);
+        }
+    }
+
+    for(int i = 0; i < currentMusicList.count(); i++)
+    {
+        if(currentMusicList.at(i).Id() == crtMusic.Id())
+        {
+            currentMusicList.insert(i + 1, music);
+            currentMusicIndex = i;
+        }
+    }
+
+    PlayListItemService service("_Current");
+    service.UpdateNewList(currentMusicList);
+
+    // emit CurrentMusicListChanged(currentMusicList, currentMusicIndex);
 }
 
 void PlayerController::SetPlayingList(const QList<MusicDto> &value)
