@@ -17,10 +17,7 @@ public:
     IndexPlayListItem(const PlayListDto &playList, QWidget *parent = nullptr);
     int Width(){return width;}
 
-    // ImageLabel *getImageLabel() const{return imageLabel;}
-
 signals:
     void OpenPlayList(const PlayListDto &info);
 
-    // void SetPlayList
 };

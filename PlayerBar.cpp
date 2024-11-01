@@ -33,15 +33,10 @@ void PlayerBar::setPlayMode(PlayMode value)
     }
 }
 
-void PlayerBar::ResetPlayMode()
-{
-    setPlayMode({}); // TODO: Adapt to use your actual default defaultValue
-}
-
 PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
-    this->setObjectName("player_bar");
+    this->setObjectName("PlayerBar");
     this->setFixedHeight(70);
     ObjectInit();
     WidgetInit();
@@ -94,7 +89,7 @@ void PlayerBar::ObjectInit()
     imageLabel->SetClickable(true);
     imageLabel->SetHoverable(true);
     imageLabel->setObjectName("image");
-    imageLabel->setFixedSize(60, 60);
+    imageLabel->setFixedSize(50, 50);
     imageLabel->SetPixmap("C:\\Users\\qunqing\\Desktop\\图片\\jntm.jpg");
 
     int buttonSize = 30;
@@ -162,7 +157,8 @@ void PlayerBar::WidgetInit()
 {
     QHBoxLayout *hLayout = new QHBoxLayout(this);
     this->setLayout(hLayout);
-    hLayout->setSpacing(0);
+    // hLayout->setSpacing(0);
+    // hLayout->setContentsMargins(10,10,10,10);
 
     QVBoxLayout *vLayout1 = new QVBoxLayout(this);
     vLayout1->addWidget(labelMusicName);
@@ -205,11 +201,7 @@ void PlayerBar::WidgetInit()
     hLayout3->addWidget(pbPlayMode);
     hLayout3->addWidget(pbVolume);
     QFrame *frame = new QFrame(this);
-    // QSlider *slider1 = new QSlider(Qt::Horizontal, this);
 
-    // slider1->setMinimumWidth(20);
-    // slider1->setFixedWidth(50);
-    // hLayout3->addWidget(progressBar);
     hLayout3->addWidget(frame);
     hLayout3->setSpacing(5);
     frame->setFixedWidth(1);
@@ -222,12 +214,6 @@ void PlayerBar::WidgetInit()
     hLayout->addLayout(vLayout2, 30);
     //控制btn
     hLayout->addLayout(hLayout3, 20);
-    // QLabel *label = new QLabel(this);
-    // hLayout->addLayout(vLayout1, 1);
-    // hLayout->addWidget(slider, 5);
-    // hLayout->setAlignment(Qt::AlignLeft);
-    // QPushButton *pb = new QPushButton(this);
-    // hLayout->addWidget(pb);
 }
 
 void PlayerBar::SetSongCover(QPixmap pixmap)
@@ -243,7 +229,6 @@ void PlayerBar::SetSongCover(QPixmap pixmap)
 
     pixmap = pixmap.scaled(size);
     pixmap.setMask(mask);
-    // imageLabel->setPixmap(pixmap);
 }
 
 void PlayerBar::SetPlayStatus(bool is)

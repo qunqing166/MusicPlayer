@@ -1,12 +1,11 @@
 #include "TitleBar.h"
 #include <QHBoxLayout>
-#include <QMouseEvent>
 #include <QApplication>
 
 TitleBar::TitleBar(QWidget* parent):QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
-    this->setObjectName("title_bar");
+    this->setObjectName("TitleBar");
     pbMax = new QPushButton(this);
     pbMin = new QPushButton(this);
     pbQuit = new QPushButton(this);
@@ -48,5 +47,4 @@ void TitleBar::WidgetInit()
     font.setFamily("Brush Script MT");
     labelTitle->setFont(font);
     labelTitle->setObjectName("title_label");
-    //labelTitle->setMargin(20)
 }

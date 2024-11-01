@@ -9,6 +9,7 @@
 class SidePlayListItem:public QWidget
 {
 
+    QLabel *index;
     ImageLabel *image;
     QLabel *musicName;
     QLabel *singers;
@@ -18,7 +19,7 @@ class SidePlayListItem:public QWidget
     MusicDto info;
 
 public:
-    SidePlayListItem(const MusicDto &info, QWidget *parent = nullptr);
+    SidePlayListItem(int index, const MusicDto &info, QWidget *parent = nullptr);
     void SetMusicInfo(const MusicDto &info);
 
 private:

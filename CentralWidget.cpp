@@ -4,14 +4,10 @@
 #include <QFile>
 #include <QJsonObject>
 #include <QDir>
+#include <QGraphicsDropShadowEffect>
 #include "SelectBar.h"
 #include "PlayerBar.h"
 #include "MainWidget.h"
-
-// MainWidget *CentralWidget::MainWidget() const
-// {
-//     return mainWidget;
-// }
 
 MainWidget *CentralWidget::getMainWidget() const
 {
@@ -36,7 +32,7 @@ TitleBar *CentralWidget::getTitleBar() const
 CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
-    this->setObjectName("central_widget");
+    this->setObjectName("CentralWidget");
 
     ObjectInit();
     WidgetInit();
@@ -107,33 +103,7 @@ void CentralWidget::WidgetInit()
     hLayout->setAlignment(Qt::AlignLeft);
     hLayout->addWidget(selectBar, 20);
     hLayout->addWidget(mainWidget, 80);
+
+
+
 }
-
-// void CentralWidget::ReadStartUp(int &index, MusicDto &music)
-// {
-//     QByteArray jsonStr;
-//     QFile file(QDir::currentPath() + "/start_up.json");
-//     if (file.open(QFile::ReadOnly | QFile::Text)) {
-//         jsonStr = file.readAll();
-//         // qDebug()<<QString(jsonStr.toStdString().c_str());
-//         file.close();
-//     }
-
-//     QJsonObject jsonObj = QJsonDocument::fromJson(jsonStr).object();
-
-//     index = jsonObj.value("current_playing_index").toInt();
-//     // MusicDto m;
-//     const QMetaObject *meta = music.metaObject();
-//     QJsonObject jsonMusic = jsonObj.value("current_playing_music").toObject();
-//     for(int i = 0; i < meta->propertyCount(); i++)
-//     {
-//         QString name = meta->property(i).name();
-//         if(jsonMusic.contains(name))
-//         {
-//             music.setProperty(name.toStdString().c_str(), jsonMusic.value(name));
-//         }
-//     }
-
-//     qDebug()<<index;
-//     music.Print();
-// }

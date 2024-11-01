@@ -187,7 +187,7 @@ void SidePlayList::UpdateWidget()
         QListWidgetItem *item = new QListWidgetItem(this);
         item->setSizeHint(QSize(200, 60));
         this->addItem(item);
-        this->setItemWidget(item, new SidePlayListItem(music, this));
+        this->setItemWidget(item, new SidePlayListItem(i + 1, music, this));
     }
 
     auto crtMusic = PlayerController::Instance()->CurrentMusic();

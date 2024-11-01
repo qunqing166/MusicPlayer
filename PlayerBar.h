@@ -37,7 +37,6 @@ class PlayerBar:public QWidget
     QLabel *labelTotleTime;
     QLabel *labelNowTime;
 
-    // QSlider *slider;
     bool isFirstPlay = true;
 
     ProgressBar *progressBar;
@@ -54,7 +53,6 @@ public:
 
     PlayMode getPlayMode() const;
     void setPlayMode(PlayMode value);
-    void ResetPlayMode();
 
 private:
 

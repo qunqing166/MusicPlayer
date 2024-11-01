@@ -15,13 +15,6 @@ class PlayListDto:public BaseDto
 
 public:
     PlayListDto(){}
-    // PlayListDto(const PlayListDto &a):BaseDto(a)
-    // {
-    //     this->listName = a.listName;
-    //     this->creator = a.creator;
-    //     this->coverImagePath = a.coverImagePath;
-    //     this->count = a.count;
-    // }
 
     const static QString TableName;
 

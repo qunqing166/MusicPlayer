@@ -21,38 +21,15 @@ class MusicDto:public BaseDto
 
 
 public:
-    // explicit MusicDto(QString musicName) : musicName(std::move(musicName)) {}
+
     MusicDto()
     {
         int r = rand() % 2 + 1;
         coverImagePath = QString(":/scr/image/default_cover%1").arg(r);
     }
 
-    // MusicDto(const MusicDto &a):BaseDto(a)
-    // {
-    //     this->musicName = a.musicName;
-    //     this->musicPath = a.musicPath;
-    //     this->singers = a.singers;
-    //     this->album = a.album;
-    //     this->duration = a.duration;
-    //     this->coverImagePath = a.coverImagePath;
-    //     this->belongingPlayList = a.belongingPlayList;
-    // }
-
     const static QString TableName;
 
-    // MusicDto(MusicDto &&) = delete;
-    // MusicDto &operator=(const MusicDto &) = delete;
-    // MusicDto &operator=(MusicDto &&) = delete;
-
-    // void Print()
-    // {
-    //     qDebug()<<"MusicName: "<<musicName;
-    //     qDebug()<<"MusicPath: "<<musicPath;
-    //     qDebug()<<"Singers: "<<singers;
-    //     qDebug()<<"album: "<<album;
-    //     qDebug()<<
-    // }
 
     void InsertPlayList(const QString &playListName);
     void RemovePlayList(const QString &playListName);

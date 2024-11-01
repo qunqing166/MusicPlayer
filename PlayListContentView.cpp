@@ -20,10 +20,8 @@ PlayListView *PlayListContentView::getPlayListView() const
 PlayListContentView::PlayListContentView(QWidget *parent):QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
-    this->setObjectName("song_sheet_content");
     ObjectInit();
     WidgetInit();
-    // ShowPlayList()
 
     connect(pbAdd, &QPushButton::clicked, this, &PlayListContentView::OnPbAddClicked);
 
@@ -36,29 +34,16 @@ PlayListContentView::PlayListContentView(QWidget *parent):QWidget(parent)
     connect(pbPlay, &QPushButton::clicked, playListView, &PlayListView::OnPlayList);
 }
 
-PlayListContentView::PlayListContentView(const PlayListDto &info, QWidget *parent):QWidget(parent)
-{
-    this->playList = info;
-    this->setAttribute(Qt::WA_StyledBackground);
-    this->setObjectName("song_sheet_content");
-    ObjectInit();
-    WidgetInit();
-    ShowPlayList(this->playList);
-
-    connect(pbAdd, &QPushButton::clicked, this, &PlayListContentView::OnPbAddClicked);
-}
-
 void PlayListContentView::ShowPlayList(const PlayListDto &info)
 {
 
     this->playList = info;
     imageLabel->SetPixmap(info.CoverImagePath());
-    sheetTitleLabel->setText(info.ListName());
+    playListNameLabel->setText(info.ListName());
     userImage->SetPixmap("C:\\Users\\qunqing\\Desktop\\图片\\yyn.jpg");
     userNameLabel->setText(UserDto::MyUserInfo()->UserName());
     createTimeLabel->setText(QString("·创建于 %1").arg(info.CreateDateTime().toString("yyyy-MM-dd")));
     playListView->ShowPlayList(info.ListName());
-    // createTimeLabel->setText("创建于11-45-14");
 }
 
 void PlayListContentView::ObjectInit()
@@ -66,12 +51,9 @@ void PlayListContentView::ObjectInit()
     imageLabel = new ImageLabel(this);
     int imageSize = 100;
     imageLabel->setFixedSize(imageSize, imageSize);
-    // imageLabel->SetPixmap(QPixmap("C:\\Users\\qunqing\\Desktop\\图片\\liyue.webp"));
-    // imageLabel->setObjectName("sheet_image_label");
 
-    sheetTitleLabel = new QLabel(this);
-    // sheetTitleLabel->setText("我喜欢");
-    sheetTitleLabel->setObjectName("sheet_title_label");
+    playListNameLabel = new QLabel(this);
+    playListNameLabel->setObjectName("PlayList_Name");
 
     int userImageSize = 20;
     userImage = new ImageLabel(this);
@@ -80,20 +62,19 @@ void PlayListContentView::ObjectInit()
 
     userNameLabel = new QLabel(this);
     userNameLabel->setText("qunqing166");
-    userNameLabel->setObjectName("sheet_user_name");
+    userNameLabel->setObjectName("user_name");
 
     createTimeLabel = new QLabel(this);
-    // createTimeLabel->setText("创建于11-45-14");
-    createTimeLabel->setObjectName("sheet_user_name");
+    createTimeLabel->setObjectName("user_name");
 
     pbPlay = new QPushButton(this);
-    pbPlay->setObjectName("sheet_button_play");
+    pbPlay->setObjectName("button_play");
     pbPlay->setText("播放");
     pbPlay->setIcon(QIcon(":/scr/icon/stopping.png"));
     pbPlay->setFixedSize(80, 30);
 
     pbEdit = new QPushButton(this);
-    pbEdit->setObjectName("sheet_button_edit");
+    pbEdit->setObjectName("button_edit");
     pbEdit->setIcon(QIcon(":/scr/icon/edit.png"));
     pbEdit->setFixedSize(30, 30);
 
@@ -101,13 +82,12 @@ void PlayListContentView::ObjectInit()
 
     pbAdd = new QPushButton("+", this);
     pbAdd->setFixedSize(30, 30);
-    pbAdd->setObjectName("sheet_button_edit");
+    pbAdd->setObjectName("button_edit");
 
 }
 
 void PlayListContentView::WidgetInit()
 {
-    // QScrollArea *
     QVBoxLayout *vLayout = new QVBoxLayout(this);
     vLayout->setAlignment(Qt::AlignTop);
     this->setLayout(vLayout);
@@ -120,7 +100,7 @@ void PlayListContentView::WidgetInit()
     QVBoxLayout *vLayout2 = new QVBoxLayout(this);
     hLayout1->addLayout(vLayout2);
     vLayout2->setAlignment(Qt::AlignBottom);
-    vLayout2->addWidget(sheetTitleLabel);
+    vLayout2->addWidget(playListNameLabel);
 
     QHBoxLayout *hLayout2_1 = new QHBoxLayout(this);
     hLayout2_1->setAlignment(Qt::AlignLeft);
@@ -141,10 +121,6 @@ void PlayListContentView::WidgetInit()
     QLabel *title = new QLabel("音乐", this);
     title->setFixedHeight(40);
     QLabel *number = new QLabel("10", this);
-    // QLabel *labelTitle = new QLabel("标题", this);
-    // QLabel *labelSingers = new QLabel("歌手", this);
-    // QLabel *labelAlbum = new QLabel("专辑", this);
-    // QLabel *labelDuration = new QLabel("时长", this);
     vLayout->addLayout(hLayout3);
     hLayout3->addWidget(title);
     hLayout3->addWidget(number);
@@ -184,25 +160,11 @@ void PlayListContentView::OnPbAddClicked()
         music.setMusicPath(path);
         music.setAlbum(album);
         music.setDuration(QTime::fromMSecsSinceStartOfDay(duration).toString("mm:ss"));
-        music.InsertPlayList(this->sheetTitleLabel->text());
+        music.InsertPlayList(this->playListNameLabel->text());
         music.setSingers(artist);
         playListView->Add(music);
         return;
     }
-
-    // //将数据写入对象
-    // QMediaPlayer p(this);
-    // p.setSource(QUrl::fromLocalFile(path));
-    // MusicDto music;
-    // music.setMusicPath(path);
-    // qDebug()<<p.duration();
-    // // p.
-    // // music.setDuration(QString::asprintf("%02lld:%02lld", p.duration() / 60000, p.duration() / 1000));
-    // qDebug()<<music.Duration();
-    // music.setMusicName(fileInfo.completeBaseName());
-    // music.InsertPlayList(this->sheetTitleLabel->text());
-    // //添加至列表
-    // playListView->Add(music);
 }
 
 void PlayListContentView::OnEditPlayList(const PlayListDto &info)

@@ -16,18 +16,14 @@
 PlayList::PlayList(QString title, QWidget *parent):QWidget(parent), title(title)
 {
     this->setAttribute(Qt::WA_StyledBackground);
-    this->setObjectName("play_list");
+    this->setObjectName("PlayList");
     ObjectInit();
     DataInit();
     WidgetInit();
 
-
-
-    // SetIsOPen(true);
-
     connect(pbOpen, &QPushButton::clicked, this, &PlayList::OnPbOpenClicked);
     connect(pbOpenAnima, &QPropertyAnimation::valueChanged, this, [&](){
-        QPixmap pm = QPixmap::fromImage(QImage(":/scr/icon/arrow_down.png").transformed(QTransform().rotate(angle)));
+        QPixmap pm = QPixmap::fromImage(QImage(":/scr/icon/botton.png").transformed(QTransform().rotate(angle)));
         this->pbOpen->setIcon(QIcon(pm));
     });
     connect(listHeiAnima, &QPropertyAnimation::valueChanged, this, [&](){
@@ -40,7 +36,6 @@ PlayList::PlayList(QString title, QWidget *parent):QWidget(parent), title(title)
         {
             emit OpenPlayList(playLists.at(index.row()));
         }
-        // qDebug()<<"row "<<index.row();
     });
 
     connect(pbAdd, &QPushButton::clicked, this, [&](){
@@ -50,47 +45,30 @@ PlayList::PlayList(QString title, QWidget *parent):QWidget(parent), title(title)
     });
 }
 
-QPixmap PlayList::GetRadiusPiamap(QPixmap pixmap, int radius)
-{
-    QSize size = pixmap.size();
-    QBitmap mask(size);
-    QPainter painter(&mask);
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    painter.fillRect(0, 0, size.width(), size.height(), Qt::white);
-    painter.setBrush(QColor(0, 0, 0));
-    painter.drawRoundedRect(0, 0, size.width(), size.height(), radius, radius);
-
-    pixmap.setMask(mask);
-    return pixmap;
-}
-
 void PlayList::ObjectInit()
 {
     int size = 30;
     labelInfo = new QLabel(this);
-    labelInfo->setObjectName("song_sheet_list_label");
+    labelInfo->setObjectName("PlayList_Label");
     labelInfo->setFixedHeight(size);
 
     pbAdd = new QPushButton(this);
 
     pbAdd->setFixedSize(size, size);
-    pbAdd->setObjectName("song_sheet_list_button");
-    pbAdd->setIcon(QIcon(":/scr/icon/add.png"));
+    pbAdd->setIcon(QIcon(":/scr/icon/add (2).png"));
 
     pbOpen = new QPushButton(this);
     pbOpen->setFixedSize(size, size);
-    pbOpen->setObjectName("song_sheet_list_button");
-    pbOpen->setIcon(QIcon(":/scr/icon/arrow_up.png"));
+    pbOpen->setIcon(QIcon(":/scr/icon/top.png"));
 
     pbOpenAnima = new QPropertyAnimation(this, "Angle");
-    pbOpenAnima->startTimer(500);
+    pbOpenAnima->startTimer(100);
 
     listHeiAnima = new QPropertyAnimation(this, "ListHeight");
-    listHeiAnima->startTimer(500);
+    listHeiAnima->startTimer(100);
 
     listView = new QListView(this);
-    listView->setObjectName("song_sheet_list_view");
+    listView->setObjectName("PlayList_View");
     listView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     model = new QStandardItemModel(this);
@@ -124,24 +102,15 @@ void PlayList::WidgetInit()
 void PlayList::DataInit()
 {
     listView->setModel(model);
-
-    // BaseService<PlayListDto> service;
     PlayListService service;
 
-    if(this->title == "自建")
-    {
-        playLists = service.GetPlayListFromUser();
-    }
-    else
-    {
-    }
+    playLists = service.GetPlayListFromUser();
 
     for(int i = 0; i < playLists.count(); i++)
     {
         PlayListDto p = playLists.at(i);
         QStandardItem *item = new QStandardItem();
-        QIcon icon(GetRadiusPiamap(QPixmap(p.CoverImagePath()), 4));
-        // item->setIcon(QIcon("C:\\Users\\qunqing\\Desktop\\图片\\liyue.webp"));
+        QIcon icon(ImageLabel::GetRadiusPixmap(QPixmap(p.CoverImagePath()), 4));
         item->setIcon(icon);
         item->setText(p.ListName());
         items.append(item);
@@ -171,8 +140,6 @@ void PlayList::setTitle(QString value)
 
 void PlayList::UpdateData()
 {
-    // auto crtIndex = listView->currentIndex();
-
     BaseService<PlayListDto> service;
     playLists = service.GetAll();
 
@@ -186,9 +153,6 @@ void PlayList::UpdateData()
     {
         PlayListDto p = playLists.at(i);
         QStandardItem *item = new QStandardItem();
-        // QIcon icon(GetRadiusPiamap(QPixmap(p.CoverImagePath()), 4));
-        // QPixmap pixmap = QPixmap(p.CoverImagePath()).scaled(QSize(40, 40), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        // QIcon icon(ImageLabel::GetRadiusPixmap(pixmap, 5));
         item->setIcon(QIcon(p.CoverImagePath()));
         item->setText(p.ListName());
         items.append(item);
@@ -196,7 +160,6 @@ void PlayList::UpdateData()
     model->appendColumn(items);
 
     listView->setFixedHeight((50) * listView->model()->rowCount());
-    // listView->update();
     listView->setModel(nullptr);
     listView->setModel(model);
 
@@ -219,8 +182,6 @@ void PlayList::OnPbOpenClicked()
 
         listHeiAnima->setStartValue(0);
         listHeiAnima->setEndValue((45 + 5) * listView->model()->rowCount());
-        // qDebug()<<listView->model()->rowCount();
-
     }
     isContentOPen = !isContentOPen;
 

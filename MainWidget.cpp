@@ -23,7 +23,6 @@ IndexWidget *MainWidget::getIndexWidget() const
 
 void MainWidget::ToIndex()
 {
-    // stackedLayout->setCurrentWidget(indexWidget);
     stackedLayout->setCurrentIndex(1);
     //为了使SideBar可以出现在最表面
     sideBar->setParent(nullptr);
@@ -32,7 +31,6 @@ void MainWidget::ToIndex()
 
 void MainWidget::ToPlayList()
 {
-    // stackedLayout->setCurrentWidget(contentView);
     stackedLayout->setCurrentIndex(0);
     //为了使SideBar可以出现在最表面
     sideBar->setParent(nullptr);
@@ -42,39 +40,15 @@ void MainWidget::ToPlayList()
 MainWidget::MainWidget(QWidget *parent):QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
-    this->setObjectName("main_widget");
+    this->setObjectName("MainWidget");
 
     ObjectInit();
     WidgetInit();
 
-    // connect(contentView->getPlayListView(), &PlayListView::UpdatePlayingList,
-    //         sideBar->getSidePlayList(), &SidePlayList::PlayNewList);
-    // connect(indexWidget->getPlayList(), &PlayListView::UpdatePlayingList,
-    //         sideBar->getSidePlayList(), &SidePlayList::PlayNewList);
-    // connect(sideBar->getSidePlayList(), &SidePlayList::PlayMusic,
-    //         contentView->getPlayListView(), &PlayListView::OnPlayMusic);
-    // connect(sideBar->getSidePlayList(), &SidePlayList::PlayMusic,
-    //         indexWidget, &IndexWidget::SetCurrentMusicInfo);
     connect(sideBar->getSidePlayList(), &SidePlayList::CurrentPlayListChanged,
             indexWidget, &IndexWidget::OnCurrentPlayListChanged);
     connect(contentView, &PlayListContentView::PlayListDataChanged,
             indexWidget, &IndexWidget::SetPlayList);
-    // connect(sideBar->getSidePlayList(), &SidePlayList::PlayMusic, this, [&](const MusicDto &music){
-    //     PlayListItemService service("_Record");
-    //     PlayListItemDto item;
-    //     if(service.IsExist(QString("MusicId = %1").arg(music.Id())))
-    //     {
-    //         auto aa = service.GetOneByParameter(QString("MusicId = %1").arg(music.Id()));
-    //         service.Update(aa);
-    //     }
-    //     else
-    //     {
-    //         item.setMusicId(music.Id());
-    //         service.Add(item);
-    //     }
-    //     // sideBar->getSidePlayList()->UpdateList(sideBar->getSidePlayList()->PlayingListName());
-    //     // sideBar->ResetButton();
-    // });
 }
 
 MainWidget::MainWidget(int index, QWidget *parent)
@@ -86,11 +60,6 @@ MainWidget::MainWidget(int index, QWidget *parent)
 
     ObjectInit();
     WidgetInit();
-
-    // connect(contentView->getPlayListView(), &PlayListView::UpdatePlayingList,
-    //         sideBar->getSidePlayList(), &SidePlayList::PlayNewList);
-    // connect(sideBar->getSidePlayList(), &SidePlayList::PlayMusic,
-    //         contentView->getPlayListView(), &PlayListView::OnPlayMusic);
 }
 
 void MainWidget::ObjectInit()
@@ -110,11 +79,8 @@ void MainWidget::WidgetInit()
     scrollArea->setWidget(indexWidget);
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollArea->setObjectName("MainWidget_Scrollarea");
-    // scrollArea->setAttribute(Qt::WA_StyledBackground);
     scrollArea->setWidgetResizable(true);
     stackedLayout->addWidget(scrollArea);
-
-    // stackedLayout->addWidget(indexWidget);
     stackedLayout->setCurrentWidget(scrollArea);
 }
 

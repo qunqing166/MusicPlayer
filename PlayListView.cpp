@@ -1,19 +1,14 @@
-#include "PlayListView.h"
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QPushButton>
-#include "Dtos/PlayListItemDto.h"
 #include "PlayListItem.h"
-#include <QJsonArray>
+#include "PlayListView.h"
 #include "Service/PlayListItemService.h"
 #include "Service/PlayerController.h"
-#include <QEvent>
 #include <QMouseEvent>
+
 
 PlayListView::PlayListView(const QString &listName, QWidget *parent):QListWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
-    this->setObjectName("song_list_view");
+    this->setObjectName("PlayListView");
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
@@ -145,7 +140,6 @@ void PlayListView::UpdateWidget()
 void PlayListView::PlayMusic()
 {
     PlayerController *controller = PlayerController::Instance();
-    // controller->setCurrentPlaylistName(this->ListName());
     controller->setCurrentMusicList(this->musics, this->currentRow());
 }
 

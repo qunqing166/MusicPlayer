@@ -59,22 +59,22 @@ void IndexWidget::SetPlayList()
 void IndexWidget::ObjectInit()
 {
     QFont font;
-    font.setPointSize(15);
+    font.setPixelSize(15);
 
     imageLabel = new ImageLabel(this);
 
     label1 = new QLabel("歌名", this);
-    label1->setFont(font);
+    label1->setObjectName("IndexWidget_MusicName");
     label2 = new QLabel("作者", this);
-    label2->setFont(font);
-
-    font.setPointSize(20);
+    label1->setObjectName("IndexWidget_Singer");
     label3 = new QLabel("歌词: 当前无歌词", this);
-    label3->setFont(font);
-
+    label1->setObjectName("IndexWidget_text");
     playList = new PlayListView("_Current", this);
-
     listWidget = new QListWidget(this);
+
+    label1->setFont(font);
+    label2->setFont(font);
+    label3->setFont(font);
 }
 
 void IndexWidget::WidgetInit()
@@ -82,14 +82,12 @@ void IndexWidget::WidgetInit()
 
     QVBoxLayout *vLayout = new QVBoxLayout(this);
     this->setLayout(vLayout);
-    // vLayout->setAlignment(Qt::AlignTop);
 
     vLayout->addWidget(new QLabel("正在播放  >", this));
     QHBoxLayout *hLayout1 = new QHBoxLayout(this);
     vLayout->addLayout(hLayout1);
 
     int imageSize = 150;
-
 
     hLayout1->addWidget(imageLabel);
     imageLabel->setFixedSize(imageSize, imageSize);
@@ -114,7 +112,6 @@ void IndexWidget::WidgetInit()
 
     vLayout->addWidget(listWidget);
     listWidget->setObjectName("IndexWidget_listWidget");
-    // listWidget->setLayoutDirection(Qt::LeftToRight);
     listWidget->setFlow(QListView::LeftToRight);
     listWidget->setFixedHeight(200);
 

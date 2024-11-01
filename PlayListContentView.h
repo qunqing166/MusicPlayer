@@ -18,7 +18,7 @@ class PlayListContentView:public QWidget
 
     //界面
     ImageLabel *imageLabel;
-    QLabel *sheetTitleLabel;
+    QLabel *playListNameLabel;
     ImageLabel *userImage;
     QLabel *userNameLabel;
     QLabel *createTimeLabel;
@@ -34,7 +34,7 @@ class PlayListContentView:public QWidget
 public:
 
     PlayListContentView(QWidget *parent = nullptr);
-    PlayListContentView(const PlayListDto &info, QWidget *parent = nullptr);
+
     void ShowPlayList(const PlayListDto &info);
 
     PlayListView *getPlayListView() const;

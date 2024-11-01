@@ -5,17 +5,14 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QObject>
-// #include <QApplication>
 #include <QJsonObject>
 #include <QMetaObject>
 #include <QMetaProperty>
 #include <QSqlRecord>
-// #include "Response.h"
+
 
 class DataBaseService
 {
-    // const static QString ConnectName(){return "nmsl";};
-    // const static QString ConnectName;
     QString tableName;
 
 public:

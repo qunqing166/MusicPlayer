@@ -28,8 +28,6 @@ private:
     int Angle(){return this->angle;}
 
 protected:
-    // virtual void enterEvent(QEnterEvent *event) override;
-    // virtual void leaveEvent(QEvent *event) override;
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void paintEvent(QPaintEvent *event) override;
 

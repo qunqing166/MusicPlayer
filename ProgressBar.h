@@ -1,7 +1,6 @@
 #ifndef PROGRESSBAR_H
 #define PROGRESSBAR_H
 
-// #include <QSlider>
 #include <QWidget>
 #include <QPropertyAnimation>
 

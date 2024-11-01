@@ -22,15 +22,6 @@ class MainWindow : public QMainWindow
     bool isShowMaximized = false;
     QPoint lastDraggedPos;
 
-    QTimer *timer;
-    // QMediaPlayer *mediaPlayer;
-    // QAudioOutput *audioOutput;
-
-    // PlayerController *playerController;
-
-
-    // DataBaseSerice<MusicInfo> *dbService;
-
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -38,9 +29,7 @@ public:
 private:
     void ObjectInit();
     void WidgetInit();
-    void TitleBarInit();
-    void SelectBarInit();
-    void MainWidgetInit();
+    //加载样式表
     void LoadStyleSheet();
 
 protected:

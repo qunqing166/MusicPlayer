@@ -1,17 +1,7 @@
 #include "mainwindow.h"
-#include <qfile.h>
-#include <qdebug.h>
-#include <QPainter>
-#include <QDockWidget>
-#include <QEvent>
-#include <QMouseEvent>
-#include <QApplication>
-#include <QDir>
-#include <QJsonObject>
-// #include "DataInfo/MusicInfo.h"
-// #include "Service/MusicInfoService.h"
-#include "Service/DataBaseSerice.h"
-#include "Service/PlayerController.h"
+
+#include <QFile>
+#include <QGraphicsDropShadowEffect>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -25,8 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowFlag(Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_StyledBackground);
     this->setAttribute(Qt::WA_TranslucentBackground);//设置窗口透明化
-    // this->setContentsMargins(QMargins(0,0,0,0));
 
+    //最大化
     connect(centarlWidget, &CentralWidget::Maximize, this, [&](){
         if(isShowMaximized)
             this->showNormal();
@@ -34,12 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
             this->showMaximized();
         isShowMaximized = !isShowMaximized;
     });
+    //最小化
     connect(centarlWidget, &CentralWidget::Minimize, this, [&](){this->showMinimized();});
-
-    timer = new QTimer(this);
-    // timer->setInterval(1000);
-    // timer->start();
-    // connect(timer, &QTimer::timeout, this, [&](){LoadStyleSheet();qDebug()<<"timerout";});
 }
 
 MainWindow::~MainWindow()
@@ -49,19 +35,23 @@ MainWindow::~MainWindow()
 
 void MainWindow::ObjectInit()
 {
+    //提前加载音乐控制器
     PlayerController::Instance();
     centarlWidget = new CentralWidget(this);
-    // playerController = new PlayerController(this);
 }
 
 void MainWindow::WidgetInit()
 {
     this->setCentralWidget(centarlWidget);
-}
+    this->setContentsMargins(10,10,10,10);
 
-void MainWindow::TitleBarInit()
-{
-
+    //阴影
+    QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect(this);
+    shadowEffect->setBlurRadius(15);
+    shadowEffect->setXOffset(0);
+    shadowEffect->setYOffset(0);
+    shadowEffect->setColor(QColor(200, 200, 200));
+    this->setGraphicsEffect(shadowEffect);
 }
 
 void MainWindow::LoadStyleSheet()

@@ -8,7 +8,6 @@
 #include <QMetaObject>
 #include <QObject>
 #include <QMetaProperty>
-// #include "../DataInfo/MusicInfo.h"
 
 template<class T>
 class BaseService
@@ -18,13 +17,11 @@ public:
     BaseService<T>()
     {
         dbService = new DataBaseService(T::TableName);
-        // qDebug()<<T::TableName;
     }
 
     BaseService<T>(const QString &tableName)
     {
         dbService = new DataBaseService(tableName);
-        // qDebug()<<tableName;
     }
 
     ~BaseService<T>()

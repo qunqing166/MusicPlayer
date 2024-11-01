@@ -83,13 +83,6 @@ void MoreMenu::WidgetInit()
 
     vLayout->addWidget(btnAddToList);
     vLayout->addWidget(btnRemoveFromList);
-
-    // QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect(this);
-    // shadowEffect->setBlurRadius(15);
-    // shadowEffect->setXOffset(-5);
-    // shadowEffect->setYOffset(-5);
-    // shadowEffect->setColor(QColor(200, 200, 200));
-    // this->setGraphicsEffect(shadowEffect);
 }
 
 QMenu *MoreMenu::CreateSelectList() const

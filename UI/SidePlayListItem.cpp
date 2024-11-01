@@ -2,11 +2,12 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-SidePlayListItem::SidePlayListItem(const MusicDto &info, QWidget *parent):QWidget(parent)
+SidePlayListItem::SidePlayListItem(int index, const MusicDto &info, QWidget *parent):QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
     ObjectInit();
     this->SetMusicInfo(info);
+    this->index->setText(QString::number(index));
     WidgetInit();
 }
 
@@ -20,6 +21,10 @@ void SidePlayListItem::SetMusicInfo(const MusicDto &info)
 
 void SidePlayListItem::ObjectInit()
 {
+    index = new QLabel(this);
+    index->setFixedWidth(20);
+    index->setObjectName("PlayListItem_otherLabel");
+
     int size = 50;
     image = new ImageLabel(this, info.CoverImagePath());
     image->setFixedSize(size, size);
@@ -46,6 +51,7 @@ void SidePlayListItem::WidgetInit()
     hLayout->setContentsMargins(10,0,10,0);
     this->setLayout(hLayout);
 
+    hLayout->addWidget(index);
     hLayout->addWidget(image);
 
     QVBoxLayout *vLayout1 = new QVBoxLayout(this);

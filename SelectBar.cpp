@@ -7,7 +7,7 @@
 SelectBar::SelectBar(QWidget* parent) :QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
-    this->setObjectName("select_bar");
+    this->setObjectName("SelectBar");
 
     ObjectInit();
     WidgetInit();
@@ -20,23 +20,35 @@ void SelectBar::WidgetInit()
 {
     QVBoxLayout *vLayout = new QVBoxLayout(this);
     vLayout->setAlignment(Qt::AlignTop);
-    vLayout->setContentsMargins(0,10,0,10);
+    vLayout->setContentsMargins(10,10,10,10);
     this->setLayout(vLayout);
 
     QHBoxLayout *hLayout1 = new QHBoxLayout(this);
     vLayout->addLayout(hLayout1);
-    hLayout1->setContentsMargins(10,0,0,0);
+    hLayout1->setContentsMargins(10,0,10,0);
     hLayout1->setSpacing(3);
     hLayout1->addWidget(labelUserHeadImage);
     hLayout1->addWidget(labelUserName);
     hLayout1->addWidget(pbUserInfo, Qt::AlignRight);
 
-    vLayout->addWidget(btnToIndex);
+    // QFrame *frame1 = new QFrame(this);
+    // frame1->setStyleSheet("background-color:rgb(205, 207, 208);");
+    // frame1->setFixedHeight(1);
+    // vLayout->addWidget(frame1);
+
+    QHBoxLayout *hLayout = new QHBoxLayout(this);
+    vLayout->addLayout(hLayout);
+    hLayout->addWidget(btnToIndex);
+
+    // QFrame *frame2 = new QFrame(this);
+    // frame2->setStyleSheet("background-color:rgb(205, 207, 208);");
+    // frame2->setFixedHeight(1);
+    // vLayout->addWidget(frame2);
+
 
     QScrollArea *scrollArea = new QScrollArea(this);
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scrollArea->setObjectName("select_bar_scrollarea");
-    // scrollArea->setAttribute(Qt::WA_StyledBackground);
+    scrollArea->setObjectName("SelectBar_ScrollArea");
     vLayout->addWidget(scrollArea);
     scrollArea->setWidgetResizable(true);
     scrollArea->setContentsMargins(0,0,0,0);
@@ -49,16 +61,28 @@ void SelectBar::WidgetInit()
     scrollArea->setWidget(widget);
     widget->setObjectName("scroll_widget");
 
-    PlayList *sl = new PlayList("收藏", this);
+    // PlayList *sl = new PlayList("收藏", this);
 
-    sl->setObjectName("song_sheet_list");
+    // sl->setObjectName("song_sheet_list");
+
+    QFrame *frame1 = new QFrame(this);
+    frame1->setStyleSheet("background-color:rgb(205, 207, 208);");
+    frame1->setFixedHeight(1);
+    vLayout3->addWidget(frame1);
 
     vLayout3->addWidget(playList);
-    vLayout3->addWidget(sl);
+
+    QFrame *frame2 = new QFrame(this);
+    frame2->setStyleSheet("background-color:rgb(205, 207, 208);");
+    frame2->setFixedHeight(1);
+    vLayout3->addWidget(frame2);
+    // vLayout3->addWidget(sl);
     vLayout3->addWidget(new QWidget(this), Qt::AlignTop);
 
+
+
     vLayout3->setAlignment(Qt::AlignTop);
-    vLayout3->setContentsMargins(0,0,0,0);
+    vLayout3->setContentsMargins(20,10,20,10);
 }
 
 void SelectBar::ObjectInit()
@@ -75,24 +99,29 @@ void SelectBar::ObjectInit()
     pbUserInfo = new QPushButton(this);
     pbUserInfo->setFixedSize(40, 40);
     pbUserInfo->setObjectName("select_bar_button");
-    pbUserInfo->setIcon(QIcon(":/scr/icon/arrow_right.png"));
+    pbUserInfo->setIcon(QIcon(":/scr/icon/right.png"));
 
-    playList = new PlayList("自建", this);
+    playList = new PlayList("创建的歌单", this);
     playList->setObjectName("song_sheet_list");
     btnToIndex = new QPushButton("首页", this);
     btnToIndex->setObjectName("button_index");
-    btnToIndex->setFixedHeight(30);
+    btnToIndex->setFixedSize(150, 30);
 }
 
 void SelectBar::OnPbIndexClicked()
 {
-    // if(!isInPageIndex)
+    btnToIndex->setCheckable(true);
+    btnToIndex->setChecked(true);
+
     emit PageToIndex();
-    // isInPageIndex = true;
 }
 
 void SelectBar::OnOpenPlayList(const PlayListDto &info)
 {
+    btnToIndex->setChecked(false);
+    // btnToIndex->setCheckable(true);
+
+
     if(isInPageIndex)
         emit OpenPlayList(info);
     isInPageIndex = false;

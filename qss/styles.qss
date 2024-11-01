@@ -1,6 +1,6 @@
-QWidget#central_widget
+QWidget#CentralWidget
 {
-    background-color:white
+    background-color:transparent;
 }
 
 QPushButton#title_bar_btn
@@ -36,19 +36,26 @@ QLabel#title_label
     margin-left: 20px;
 }
 
-TitleBar#title_bar
+TitleBar#TitleBar
 {
-    /* background-color: rgb(245, 152, 152); */
+    background-color: white;
     /* background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgb(230, 239, 255),  stop:1 white); */
-    background: qconicalgradient(cx:0.5, cy:1, angle:0,stop:0 white, stop:0.2 rgb(230, 239, 255), stop: 0.4 rgb(249, 235, 250), stop:0.5 white);
+    /* background: qconicalgradient(cx:0.5, cy:1, angle:0,stop:0 white, stop:0.2 rgb(230, 239, 255), stop: 0.4 rgb(249, 235, 250), stop:0.5 white); */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: #ecf1f7;
 }
 
-SelectBar#select_bar
+SelectBar#SelectBar
 {
     /* background-color: aquamarine; */
+    background-color: rgb(240, 243, 246);
+
 }
 
-PlayerBar#player_bar
+PlayerBar#PlayerBar
 {
     background-color: rgb(255, 255, 255);
     /* color: rgb(240, 247, 255); */
@@ -56,12 +63,15 @@ PlayerBar#player_bar
     border-top: solid;
     border-width: 1px;
     border-color: #ecf1f7;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
-MainWidget#main_widget
+MainWidget#MainWidget
 {
     /* background-color: rgb(252, 254, 255); */
-    background-color: qlineargradient(x1:0, y1:0, x2:0.2, y2:0,stop:0 rgb(246, 249, 252), stop: 1  rgb(252, 254, 255));
+    /* background-color: qlineargradient(x1:0, y1:0, x2:0.2, y2:0,stop:0 rgb(246, 249, 252), stop: 1  rgb(252, 254, 255)); */
+    background-color: white;
 }
 
 
@@ -135,32 +145,13 @@ QLabel#select_bar_user_name
     font-size: 16px;
 }
 
-QLabel#song_sheet_list_label
+QLabel#PlayList_Label
 {
-    color:#666666;
-    font-size: 15px;
+    color:#808283;
+    font-size: 13px;
     font-family: "黑体";
     /* align-content: center; */
     /* background-color: turquoise; */
-}
-
-QPushButton#song_sheet_list_button
-{
-    background-color: transparent;
-}
-
-QPushButton:hover#song_sheet_list_button
-{
-    background-color: rgba(146, 146, 146, 0.411);         
-    border: none;
-    border-radius: 15px;
-}
-
-QPushButton:pressed#song_sheet_list_button
-{
-    background-color: rgba(201, 83, 83, 0.411);      
-    border: none;
-    border-radius: 15px;
 }
 
 QListWidget#song_sheet_list_widget
@@ -170,34 +161,24 @@ QListWidget#song_sheet_list_widget
     border: none;
 }
 
-/* QListWidget::item#song_sheet_list_widget
+QListView#PlayList_View
 {
-    height: 30px;
-    font-size: 30px;
-    font-family: "黑体";
-    color: #666666;
-} */
-
-QListView#song_sheet_list_view
-{
-    /* background-color: rgb(255, 187, 187); */
-    /* background-color: white; */
     background-color: transparent;
     border: none;
     border-radius: 10px;
 }
 
-QScrollArea#select_bar_scrollarea
+QScrollArea#SelectBar_ScrollArea
 {
-    background-color: white;
+    background-color: rgb(240, 243, 246);
     border: none;
     margin: 0px;
 }
 
 
-QWidget#play_list
+QWidget#PlayList
 {
-    background-color: white;
+    background-color: rgb(240, 243, 246);
 }
 
 QWidget#song_sheet_list
@@ -206,11 +187,6 @@ QWidget#song_sheet_list
     margin: 0px;
     border: none;
 }
-
-/* QListView:QScrollBar#song_sheet_list_view
-{
-    width: 0px;
-} */
 
 QWidget#scroll_widget
 {
@@ -230,65 +206,51 @@ QWidget#select_bar
     /* background-color: tomato; */
 }
 
-QWidget#song_sheet_content
-{
-    /* background-color: rgb(231, 169, 169); */
-    /* background-color: transparent; */
-    /* background-color: white; */
-    background-color: qlineargradient(x1:0, y1:0, x2:0.2, y2:0,stop:0 rgb(246, 249, 252), stop: 1  rgb(252, 254, 255));
-}
-
-QPushButton#sheet_button_play
+QPushButton#button_play
 {
     background-color: rgb(110, 178, 255);
     border: none;
     border-radius: 15px;
+    text-align: center;
 }
 
-QPushButton:hover#sheet_button_play
+QPushButton:hover#button_play
 {
     background-color: rgba(110, 178, 255, 0.8);
     border: none;
     border-radius: 15px;
 }
 
-QPushButton:pressed#sheet_button_play
-{
-    background-color: rgba(110, 178, 255, 0.6);
-    border: none;
-    border-radius: 15px;
-}
-
-QPushButton#sheet_button_edit
+QPushButton#button_edit
 {
     background-color: rgba(207, 207, 207, 0.61);
     border: none;
     border-radius: 15px;
 }
 
-QPushButton:hover#sheet_button_edit
+QPushButton:hover#button_edit
 {
     background-color: rgba(173, 173, 173, 0.692);
     border: none;
     border-radius: 15px;
 }
 
-QPushButton:pressed#sheet_button_edit
+QPushButton:pressed#button_edit
 {
     background-color: rgba(133, 133, 133, 0.76);
     border: none;
     border-radius: 15px;
 }
 
-QLabel#sheet_title_label
+QLabel#PlayList_Name
 {
     color: #666666 ;
     font-size: 25px;
-    font-family: "黑体";
+    /* font-family: "黑体"; */
     /* align-content: center; */
 }
 
-QLabel#sheet_user_name
+QLabel#user_name
 {
     color: #666666 ;
     font-size: 15px;
@@ -296,7 +258,7 @@ QLabel#sheet_user_name
     /* align-content: center; */
 }
 
-QListWidget#song_list_view
+QListWidget#PlayListView
 {
     /* background-color: rgb(220, 183, 244); */
     /* background-color: white; */
@@ -398,18 +360,31 @@ QPushButton#button_index
 {
     background-color: transparent;
     border: none;
+    color: #808283;
 }
 
 QPushButton:hover#button_index
 {
-    background-color:gray;         
+    background-color:rgb(38, 161, 255);         
     border: none;
+    border-radius: 10px;
+    color:white;
 }
 
 QPushButton:pressed#button_index
 {
-    background-color: rgb(119, 119, 119);      
+    background-color:rgb(38, 161, 255);         
     border: none;
+    border-radius: 10px;
+    color:white;
+}
+
+QPushButton:checked#button_index
+{
+    background-color:rgb(38, 161, 255);         
+    border: none;
+    border-radius: 10px;
+    color:white;
 }
 
 QWidget#more_menu
@@ -462,12 +437,23 @@ QWidget:hover#more_menu_button
 }
 
 
-
-/* QPushButton:pressed#more_menu_button
+QLabel#IndexWidget_MusicName
 {
-    background-color: rgb(119, 119, 119);      
-    border: none;
-} */
+    /* font-size: 30px;
+    color: #333333;
+    font-family: "黑体"; */
+    background-color: tomato;
+}
+
+QLabel#IndexWidget_SingerName
+{
+
+}
+
+QLabel#IndexWidget_Text
+{
+
+}
 
 QLabel#PlayListItem_musicName
 {

@@ -21,10 +21,6 @@ public:
 
 private:
     void WidgetInit();
-protected:
-    // virtual void mouseMoveEvent(QMouseEvent *event);
-    // virtual void mousePressEvent(QMouseEvent *event);
-    // virtual void mouseReleaseEvent(QMouseEvent *event);
 
 signals:
     void PbMaxClicked();

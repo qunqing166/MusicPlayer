@@ -36,16 +36,11 @@ private:
     void ObjectInit();
     void UpdateWidget();
 
+    //获取音乐控制器，播放音乐
     void PlayMusic();
-
+    //相应菜单操作
     void OnMenuOperateTrigger(const MusicDto &music, const MenuOperate &op);
 
-// public slots:
-//     void OnPlayMusic(const MusicDto &music);
-
-// signals:
-//     //播放音乐, 传入音乐信息
-//     void UpdatePlayingList(const QString &listName, int index, const QList<MusicDto> &list);
 };
 
 #endif // PLAYLISTVIEW_H

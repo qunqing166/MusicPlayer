@@ -35,5 +35,11 @@
         <file>scr/image/yyn.jpg</file>
         <file>scr/image/default_cover1.png</file>
         <file>scr/image/default_cover2.png</file>
+        <file>scr/icon/left.png</file>
+        <file>scr/icon/top.png</file>
+        <file>scr/icon/right.png</file>
+        <file>scr/icon/botton.png</file>
+        <file>scr/icon/add (2).png</file>
+        <file>scr/icon/cancel.png</file>
     </qresource>
 </RCC>

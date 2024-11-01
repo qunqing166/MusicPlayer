@@ -9,14 +9,6 @@ ImageLabel::ImageLabel(QWidget *parent, const QString &imagePath)
     this->imagePath = imagePath;
 }
 
-// void ImageLabel::SetPixmap(const QPixmap &pixmap)
-// {
-//     // this->pixmapOriginal = pixmap;
-//     // this->pixmap = GetRadiusPixmap(pixmap, radius);
-//     // DrawShowPixmap();
-//     // this->setPixmap(this->pixmap);
-// }
-
 void ImageLabel::SetPixmap(const QString &path)
 {
     this->imagePath = path;
@@ -150,15 +142,8 @@ void ImageLabel::leaveEvent(QEvent *event)
         return;
     isHover = false;
     this->update();
-    // this->setPixmap(this->pixmap);
-    // this->setPixmap(this->pixmap.scaled(this->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
 
-// void ImageLabel::resizeEvent(QResizeEvent *event)
-// {
-//     // DrawShowPixmap();
-
-// }
 
 void ImageLabel::paintEvent(QPaintEvent *event)
 {
