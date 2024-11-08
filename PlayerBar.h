@@ -14,8 +14,8 @@
 class PlayerBar:public QWidget
 {
     Q_OBJECT
-
-    MusicDto musicInfo;
+    
+    Model::Music musicInfo;
 
     bool isPlaying = false;
     bool isMute = false;
@@ -44,12 +44,12 @@ class PlayerBar:public QWidget
 public:
 
     PlayerBar(QWidget *parent = nullptr);
-    void SetMusicInfo(const MusicDto &musicInfo, bool isOpen = true);
+    void SetMusicInfo(const Model::Music &musicInfo, bool isOpen = true);
     void SetPlayStatus(bool is);
 
     void OnPositionChanged(qint64 sec);
-
-    MusicDto CurrentMusic() const;
+    
+    Model::Music CurrentMusic() const;
 
     PlayMode getPlayMode() const;
     void setPlayMode(PlayMode value);

@@ -11,6 +11,8 @@
 #include "taglib/fileref.h"
 #include "UI/PlayListEditor.h"
 
+using namespace Model;
+using namespace Service;
 
 PlayListView *PlayListContentView::getPlayListView() const
 {
@@ -34,14 +36,14 @@ PlayListContentView::PlayListContentView(QWidget *parent):QWidget(parent)
     connect(pbPlay, &QPushButton::clicked, playListView, &PlayListView::OnPlayList);
 }
 
-void PlayListContentView::ShowPlayList(const PlayListDto &info)
+void PlayListContentView::ShowPlayList(const Model::PlayList &info)
 {
 
     this->playList = info;
     imageLabel->SetPixmap(info.CoverImagePath());
     playListNameLabel->setText(info.ListName());
     userImage->SetPixmap("C:\\Users\\qunqing\\Desktop\\图片\\yyn.jpg");
-    userNameLabel->setText(UserDto::MyUserInfo()->UserName());
+    userNameLabel->setText(User::MyUserInfo()->UserName());
     createTimeLabel->setText(QString("·创建于 %1").arg(info.CreateDateTime().toString("yyyy-MM-dd")));
     playListView->ShowPlayList(info.ListName());
 }
@@ -151,8 +153,8 @@ void PlayListContentView::OnPbAddClicked()
         QString artist = tag->artist().toCString();
         QString album = tag->album().toCString();
         int duration = properties->lengthInMilliseconds();
-
-        MusicDto music;
+        
+        Music music;
         if(title == "")
             music.setMusicName(fileInfo.completeBaseName());
         else
@@ -167,9 +169,9 @@ void PlayListContentView::OnPbAddClicked()
     }
 }
 
-void PlayListContentView::OnEditPlayList(const PlayListDto &info)
+void PlayListContentView::OnEditPlayList(const PlayList &info)
 {
-    BaseService<PlayListDto> service;
+    BaseService<PlayList> service;
 
     QString str = QString("alter table PlayList_%1 rename to PlayList_%2;").arg(this->playList.ListName(), info.ListName());
 

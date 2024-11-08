@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     QFileInfo fileInfo(qApp->applicationDirPath() + "/db.db");
     if(!fileInfo.isFile())
     {
-        DataBaseService::CreateDataBase();
+        Service::DataBaseService::CreateDataBase();
     }
 
     MainWindow w;

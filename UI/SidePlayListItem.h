@@ -15,12 +15,12 @@ class SidePlayListItem:public QWidget
     QLabel *singers;
     QPushButton *pbMore;
     QPushButton *pbDel;
-
-    MusicDto info;
+    
+    Model::Music info;
 
 public:
-    SidePlayListItem(int index, const MusicDto &info, QWidget *parent = nullptr);
-    void SetMusicInfo(const MusicDto &info);
+    SidePlayListItem(int index, const Model::Music &info, QWidget *parent = nullptr);
+    void SetMusicInfo(const Model::Music &info);
 
 private:
     void ObjectInit();

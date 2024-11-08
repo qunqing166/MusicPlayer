@@ -9,7 +9,7 @@ class SidePlayList:public QListWidget
     Q_OBJECT
 
     //保存播放列表数据
-    QList<MusicDto> musics;
+    QList<Model::Music> musics;
     //当前播放列表
     QString playingListName;
 
@@ -21,9 +21,9 @@ public:
     //根据歌单名更新列表, 从数据库获得数据
     void UpdateList(const QString &tableName);
     //根据传入的列表更新
-    void UpdateList(const QList<MusicDto> &musicList);
+    void UpdateList(const QList<Model::Music> &musicList);
     //添加播放列表一条记录
-    void Add(const MusicDto &value);
+    void Add(const Model::Music &value);
     //当前播放列表名
     QString PlayingListName() const;
 
@@ -31,14 +31,14 @@ public:
 
 public slots:
     //用于响应歌单内播放音乐，加载如播放列表
-    void PlayNewList(const QString &name, int index, const QList<MusicDto> &list);
-    void OnCurrentMusicListChanged(const QList<MusicDto> &list, int index);
+    void PlayNewList(const QString &name, int index, const QList<Model::Music> &list);
+    void OnCurrentMusicListChanged(const QList<Model::Music> &list, int index);
 
 signals:
     //播放音乐信号
-    void PlayMusic(const MusicDto &music);
+    void PlayMusic(const Model::Music &music);
     //
-    void CurrentPlayListChanged(int index, const QList<MusicDto> &list);
+    void CurrentPlayListChanged(int index, const QList<Model::Music> &list);
 
 protected:
     //拦截单击事件

@@ -10,14 +10,14 @@ class IndexPlayListItem:public QWidget
     Q_OBJECT
 
     int width = 120;
-    PlayListDto playListInfo;
+    Model::PlayList playListInfo;
     ImageLabel *imageLabel;
 
 public:
-    IndexPlayListItem(const PlayListDto &playList, QWidget *parent = nullptr);
+    IndexPlayListItem(const Model::PlayList &playList, QWidget *parent = nullptr);
     int Width(){return width;}
 
 signals:
-    void OpenPlayList(const PlayListDto &info);
+    void OpenPlayList(const Model::PlayList &info);
 
 };

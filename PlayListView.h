@@ -12,20 +12,20 @@ class PlayListView:public QListWidget
 
     QString listName;
     //歌单列表
-    QList<MusicDto> musics;
+    QList<Model::Music> musics;
 
 public:
     PlayListView(const QString &listName, QWidget *parent = nullptr);
     //根据分类名查询歌单列表
     void ShowPlayList(QString playListName);
-    void Add(const MusicDto &value);
+    void Add(const Model::Music &value);
     void Delete(int id);
     QString ListName() const{return listName;}
-    QList<MusicDto> Musics() const{return musics;}
+    QList<Model::Music> Musics() const{return musics;}
 
     void OnPlayList();
     void ResetHeight();
-    void SetPlayList(const QList<MusicDto> &list);
+    void SetPlayList(const QList<Model::Music> &list);
 
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
@@ -39,7 +39,7 @@ private:
     //获取音乐控制器，播放音乐
     void PlayMusic();
     //相应菜单操作
-    void OnMenuOperateTrigger(const MusicDto &music, const MenuOperate &op);
+    void OnMenuOperateTrigger(const Model::Music &music, const MenuOperate &op);
 
 };
 

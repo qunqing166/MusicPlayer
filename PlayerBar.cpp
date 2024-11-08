@@ -13,6 +13,9 @@
 #include <QTime>
 #include <QStyle>
 
+using namespace Model;
+using namespace Service;
+
 PlayMode PlayerBar::getPlayMode() const
 {
     return playMode;
@@ -49,8 +52,8 @@ PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
     connect(pbStop, &QPushButton::clicked, this, &PlayerBar::OnPbStopClicked);
     connect(pbToNext, &QPushButton::clicked, this, [&](){PlayerController::Instance()->ToNextMusic();});
     connect(pbToLast, &QPushButton::clicked, this, [&](){PlayerController::Instance()->ToLastMusic();});
-
-    connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, [&](const MusicDto &music){
+    
+    connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, [&](const Music &music){
         this->SetMusicInfo(music);
     });
     connect(PlayerController::Instance()->getMediaPlayer(), &QMediaPlayer::positionChanged, this, &PlayerBar::OnPositionChanged);
@@ -65,7 +68,7 @@ PlayerBar::PlayerBar(QWidget *parent) :QWidget(parent)
     connect(pbVolume, &QPushButton::clicked, this, &PlayerBar::OnPbVolumeClicked);
 }
 
-void PlayerBar::SetMusicInfo(const MusicDto &musicInfo, bool isOpen)
+void PlayerBar::SetMusicInfo(const Music &musicInfo, bool isOpen)
 {
     MusicService service;
     if(!service.IsExist(QString("Id = %1").arg(musicInfo.Id())))
@@ -254,7 +257,7 @@ void PlayerBar::OnPositionChanged(qint64 ms)
     labelNowTime->setText(QString::asprintf("%02d:%02d", (s / 60) % 60, s % 60));
 }
 
-MusicDto PlayerBar::CurrentMusic() const
+Music PlayerBar::CurrentMusic() const
 {
     return this->musicInfo;
 }

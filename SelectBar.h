@@ -23,24 +23,24 @@ class SelectBar : public QWidget
     //按钮, 进入首页
     QPushButton *btnToIndex;
     //显示歌单的列表
-    PlayList *playList;
+    UI::PlayList *playList;
     //是否处于首页
     bool isInPageIndex = true;
 
 public:
     SelectBar(QWidget* parent);
-    PlayList* GetPlayList() const{return playList;}
+    UI::PlayList* GetPlayList() const{return playList;}
 
 private:
     void WidgetInit();
     void ObjectInit();
 
     void OnPbIndexClicked();
-    void OnOpenPlayList(const PlayListDto &info);
+    void OnOpenPlayList(const Model::PlayList &info);
 
 signals:
     void PageToIndex();
-    void OpenPlayList(const PlayListDto &info);
+    void OpenPlayList(const Model::PlayList &info);
 };
 
 #endif // SELECTBAR_H

@@ -3,12 +3,17 @@
 #include "BaseService.h"
 #include "../Dtos/MusicDto.h"
 
-class MusicService:public BaseService<MusicDto>
+namespace Service
+{
+
+class MusicService:public BaseService<Model::Music>
 {
 
 public:
     MusicService();
 
-    QList<MusicDto> GetAllByTableName(const QString &tableName);
+    QList<Model::Music> GetAllByTableName(const QString &tableName);
 
 };
+
+}

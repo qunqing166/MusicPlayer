@@ -11,6 +11,9 @@
 #include "../Service/PlayListService.h"
 #include "../Service/PlayerController.h"
 
+using namespace Model;
+using namespace Service;
+
 IndexWidget::IndexWidget(QWidget *parent)
     : QWidget{parent}
 {
@@ -27,7 +30,7 @@ IndexWidget::IndexWidget(QWidget *parent)
     connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, &IndexWidget::SetCurrentMusicInfo);
 }
 
-void IndexWidget::SetCurrentMusicInfo(const MusicDto &music)
+void IndexWidget::SetCurrentMusicInfo(const Music &music)
 {
     imageLabel->SetPixmap(music.CoverImagePath());
     label1->setText(QString("歌名: %1").arg(music.MusicName()));
@@ -38,11 +41,11 @@ void IndexWidget::SetCurrentMusicInfo(const MusicDto &music)
 void IndexWidget::SetCurrentPlayList()
 {
     PlayListItemService service("_Current");
-    QList<MusicDto> musics = service.GetPlayingList();
+    QList<Music> musics = service.GetPlayingList();
     playList->SetPlayList(musics);
 }
 
-void IndexWidget::OnCurrentPlayListChanged(int index, const QList<MusicDto> &list)
+void IndexWidget::OnCurrentPlayListChanged(int index, const QList<Music> &list)
 {
     playList->SetPlayList(list);
     playList->setCurrentRow(index);
@@ -137,8 +140,8 @@ void IndexWidget::UpdatePlayListWidget()
         listWidget->addItem(item);
         listWidget->setItemWidget(item, itemWidget);
         item->setSizeHint(QSize(itemWidget->Width() + 20, itemWidget->Width() + 20));
-
-        connect(itemWidget, &IndexPlayListItem::OpenPlayList, this, [&](const PlayListDto &info){
+        
+        connect(itemWidget, &IndexPlayListItem::OpenPlayList, this, [&](const PlayList &info){
             emit OpenPlayList(info);
         });
     }

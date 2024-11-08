@@ -4,8 +4,6 @@
 AnimationButton::AnimationButton(QWidget *parent) :QWidget(parent)
 {
     angleAnima = new QPropertyAnimation(this, "Angle");
-    // angleAnima->setStartValue(0);
-    // angleAnima->setEndValue(180);
     angleAnima->startTimer(500);
     connect(angleAnima, &QPropertyAnimation::valueChanged, this, [&](){this->update();});
 }
@@ -35,8 +33,6 @@ void AnimationButton::mousePressEvent(QMouseEvent *event)
 void AnimationButton::paintEvent(QPaintEvent *event)
 {
     QImage im = image1.transformed(QTransform().rotate(angle));
-    // qDebug()<<"paint";
     QPainter painter(this);
     painter.drawImage(this->rect(), im);
-    // pm.toImage().transformed(QTransform())
 }

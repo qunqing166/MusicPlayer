@@ -2,7 +2,9 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-SidePlayListItem::SidePlayListItem(int index, const MusicDto &info, QWidget *parent):QWidget(parent)
+using namespace Model;
+
+SidePlayListItem::SidePlayListItem(int index, const Music &info, QWidget *parent):QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
     ObjectInit();
@@ -11,7 +13,7 @@ SidePlayListItem::SidePlayListItem(int index, const MusicDto &info, QWidget *par
     WidgetInit();
 }
 
-void SidePlayListItem::SetMusicInfo(const MusicDto &info)
+void SidePlayListItem::SetMusicInfo(const Music &info)
 {
     this->info = info;
     image->SetPixmap(info.CoverImagePath());

@@ -5,7 +5,10 @@
 #include "../Dtos/PlayListDto.h"
 #include "../Dtos/MusicDto.h"
 
-class PlayListService:public BaseService<PlayListDto>
+namespace Service
+{
+
+class PlayListService:public BaseService<Model::PlayList>
 {
 
     QString tableName;
@@ -14,14 +17,16 @@ public:
 
     PlayListService(const QString &tableName = "");
 
-    QList<MusicDto> GetMusicList();
-    QList<MusicDto> GetMusicList(const QString &name);
+    QList<Model::Music> GetMusicList();
+    QList<Model::Music> GetMusicList(const QString &name);
 
-    bool Add(const PlayListDto &info);
+    bool Add(const Model::PlayList &info);
 
-    QList<PlayListDto> GetPlayListFromUser();
-    QList<PlayListDto> GetPlayListFromUser(int id);
+    QList<Model::PlayList> GetPlayListFromUser();
+    QList<Model::PlayList> GetPlayListFromUser(int id);
 
 };
+
+}
 
 #endif

@@ -3,21 +3,24 @@
 #include "BaseDto.h"
 #include "../Service/BaseService.h"
 
-class UserDto:public BaseDto
+namespace Model
+{
+
+class User:public Base
 {
     Q_OBJECT
 
     QString userName;
     QString headImagePath;
 
-    static UserDto *myUserInfo;
+    static User *myUserInfo;
 
 public:
 
     const static QString TableName;
 
     static void GetUserInfo(int id);
-    static const UserDto* MyUserInfo();
+    static const User* MyUserInfo();
 
     QString UserName() const;
     void setUserName(const QString &value);
@@ -35,16 +38,16 @@ private:
     Q_PROPERTY(QString HeadImagePath READ HeadImagePath WRITE setHeadImagePath NOTIFY HeadImagePathChanged FINAL)
 };
 
-inline UserDto* UserDto::myUserInfo = nullptr;
+inline User* User::myUserInfo = nullptr;
 
-inline const QString UserDto::TableName = "User";
+inline const QString User::TableName = "User";
 
-inline QString UserDto::HeadImagePath() const
+inline QString User::HeadImagePath() const
 {
     return headImagePath;
 }
 
-inline void UserDto::setHeadImagePath(const QString &value)
+inline void User::setHeadImagePath(const QString &value)
 {
     if (headImagePath == value)
         return;
@@ -52,30 +55,32 @@ inline void UserDto::setHeadImagePath(const QString &value)
     emit HeadImagePathChanged(headImagePath);
 }
 
-inline void UserDto::GetUserInfo(int id)
+inline void User::GetUserInfo(int id)
 {
     if(myUserInfo == nullptr)
     {
-        myUserInfo = new UserDto();
-        BaseService<UserDto> service;
+        myUserInfo = new User();
+        Service::BaseService<User> service;
         *myUserInfo = service.GetOne(id);
     }
 }
 
-inline const UserDto* UserDto::MyUserInfo()
+inline const User* User::MyUserInfo()
 {
     return myUserInfo;
 }
 
-inline QString UserDto::UserName() const
+inline QString User::UserName() const
 {
     return userName;
 }
 
-inline void UserDto::setUserName(const QString &value)
+inline void User::setUserName(const QString &value)
 {
     if (userName == value)
         return;
     userName = value;
     emit UserNameChanged(userName);
+}
+
 }

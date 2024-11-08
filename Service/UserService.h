@@ -3,8 +3,13 @@
 #include "BaseService.h"
 #include "../Dtos/UserDto.h"
 
-class UserService:public BaseService<UserDto>
+namespace Service
+{
+
+class UserService:public BaseService<Model::User>
 {
 public:
     UserService();
 };
+
+}

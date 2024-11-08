@@ -6,7 +6,9 @@
 #include <QPushButton>
 #include <QFileDialog>
 
-PlayListEditor::PlayListEditor(const PlayListDto &info, EditMode mode):QDialog(nullptr)
+using namespace Model;
+
+PlayListEditor::PlayListEditor(const PlayList &info, EditMode mode):QDialog(nullptr)
 {
     this->info = info;
     this->mode = mode;

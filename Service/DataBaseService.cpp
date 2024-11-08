@@ -7,6 +7,9 @@
 #include "BaseService.h"
 #include "../Dtos/PlayListDto.h"
 
+using namespace Model;
+using namespace Service;
+
 QSqlQuery DataBaseService::GetAll()
 {
     QString str = QString("select * from %1;").arg(tableName);
@@ -215,19 +218,19 @@ void DataBaseService::CreateDataBase()
           ");";
     query.exec(str);    //用户
 
-    UserDto user;
+    User user;
     user.setId(1);
     user.setUserName("qunqing166");
     user.setHeadImagePath(":/scr/image/yyn.jpg");
-    BaseService<UserDto> service;
+    BaseService<User> service;
     service.Add(user);
 
-    PlayListDto playlist;
+    PlayList playlist;
     playlist.setListName("默认列表");
     playlist.setCoverImagePath(":/scr/image/default_cover1.png");
     playlist.setCreatorId(1);
 
-    BaseService<PlayListDto> service1;
+    BaseService<PlayList> service1;
     service1.Add(playlist);
 }
 

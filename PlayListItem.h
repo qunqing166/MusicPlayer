@@ -10,6 +10,9 @@
 #include <QPointer>
 // #include "Service/DataBaseService.h"
 
+namespace UI
+{
+
 //歌曲列表item界面
 class PlayListItem:public QWidget
 {
@@ -24,27 +27,29 @@ class PlayListItem:public QWidget
     QLabel *duration;       //时长
     QPushButton *pbMore;    //更多
     //保存数据
-    MusicDto musicInfo;
+    Model::Music musicInfo;
 
     QPointer<MoreMenu> menu;
 
     int index;
 
 public:
-    PlayListItem(const MusicDto &value, int index, QWidget *parent = nullptr);
+    PlayListItem(const Model::Music &value, int index, QWidget *parent = nullptr);
     //设置显示数据
-    void SetData(MusicDto &value);
+    void SetData(Model::Music &value);
     //获取数据
-    MusicDto getMusicInfo() const;
+    Model::Music getMusicInfo() const;
 
 private:
     void ObjectInit();
     void WidgetInit();
 
 signals:
-
-    void MenuOperateTrigger(const MusicDto &music, const MenuOperate &op);
+    
+    void MenuOperateTrigger(const Model::Music &music, const MenuOperate &op);
 
 };
+
+}
 
 #endif // PLAYLISTITEM_H

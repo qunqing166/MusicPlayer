@@ -1,12 +1,15 @@
 #include "PlayingListManager.h"
 #include "PlayListItemService.h"
 
-QList<MusicDto> PlayingListManager::Musics() const
+using namespace Model;
+using namespace Service;
+
+QList<Music> PlayingListManager::Musics() const
 {
     return musics;
 }
 
-void PlayingListManager::setMusics(const QList<MusicDto> &value)
+void PlayingListManager::setMusics(const QList<Music> &value)
 {
     musics = value;
     
@@ -27,18 +30,18 @@ void PlayingListManager::setIndex(int value)
     emit MusicIndexChanged(this->index);
 }
 
-MusicDto PlayingListManager::Music() const
+Music PlayingListManager::getMusic() const
 {
     return currentMusic;
 }
 
-void PlayingListManager::setMusic(const MusicDto &value)
+void PlayingListManager::setMusic(const Music &value)
 {
     currentMusic = value;
     emit CurrentMusicChanged(value);
 }
 
-void PlayingListManager::setMusic(const QList<MusicDto> &list, const int &index)
+void PlayingListManager::setMusic(const QList<Music> &list, const int &index)
 {
     this->musics = list;
     this->index = index;

@@ -1,26 +1,29 @@
 #include "PlayListItemService.h"
 
+using namespace Model;
+using namespace Service;
+
 PlayListItemService::PlayListItemService(PlayingRecordType type)
 {
     if(type == PlayingCurrent)
     {
         this->currentTableName = "CurrentPlayList";
-        BaseService<PlayListItemDto>("CurrentPlayList");
+        BaseService<PlayListItem>("CurrentPlayList");
     }
     else
     {
-        BaseService<PlayListItemDto>("CurrentPlayList");
+        BaseService<PlayListItem>("CurrentPlayList");
         this->currentTableName = "CurrentPlayList";
     }
     // qDebug()<<;
 }
 
-PlayListItemService::PlayListItemService(const QString &tableName):BaseService<PlayListItemDto>(PlayListItemDto::TableName + tableName)
+PlayListItemService::PlayListItemService(const QString &tableName):BaseService<PlayListItem>(PlayListItem::TableName + tableName)
 {
-    this->currentTableName = PlayListItemDto::TableName + tableName;
+    this->currentTableName = PlayListItem::TableName + tableName;
 }
 
-QList<MusicDto> PlayListItemService::GetPlayingList(QString orderCriteria, SortOrder orderType)
+QList<Music> PlayListItemService::GetPlayingList(QString orderCriteria, SortOrder orderType)
 {
     QString orderStr;
     if(orderType == Asc)orderStr = "asc";
@@ -29,10 +32,10 @@ QList<MusicDto> PlayListItemService::GetPlayingList(QString orderCriteria, SortO
     QString str = QString("select Music.* from Music, %1 where Music.Id = %1.MusicId order by %1.%2 %3;")
                       .arg(this->currentTableName).arg(orderCriteria).arg(orderStr);
     QSqlQuery query(str);
-    QList<MusicDto> musics;
+    QList<Music> musics;
     while (query.next())
     {
-        MusicDto music;
+        Music music;
         DataBaseService::QueryToObject(&music, query);
         musics.append(music);
     }
@@ -48,13 +51,13 @@ bool PlayListItemService::Clear()
     return false;
 }
 
-bool PlayListItemService::UpdateNewList(const QList<MusicDto> &list)
+bool PlayListItemService::UpdateNewList(const QList<Music> &list)
 {
     //删除原来的记录
     this->Clear();
     //添加新的记录
     foreach (auto music, list) {
-        PlayListItemDto item;
+        PlayListItem item;
         item.setMusicId(music.Id());
         this->Add(item);
     }

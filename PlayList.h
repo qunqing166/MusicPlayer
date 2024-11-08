@@ -13,6 +13,9 @@
 #include "UI/PlayListEditor.h"
 #include <QPointer>
 
+namespace UI
+{
+
 //显示歌单的列表
 class PlayList:public QWidget
 {
@@ -34,8 +37,8 @@ class PlayList:public QWidget
 
     QString title;
     QString listName = "新建歌单";
-
-    QList<PlayListDto> playLists;
+    
+    QList<Model::PlayList> playLists;
     QString thisName;
     QStandardItemModel *model;
 
@@ -60,7 +63,7 @@ private:
     int Angle(){return this->angle;}
     void setListHeight(int value){this->listHeight = value;}
     int ListHeight(){return this->listHeight;}
-    void CreateNewPlayList(const PlayListDto &newList);
+    void CreateNewPlayList(const Model::PlayList &newList);
 
 
 private slots:
@@ -70,8 +73,10 @@ signals:
     void AngleChanged();
     void ListHeightChanged();
     //打开歌单的信号
-    void OpenPlayList(const PlayListDto &info);
+    void OpenPlayList(const Model::PlayList &info);
     // void PlayListChanged();
 };
+
+}
 
 #endif // PLAYLIST_H

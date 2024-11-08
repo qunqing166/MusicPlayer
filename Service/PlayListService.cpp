@@ -1,45 +1,43 @@
 #include "PlayListService.h"
 #include "../Dtos/UserDto.h"
-// void PlayListService::GetMusicList(const QString &name)
-// {
-//     QString str = QString("select * from Music")
-//     QSqlQuery query;
-// }
+
+using namespace Model;
+using namespace Service;
 
 PlayListService::PlayListService(const QString &tableName)
 {
     this->tableName = tableName;
 }
 
-QList<MusicDto> PlayListService::GetMusicList()
+QList<Music> PlayListService::GetMusicList()
 {
     QString str = QString("select Music.* from Music, %1 where Music.Id = %1.MusicId;").arg(this->tableName);
     QSqlQuery query(str);
-    QList<MusicDto> musics;
+    QList<Music> musics;
     while (query.next())
     {
-        MusicDto music;
+        Music music;
         DataBaseService::QueryToObject(&music, query);
         musics.append(music);
     }
     return musics;
 }
 
-QList<MusicDto> PlayListService::GetMusicList(const QString &name)
+QList<Music> PlayListService::GetMusicList(const QString &name)
 {
     QString str = QString("select Music.* from Music, %1 where Music.Id = %1.MusicId;").arg(name);
     QSqlQuery query(str);
-    QList<MusicDto> musics;
+    QList<Music> musics;
     while (query.next())
     {
-        MusicDto music;
+        Music music;
         DataBaseService::QueryToObject(&music, query);
         musics.append(music);
     }
     return musics;
 }
 
-bool PlayListService::Add(const PlayListDto &info)
+bool PlayListService::Add(const PlayList &info)
 {
     QSqlQuery query;
 
@@ -51,8 +49,8 @@ bool PlayListService::Add(const PlayListDto &info)
 
     if(query.value("count_value").toInt() != 0)
         return false;
-
-    BaseService<PlayListDto>::Add(info);
+    
+    BaseService<PlayList>::Add(info);
 
     QString str = QString("CREATE TABLE PlayList_%1 ("
                           "Id  INTEGER PRIMARY KEY NOT NULL,"
@@ -65,13 +63,13 @@ bool PlayListService::Add(const PlayListDto &info)
     // qDebug()<<query.lastError().text();
 }
 
-QList<PlayListDto> PlayListService::GetPlayListFromUser()
+QList<PlayList> PlayListService::GetPlayListFromUser()
 {
-    int id = UserDto::MyUserInfo()->Id();
+    int id = User::MyUserInfo()->Id();
     return this->GetAllByParameter("CreatorId", id);
 }
 
-QList<PlayListDto> PlayListService::GetPlayListFromUser(int id)
+QList<PlayList> PlayListService::GetPlayListFromUser(int id)
 {
     return this->GetAllByParameter("CreatorId", id);
 }

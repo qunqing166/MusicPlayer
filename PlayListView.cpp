@@ -4,6 +4,7 @@
 #include "Service/PlayerController.h"
 #include <QMouseEvent>
 
+using namespace Service;
 
 PlayListView::PlayListView(const QString &listName, QWidget *parent):QListWidget(parent)
 {
@@ -16,8 +17,8 @@ PlayListView::PlayListView(const QString &listName, QWidget *parent):QListWidget
 
     ShowPlayList(listName);
     UpdateWidget();
-
-    connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, [&](const MusicDto &music){
+    
+    connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, [&](const Model::Music &music){
         for(int i = 0; i < musics.count(); i++)
         {
             if(musics.at(i).Id() == music.Id())
@@ -40,9 +41,9 @@ void PlayListView::ShowPlayList(QString playListName)
     UpdateWidget();
 }
 
-void PlayListView::Add(const MusicDto &value)
+void PlayListView::Add(const Model::Music &value)
 {
-    BaseService<MusicDto> service;
+    BaseService<Model::Music> service;
     PlayListItemService service1(this->ListName());
 
     //查看数据库中是否保存过该音乐, 通过路径判断是否冲突
@@ -53,7 +54,7 @@ void PlayListView::Add(const MusicDto &value)
         service.Add(value);
     }
     //获取在数据库中的信息
-    MusicDto music = service.GetOneByParameter("MusicPath", value.MusicPath());
+    Model::Music music = service.GetOneByParameter("MusicPath", value.MusicPath());
     //判断歌单内是否保存过
     if(service1.IsExist("MusicId", music.Id()))
     {
@@ -64,7 +65,7 @@ void PlayListView::Add(const MusicDto &value)
     {
         qDebug()<<"不存在于歌单";
         //添加至歌单
-        PlayListItemDto aa;
+        Model::PlayListItem aa;
         aa.setMusicId(music.Id());
         service1.Add(aa);
     }
@@ -86,7 +87,7 @@ void PlayListView::ResetHeight()
     this->setFixedHeight(70 * this->count());
 }
 
-void PlayListView::SetPlayList(const QList<MusicDto> &list)
+void PlayListView::SetPlayList(const QList<Model::Music> &list)
 {
     this->musics = list;
     UpdateWidget();
@@ -120,10 +121,10 @@ void PlayListView::UpdateWidget()
         QListWidgetItem *item = new QListWidgetItem(this);
         item->setSizeHint(QSize(200, 60));
         this->addItem(item);
-        PlayListItem *itemWidget = new PlayListItem(musics.at(i), i + 1, this);
+        UI::PlayListItem *itemWidget = new UI::PlayListItem(musics.at(i), i + 1, this);
         this->setItemWidget(item, itemWidget);
 
-        connect(itemWidget, &PlayListItem::MenuOperateTrigger, this, &PlayListView::OnMenuOperateTrigger);
+        connect(itemWidget, &UI::PlayListItem::MenuOperateTrigger, this, &PlayListView::OnMenuOperateTrigger);
     }
 
     auto crtMusic = PlayerController::Instance()->CurrentMusic();
@@ -143,7 +144,7 @@ void PlayListView::PlayMusic()
     controller->setCurrentMusicList(this->musics, this->currentRow());
 }
 
-void PlayListView::OnMenuOperateTrigger(const MusicDto &music, const MenuOperate &op)
+void PlayListView::OnMenuOperateTrigger(const Model::Music &music, const MenuOperate &op)
 {
     if(op == Play)
     {

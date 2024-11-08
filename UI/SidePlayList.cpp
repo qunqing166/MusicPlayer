@@ -6,6 +6,9 @@
 #include <QMouseEvent>
 #include "../Service/PlayerController.h"
 
+using namespace Model;
+using namespace Service;
+
 SidePlayList::SidePlayList(QWidget *parent):QListWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
@@ -21,7 +24,7 @@ SidePlayList::SidePlayList(QWidget *parent):QListWidget(parent)
     //         this, &SidePlayList::OnCurrentMusicListChanged);
     connect(PlayerController::Instance(), &PlayerController::CurrentMusicIndexChanged,
             this, &SidePlayList::setCurrentMusicIndex);
-    connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, [&](const MusicDto &music){
+    connect(PlayerController::Instance(), &PlayerController::CurrentMusicChanged, this, [&](const Music &music){
         for(int i = 0; i < musics.count(); i++)
         {
             if(musics.at(i).Id() == music.Id())
@@ -68,7 +71,7 @@ void SidePlayList::UpdateList(const QString &tableName)
     }
 }
 
-void SidePlayList::UpdateList(const QList<MusicDto> &musicList)
+void SidePlayList::UpdateList(const QList<Music> &musicList)
 {
     musics.clear();
     musics = musicList;
@@ -78,14 +81,14 @@ void SidePlayList::UpdateList(const QList<MusicDto> &musicList)
 
     foreach (auto m, musics) {
         // service.Add(m);
-        PlayListItemDto a;
+        PlayListItem a;
         a.setMusicId(m.Id());
         service.Add(a);
     }
     UpdateWidget();
 }
 
-void SidePlayList::Add(const MusicDto &value)
+void SidePlayList::Add(const Music &value)
 {
 
 }
@@ -100,7 +103,7 @@ void SidePlayList::setCurrentMusicIndex(int index)
     currentMusicIndex = index;
 }
 
-void SidePlayList::PlayNewList(const QString &name, int index, const QList<MusicDto> &list)
+void SidePlayList::PlayNewList(const QString &name, int index, const QList<Music> &list)
 {
     // if(playingListName == name)
     // {
@@ -119,7 +122,7 @@ void SidePlayList::PlayNewList(const QString &name, int index, const QList<Music
     // emit CurrentPlayListChanged(index, list);
 }
 
-void SidePlayList::OnCurrentMusicListChanged(const QList<MusicDto> &list, int index)
+void SidePlayList::OnCurrentMusicListChanged(const QList<Music> &list, int index)
 {
     currentMusicIndex = index;
 }

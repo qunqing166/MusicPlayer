@@ -15,16 +15,16 @@ class IndexWidget : public QWidget
     QLabel *label2;
     QLabel *label3;
     PlayListView *playList;
-    QList<PlayListDto> myPlayList;
+    QList<Model::PlayList> myPlayList;
     QListWidget *listWidget;
     ImageLabel *imageLabel;
 
 public:
     explicit IndexWidget(QWidget *parent = nullptr);
-
-    void SetCurrentMusicInfo(const MusicDto &music);
+    
+    void SetCurrentMusicInfo(const Model::Music &music);
     void SetCurrentPlayList();
-    void OnCurrentPlayListChanged(int index, const QList<MusicDto> &list);
+    void OnCurrentPlayListChanged(int index, const QList<Model::Music> &list);
     void SetPlayList();
 
     PlayListView *getPlayList() const{return playList;}
@@ -40,5 +40,5 @@ private:
 
 
 signals:
-    void OpenPlayList(const PlayListDto &info);
+    void OpenPlayList(const Model::PlayList &info);
 };

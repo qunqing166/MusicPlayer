@@ -10,6 +10,8 @@
 #include <QMetaProperty>
 #include <QSqlRecord>
 
+namespace Service
+{
 
 class DataBaseService
 {
@@ -53,5 +55,7 @@ public:
     }
 
 };
+
+}
 
 #endif // DATABASESERVICE_H

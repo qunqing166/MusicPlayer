@@ -5,7 +5,10 @@
 #include <QMetaObject>
 #include <QMetaProperty>
 
-class BaseDto:public QObject
+namespace Model
+{
+
+class Base:public QObject
 {
     Q_OBJECT
 
@@ -15,14 +18,14 @@ class BaseDto:public QObject
 
 public:
 
-    BaseDto():QObject(nullptr){}
-    BaseDto(const BaseDto &value):QObject(nullptr)
+    Base():QObject(nullptr){}
+    Base(const Base &value):QObject(nullptr)
     {
         this->id = value.id;
         this->createTime = value.createTime;
         this->updateTime = value.updateTime;
     }
-    BaseDto &operator=(const BaseDto &value)//:QObject(nullptr)
+    Base &operator=(const Base &value)//:QObject(nullptr)
     {
         if (this != &value)
         {
@@ -69,44 +72,46 @@ private:
 };
 
 
-inline QString BaseDto::UpdateTime() const
+inline QString Base::UpdateTime() const
 {
     return createTime.toString("yyyy-MM-dd hh:mm:ss");
 }
 
-inline void BaseDto::setUpdateTime(const QString &value)
+inline void Base::setUpdateTime(const QString &value)
 {
     updateTime = QDateTime::fromString(value, "yyyy-MM-dd hh:mm:ss");
 }
 
-inline void BaseDto::UpdateTimeNow()
+inline void Base::UpdateTimeNow()
 {
     updateTime = QDateTime::currentDateTime();
 }
 
-inline QString BaseDto::CreateTime() const
+inline QString Base::CreateTime() const
 {
     return updateTime.toString("yyyy-MM-dd hh:mm:ss");
 }
 
-inline QDateTime BaseDto::CreateDateTime() const
+inline QDateTime Base::CreateDateTime() const
 {
     return createTime;
 }
 
-inline void BaseDto::setCreateTime(const QString &value)
+inline void Base::setCreateTime(const QString &value)
 {
     createTime = QDateTime::fromString(value, "yyyy-MM-dd hh:mm:ss");
 }
 
-inline int BaseDto::Id() const
+inline int Base::Id() const
 {
     return id;
 }
 
-inline void BaseDto::setId(int value)
+inline void Base::setId(int value)
 {
     id = value;
+}
+
 }
 
 #endif

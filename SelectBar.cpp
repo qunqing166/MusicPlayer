@@ -4,6 +4,8 @@
 #include <QHBoxLayout>
 #include <QScrollArea>
 
+using namespace Model;
+
 SelectBar::SelectBar(QWidget* parent) :QWidget(parent)
 {
     this->setAttribute(Qt::WA_StyledBackground);
@@ -13,7 +15,7 @@ SelectBar::SelectBar(QWidget* parent) :QWidget(parent)
     WidgetInit();
 
     connect(btnToIndex, &QPushButton::clicked, this, &SelectBar::OnPbIndexClicked);
-    connect(playList, &PlayList::OpenPlayList, this, &SelectBar::OpenPlayList);
+    connect(playList, &UI::PlayList::OpenPlayList, this, &SelectBar::OpenPlayList);
 }
 
 void SelectBar::WidgetInit()
@@ -87,12 +89,12 @@ void SelectBar::WidgetInit()
 
 void SelectBar::ObjectInit()
 {
-    labelUserHeadImage = new ImageLabel(this, UserDto::MyUserInfo()->HeadImagePath());
+    labelUserHeadImage = new ImageLabel(this, User::MyUserInfo()->HeadImagePath());
     int imageSize = 36;
     labelUserHeadImage->SetRadius(imageSize / 2);
     labelUserHeadImage->setFixedSize(imageSize, imageSize);
 
-    labelUserName = new QLabel(UserDto::MyUserInfo()->UserName(), this);
+    labelUserName = new QLabel(User::MyUserInfo()->UserName(), this);
     labelUserName->setObjectName("select_bar_user_name");
     labelUserName->setFixedHeight(40);
 
@@ -101,7 +103,7 @@ void SelectBar::ObjectInit()
     pbUserInfo->setObjectName("select_bar_button");
     pbUserInfo->setIcon(QIcon(":/scr/icon/right.png"));
 
-    playList = new PlayList("创建的歌单", this);
+    playList = new UI::PlayList("创建的歌单", this);
     playList->setObjectName("song_sheet_list");
     btnToIndex = new QPushButton("首页", this);
     btnToIndex->setObjectName("button_index");
@@ -116,7 +118,7 @@ void SelectBar::OnPbIndexClicked()
     emit PageToIndex();
 }
 
-void SelectBar::OnOpenPlayList(const PlayListDto &info)
+void SelectBar::OnOpenPlayList(const PlayList &info)
 {
     btnToIndex->setChecked(false);
     // btnToIndex->setCheckable(true);

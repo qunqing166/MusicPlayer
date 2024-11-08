@@ -29,10 +29,10 @@ class PlayerController:public QObject
     QAudioOutput *audioOutput;
 
     bool isCheckMusic = false;
-
-    QList<MusicDto> playingList;
-
-    QList<MusicDto> currentMusicList;
+    
+    QList<Model::Music> playingList;
+    
+    QList<Model::Music> currentMusicList;
     int currentMusicIndex;
     QString currentPlaylistName;
 
@@ -52,15 +52,15 @@ public:
     ~PlayerController();
 
     static PlayerController* Instance();
-
-    void AddToPlayList(const MusicDto &music);
-
-    void SetPlayingList(const QList<MusicDto> &value);
-
-    QList<MusicDto> CurrentMusicList() const;
-    void setCurrentMusicList(const QList<MusicDto> &value, int index = 0);
-
-    MusicDto CurrentMusic() const;
+    
+    void AddToPlayList(const Model::Music &music);
+    
+    void SetPlayingList(const QList<Model::Music> &value);
+    
+    QList<Model::Music> CurrentMusicList() const;
+    void setCurrentMusicList(const QList<Model::Music> &value, int index = 0);
+    
+    Model::Music CurrentMusic() const;
 
     int CurrentMusicIndex() const;
     void setCurrentMusicIndex(int value);
@@ -89,25 +89,25 @@ public:
 
 private:
     void ObjectInit();
-
-    void PlayMusic(const MusicDto &music);
-
-    void AddToRecord(const MusicDto &music);
+    
+    void PlayMusic(const Model::Music &music);
+    
+    void AddToRecord(const Model::Music &music);
 
 public slots:
-    void OpenNewMusic(const MusicDto &info);
+    void OpenNewMusic(const Model::Music &info);
 
     QMediaPlayer *MediaPlayer() const;
-    void LoadMusic(const MusicDto &music);
+    void LoadMusic(const Model::Music &music);
     void OnProgressBarValueChanged(int value);
 
 
 signals:
-    void UpdatePlayBarStatus(const MusicDto &music);
-
-    void CurrentMusicChanged(const MusicDto &music);
+    void UpdatePlayBarStatus(const Model::Music &music);
+    
+    void CurrentMusicChanged(const Model::Music &music);
     void CurrentMusicIndexChanged(int index);
-    void CurrentMusicListChanged(const QList<MusicDto> &list, int index);
+    void CurrentMusicListChanged(const QList<Model::Music> &list, int index);
     void DurationChanged(int duration);
 };
 

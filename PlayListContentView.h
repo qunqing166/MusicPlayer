@@ -29,13 +29,13 @@ class PlayListContentView:public QWidget
     //歌单信息编辑器
     QPointer<PlayListEditor> playListEditor;
     //歌单数据
-    PlayListDto playList;
+    Model::PlayList playList;
 
 public:
 
     PlayListContentView(QWidget *parent = nullptr);
-
-    void ShowPlayList(const PlayListDto &info);
+    
+    void ShowPlayList(const Model::PlayList &info);
 
     PlayListView *getPlayListView() const;
 
@@ -43,7 +43,7 @@ private:
     void ObjectInit();
     void WidgetInit();
     void OnPbAddClicked();
-    void OnEditPlayList(const PlayListDto &info);
+    void OnEditPlayList(const Model::PlayList &info);
     Q_PROPERTY(PlayListView *playListView READ getPlayListView CONSTANT FINAL)
 
 signals:

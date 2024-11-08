@@ -7,7 +7,10 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 
-class MusicDto:public BaseDto
+namespace Model
+{
+
+class Music:public Base
 {
     Q_OBJECT
 
@@ -22,7 +25,7 @@ class MusicDto:public BaseDto
 
 public:
 
-    MusicDto()
+    Music()
     {
         int r = rand() % 2 + 1;
         coverImagePath = QString(":/scr/image/default_cover%1").arg(r);
@@ -81,16 +84,16 @@ private:
     Q_PROPERTY(QString BelongingPlayList READ BelongingPlayList WRITE setBelongingPlayList NOTIFY BelongingPlayListChanged FINAL)
 };
 
-inline const QString MusicDto::TableName = "Music";
+inline const QString Music::TableName = "Music";
 
 #endif
 
-inline void MusicDto::InsertPlayList(const QString &playListName)
+inline void Music::InsertPlayList(const QString &playListName)
 {
     belongingPlayList.append(playListName);
 }
 
-inline void MusicDto::RemovePlayList(const QString &playListName)
+inline void Music::RemovePlayList(const QString &playListName)
 {
     if(!belongingPlayList.contains(playListName))
         return;
@@ -104,12 +107,12 @@ inline void MusicDto::RemovePlayList(const QString &playListName)
     }
 }
 
-inline QString MusicDto::MusicName() const
+inline QString Music::MusicName() const
 {
     return musicName;
 }
 
-inline void MusicDto::setMusicName(const QString &value)
+inline void Music::setMusicName(const QString &value)
 {
     if (musicName == value)
         return;
@@ -117,12 +120,12 @@ inline void MusicDto::setMusicName(const QString &value)
     // emit MusicNameChanged(musicName);
 }
 
-inline QString MusicDto::MusicPath() const
+inline QString Music::MusicPath() const
 {
     return musicPath;
 }
 
-inline void MusicDto::setMusicPath(const QString &value)
+inline void Music::setMusicPath(const QString &value)
 {
     if (musicPath == value)
         return;
@@ -130,12 +133,12 @@ inline void MusicDto::setMusicPath(const QString &value)
     // emit MusicPathChanged(musicPath);
 }
 
-inline QString MusicDto::Singers() const
+inline QString Music::Singers() const
 {
     return singers;
 }
 
-inline void MusicDto::setSingers(const QString &value)
+inline void Music::setSingers(const QString &value)
 {
     if (singers == value)
         return;
@@ -143,12 +146,12 @@ inline void MusicDto::setSingers(const QString &value)
     // emit SingersChanged(singers);
 }
 
-inline QString MusicDto::Album() const
+inline QString Music::Album() const
 {
     return album;
 }
 
-inline void MusicDto::setAlbum(const QString &value)
+inline void Music::setAlbum(const QString &value)
 {
     if (album == value)
         return;
@@ -156,33 +159,35 @@ inline void MusicDto::setAlbum(const QString &value)
     // emit AlbumChanged(album);
 }
 
-inline QString MusicDto::Duration() const
+inline QString Music::Duration() const
 {
     return duration.toString("mm:ss");
 }
 
-inline void MusicDto::setDuration(const QString &value)
+inline void Music::setDuration(const QString &value)
 {
     duration = QTime::fromString(value, "mm:ss");
     // emit DurationChanged(duration);
 }
 
-inline QString MusicDto::CoverImagePath() const
+inline QString Music::CoverImagePath() const
 {
     return coverImagePath;
 }
 
-inline void MusicDto::setCoverImagePath(const QString &value)
+inline void Music::setCoverImagePath(const QString &value)
 {
     coverImagePath = value;
 }
 
-inline QString MusicDto::BelongingPlayList() const
+inline QString Music::BelongingPlayList() const
 {
     return QString(QJsonDocument(belongingPlayList).toJson(QJsonDocument::Compact));
 }
 
-inline void MusicDto::setBelongingPlayList(const QString &value)
+inline void Music::setBelongingPlayList(const QString &value)
 {
     belongingPlayList = QJsonDocument::fromJson(value.toUtf8()).array();
+}
+
 }

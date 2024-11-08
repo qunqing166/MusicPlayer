@@ -9,6 +9,9 @@
 #include <QObject>
 #include <QMetaProperty>
 
+namespace Service
+{
+
 template<class T>
 class BaseService
 {
@@ -142,5 +145,7 @@ public:
     }
 
 };
+
+}
 
 #endif // BASESERVICE_H

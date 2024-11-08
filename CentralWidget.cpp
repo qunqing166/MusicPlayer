@@ -42,11 +42,11 @@ CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
     //标题栏最大化按钮
     connect(titleBar, &TitleBar::PbMaxClicked, this, [&](){emit Maximize();});
     //打开某个歌单, 显示歌单内容
-    connect(selectBar, &SelectBar::OpenPlayList, this, [&](const PlayListDto &info){
+    connect(selectBar, &SelectBar::OpenPlayList, this, [&](const Model::PlayList &info){
         this->mainWidget->ToPlayList();
         mainWidget->getContentView()->ShowPlayList(info);
     });
-    connect(mainWidget->getIndexWidget(), &IndexWidget::OpenPlayList, this, [&](const PlayListDto &info){
+    connect(mainWidget->getIndexWidget(), &IndexWidget::OpenPlayList, this, [&](const Model::PlayList &info){
         this->mainWidget->ToPlayList();
         mainWidget->getContentView()->ShowPlayList(info);
     });
@@ -58,7 +58,7 @@ CentralWidget::CentralWidget(QWidget *parent):QWidget(parent)
             this->mainWidget->getSideBar()->Open(mainWidget->geometry());
     });
 
-    connect(mainWidget->getContentView(), &PlayListContentView::PlayListDataChanged, selectBar->GetPlayList(), &PlayList::UpdateData);
+    connect(mainWidget->getContentView(), &PlayListContentView::PlayListDataChanged, selectBar->GetPlayList(), &UI::PlayList::UpdateData);
 }
 
 CentralWidget::~CentralWidget()
@@ -73,7 +73,7 @@ bool CentralWidget::IsInTitleBar(QPoint pos)
 void CentralWidget::ObjectInit()
 {
     int index;
-    MusicDto music;
+    Model::Music music;
     // ReadStartUp(index, music);
     titleBar = new TitleBar(this);
     selectBar = new SelectBar(this);

@@ -13,6 +13,9 @@
 #include "Service/BaseService.h"
 #include "Service/PlayListService.h"
 
+using namespace Service;
+using namespace UI;
+
 PlayList::PlayList(QString title, QWidget *parent):QWidget(parent), title(title)
 {
     this->setAttribute(Qt::WA_StyledBackground);
@@ -39,7 +42,7 @@ PlayList::PlayList(QString title, QWidget *parent):QWidget(parent), title(title)
     });
 
     connect(pbAdd, &QPushButton::clicked, this, [&](){
-        playListEditor = new PlayListEditor(PlayListDto(), Mode_Add);
+        playListEditor = new PlayListEditor(Model::PlayList(), Mode_Add);
         playListEditor->show();
         connect(playListEditor, &PlayListEditor::CreatePlayList, this, &PlayList::CreateNewPlayList);
     });
@@ -108,7 +111,7 @@ void PlayList::DataInit()
 
     for(int i = 0; i < playLists.count(); i++)
     {
-        PlayListDto p = playLists.at(i);
+        Model::PlayList p = playLists.at(i);
         QStandardItem *item = new QStandardItem();
         QIcon icon(ImageLabel::GetRadiusPixmap(QPixmap(p.CoverImagePath()), 4));
         item->setIcon(icon);
@@ -123,7 +126,7 @@ void PlayList::DataInit()
     listView->setFixedHeight(0);
 }
 
-void PlayList::CreateNewPlayList(const PlayListDto &newList)
+void PlayList::CreateNewPlayList(const Model::PlayList &newList)
 {
     PlayListService service;
     service.Add(newList);
@@ -140,7 +143,7 @@ void PlayList::setTitle(QString value)
 
 void PlayList::UpdateData()
 {
-    BaseService<PlayListDto> service;
+    BaseService<Model::PlayList> service;
     playLists = service.GetAll();
 
     foreach(auto p, items)
@@ -151,7 +154,7 @@ void PlayList::UpdateData()
 
     for(int i = 0; i < playLists.count(); i++)
     {
-        PlayListDto p = playLists.at(i);
+        Model::PlayList p = playLists.at(i);
         QStandardItem *item = new QStandardItem();
         item->setIcon(QIcon(p.CoverImagePath()));
         item->setText(p.ListName());

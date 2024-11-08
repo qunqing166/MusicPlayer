@@ -15,19 +15,19 @@ class PlayListEditor:public QDialog
 {
 
     Q_OBJECT
-
-    PlayListDto info;
+    
+    Model::PlayList info;
     ImageLabel *imageLabel;
     QLineEdit *lineEdit;
     EditMode mode;
 
 public:
-    PlayListEditor(const PlayListDto &info, EditMode mode = Mode_Edit);
+    PlayListEditor(const Model::PlayList &info, EditMode mode = Mode_Edit);
 
 private:
     bool IsImageFilePath(const QString &path);
 
 signals:
-    void SendInfo(const PlayListDto &info);
-    void CreatePlayList(const PlayListDto &info);
+    void SendInfo(const Model::PlayList &info);
+    void CreatePlayList(const Model::PlayList &info);
 };

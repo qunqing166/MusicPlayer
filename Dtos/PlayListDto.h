@@ -4,7 +4,10 @@
 
 #include "BaseDto.h"
 
-class PlayListDto:public BaseDto
+namespace Model
+{
+
+class PlayList:public Base
 {
     Q_OBJECT
 
@@ -14,7 +17,7 @@ class PlayListDto:public BaseDto
     int count = 0;
 
 public:
-    PlayListDto(){}
+    PlayList(){}
 
     const static QString TableName;
 
@@ -48,14 +51,14 @@ private:
     Q_PROPERTY(int CreatorId READ CreatorId WRITE setCreatorId NOTIFY CreatorIdChanged FINAL)
 };
 
-inline const QString PlayListDto::TableName = "PlayList";
+inline const QString PlayList::TableName = "PlayList";
 
-inline QString PlayListDto::CoverImagePath() const
+inline QString PlayList::CoverImagePath() const
 {
     return coverImagePath;
 }
 
-inline void PlayListDto::setCoverImagePath(const QString &value)
+inline void PlayList::setCoverImagePath(const QString &value)
 {
     if (coverImagePath == value)
         return;
@@ -63,12 +66,12 @@ inline void PlayListDto::setCoverImagePath(const QString &value)
     emit CoverImagePathChanged(coverImagePath);
 }
 
-inline int PlayListDto::Count() const
+inline int PlayList::Count() const
 {
     return count;
 }
 
-inline void PlayListDto::setCount(int value)
+inline void PlayList::setCount(int value)
 {
     if (count == value)
         return;
@@ -76,12 +79,12 @@ inline void PlayListDto::setCount(int value)
     emit CountChanged(count);
 }
 
-inline int PlayListDto::CreatorId() const
+inline int PlayList::CreatorId() const
 {
     return creatorId;
 }
 
-inline void PlayListDto::setCreatorId(int value)
+inline void PlayList::setCreatorId(int value)
 {
     if (creatorId == value)
         return;
@@ -89,19 +92,21 @@ inline void PlayListDto::setCreatorId(int value)
     emit CreatorIdChanged(creatorId);
 }
 
-inline QString PlayListDto::ListName() const
+inline QString PlayList::ListName() const
 {
     return listName;
 }
 
 
 
-inline void PlayListDto::setListName(const QString &value)
+inline void PlayList::setListName(const QString &value)
 {
     if (listName == value)
         return;
     listName = value;
     emit ListNameChanged(listName);
+}
+
 }
 
 #endif

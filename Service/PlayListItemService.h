@@ -9,6 +9,9 @@
 #include "../Dtos/MusicDto.h"
 // #include "../DataInfo/MusicInfo.h"
 
+namespace Service
+{
+
 enum PlayingRecordType
 {
     PlayingCurrent,
@@ -22,7 +25,7 @@ enum SortOrder
 };
 
 //用于查询当前播放列表和播放记录
-class PlayListItemService:public BaseService<PlayListItemDto>
+class PlayListItemService:public BaseService<Model::PlayListItem>
 {
 
     QString currentTableName;
@@ -31,12 +34,14 @@ public:
     PlayListItemService(PlayingRecordType type = PlayingCurrent);
     PlayListItemService(const QString &tableName);
 
-    QList<MusicDto> GetPlayingList(QString orderCriteria = "CreateTime", SortOrder oder = Desc);
+    QList<Model::Music> GetPlayingList(QString orderCriteria = "CreateTime", SortOrder oder = Desc);
     bool Clear();
-    bool UpdateNewList(const QList<MusicDto> &list);
+    bool UpdateNewList(const QList<Model::Music> &list);
 
 private:
 
 };
+
+}
 
 #endif // PLAYLISTITEMSERVICE_H

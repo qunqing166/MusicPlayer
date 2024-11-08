@@ -5,12 +5,15 @@
 #include <QApplication>
 #include "../Dtos/UserDto.h"
 
-QList<MusicDto> PlayerController::CurrentMusicList() const
+using namespace Model;
+using namespace Service;
+
+QList<Music> PlayerController::CurrentMusicList() const
 {
     return currentMusicList;
 }
 
-void PlayerController::setCurrentMusicList(const QList<MusicDto> &value, int index)
+void PlayerController::setCurrentMusicList(const QList<Music> &value, int index)
 {
 
     currentMusicList = value;
@@ -20,7 +23,7 @@ void PlayerController::setCurrentMusicList(const QList<MusicDto> &value, int ind
     PlayListItemService service("_Current");
     service.UpdateNewList(currentMusicList);
 
-    MusicDto music = currentMusicList.at(currentMusicIndex);
+    Music music = currentMusicList.at(currentMusicIndex);
     //播放
     PlayMusic(music);
 
@@ -30,10 +33,10 @@ void PlayerController::setCurrentMusicList(const QList<MusicDto> &value, int ind
     // emit CurrentMusicListChanged(currentMusicList, currentMusicIndex);
 }
 
-MusicDto PlayerController::CurrentMusic() const
+Music PlayerController::CurrentMusic() const
 {
     if(currentMusicIndex < 0 || currentMusicIndex >= currentMusicList.count())
-        return MusicDto();
+        return Music();
     return currentMusicList.at(currentMusicIndex);
 }
 
@@ -133,7 +136,7 @@ PlayerController *PlayerController::Instance()
     return instance;
 }
 
-void PlayerController::AddToPlayList(const MusicDto &music)
+void PlayerController::AddToPlayList(const Music &music)
 {
     auto crtMusic = currentMusicList.at(currentMusicIndex);
 
@@ -160,7 +163,7 @@ void PlayerController::AddToPlayList(const MusicDto &music)
     // emit CurrentMusicListChanged(currentMusicList, currentMusicIndex);
 }
 
-void PlayerController::SetPlayingList(const QList<MusicDto> &value)
+void PlayerController::SetPlayingList(const QList<Music> &value)
 {
     this->playingList = value;
 }
@@ -172,7 +175,7 @@ void PlayerController::ObjectInit()
     mediaPlayer->setAudioOutput(audioOutput);
 }
 
-void PlayerController::PlayMusic(const MusicDto &music)
+void PlayerController::PlayMusic(const Music &music)
 {
     mediaPlayer->setSource(QUrl::fromLocalFile(music.MusicPath()));
     mediaPlayer->play();
@@ -180,7 +183,7 @@ void PlayerController::PlayMusic(const MusicDto &music)
     emit CurrentMusicChanged(music);
 }
 
-void PlayerController::AddToRecord(const MusicDto &music)
+void PlayerController::AddToRecord(const Music &music)
 {
     PlayListItemService service("_Record");
 
@@ -191,7 +194,7 @@ void PlayerController::AddToRecord(const MusicDto &music)
     }
     else
     {
-        PlayListItemDto item;
+        PlayListItem item;
         item.setMusicId(music.Id());
         service.Add(item);
     }
@@ -209,7 +212,7 @@ void PlayerController::SetVolume(bool isMute)
     // }
 }
 
-void PlayerController::OpenNewMusic(const MusicDto &info)
+void PlayerController::OpenNewMusic(const Music &info)
 {
     // currentPlayingIndex = index;
     isCheckMusic = true;
@@ -244,7 +247,7 @@ void PlayerController::ReadStartUp()
     currentMusicIndex = jsonObj.value("current_music_index").toInt();
     position = jsonObj.value("current_music_position").toInteger();
     playMode = (PlayMode)jsonObj.value("play_mode").toInt();
-    UserDto::GetUserInfo(1);
+    User::GetUserInfo(1);
 
     PlayListItemService service("_Current");
     currentMusicList = service.GetPlayingList();
@@ -280,7 +283,7 @@ QMediaPlayer *PlayerController::MediaPlayer() const
     return mediaPlayer;
 }
 
-void PlayerController::LoadMusic(const MusicDto &music)
+void PlayerController::LoadMusic(const Music &music)
 {
     mediaPlayer->setSource(QUrl::fromLocalFile(music.MusicPath()));
 }
