@@ -2,7 +2,7 @@
 #ifndef PLAYLISTDTO_H
 #define PLAYLISTDTO_H
 
-#include "BaseDto.h"
+#include "Base.h"
 
 namespace Model
 {

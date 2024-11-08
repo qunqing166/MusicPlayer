@@ -3,9 +3,9 @@
 #include <QSqlResult>
 #include <QSqlError>
 #include <QApplication>
-#include "../Dtos/UserDto.h"
+#include "../Model/User.h"
 #include "BaseService.h"
-#include "../Dtos/PlayListDto.h"
+#include "../Model/PlayList.h"
 
 using namespace Model;
 using namespace Service;

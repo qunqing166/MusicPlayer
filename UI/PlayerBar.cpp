@@ -1,6 +1,6 @@
 #include "PlayerBar.h"
-#include "Service/MusicService.h"
-#include "Service/PlayerController.h"
+#include "../Service/MusicService.h"
+#include "../Service/PlayerController.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>

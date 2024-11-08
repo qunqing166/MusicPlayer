@@ -18,32 +18,16 @@ find_package(Qt6 REQUIRED COMPONENTS Multimedia)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
-        mainwindow.h
+        # mainwindow.cpp
+        # mainwindow.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(MusicPlayer
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        TitleBar.h TitleBar.cpp
-        SelectBar.h SelectBar.cpp
+
         src.qrc
-        CentralWidget.h CentralWidget.cpp
-        PlayerBar.h PlayerBar.cpp
-        MainWidget.h MainWidget.cpp
-        ImageLabel.h ImageLabel.cpp
-        ProgressBar.h ProgressBar.cpp
-
-
-        PlayList.h PlayList.cpp
-        AnimationButton.h AnimationButton.cpp
-        PlayListContentView.h PlayListContentView.cpp
-        PlayListView.h PlayListView.cpp
-        PlayListItem.h PlayListItem.cpp
-
-
-
 
         Service/DataBaseService.h
 
@@ -57,20 +41,43 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         UI/ClickedEventFilter.h
         UI/SidePlayListItem.h UI/SidePlayListItem.cpp
         Service/PlayListItemService.h Service/PlayListItemService.cpp
-        Dtos/BaseDto.h
-        Dtos/MusicDto.h
-        Dtos/PlayListDto.h
+        # Dtos/BaseDto.h
+        # Dtos/MusicDto.h
+        # Dtos/PlayListDto.h
         Service/DataBaseService.cpp
         Service/MusicService.h Service/MusicService.cpp
-        Dtos/PlayListItemDto.h Dtos/PlayListItemDto.cpp
+        # Dtos/PlayListItemDto.h Dtos/PlayListItemDto.cpp
         UI/IndexWidget.h UI/IndexWidget.cpp
         UI/MoreMenu.h UI/MoreMenu.cpp
         UI/ToolButton.h UI/ToolButton.cpp
         UI/IndexPlayListItem.h UI/IndexPlayListItem.cpp
         UI/PlayListEditor.h UI/PlayListEditor.cpp
         Service/PlayingListManager.h Service/PlayingListManager.cpp
-        Dtos/UserDto.h
+        # Dtos/UserDto.h
         Service/UserService.h Service/UserService.cpp
+        UI/AnimationButton.cpp UI/AnimationButton.h
+        UI/CentralWidget.cpp UI/CentralWidget.h
+        UI/ClickedEventFilter.h
+        UI/ImageLabel.cpp UI/ImageLabel.h
+        UI/IndexPlayListItem.cpp UI/IndexPlayListItem.h
+        UI/IndexWidget.cpp UI/IndexWidget.h
+        UI/MainWidget.cpp UI/MainWidget.h
+        UI/mainwindow.cpp UI/mainwindow.h
+        UI/MoreMenu.cpp UI/MoreMenu.h
+        UI/PlayerBar.cpp UI/PlayerBar.h
+        UI/PlayList.cpp UI/PlayList.h
+        UI/PlayListContentView.cpp UI/PlayListContentView.h
+        UI/PlayListEditor.cpp UI/PlayListEditor.h
+        UI/PlayListItem.cpp UI/PlayListItem.h
+        UI/PlayListView.cpp UI/PlayListView.h
+        UI/ProgressBar.cpp UI/ProgressBar.h
+        UI/SelectBar.cpp UI/SelectBar.h
+        UI/SidePlayList.cpp UI/SidePlayList.h
+        UI/SidePlayListBar.cpp UI/SidePlayListBar.h
+        UI/SidePlayListItem.cpp UI/SidePlayListItem.h
+        UI/TitleBar.cpp UI/TitleBar.h
+        UI/ToolButton.cpp UI/ToolButton.h
+        Model/Base.h Model/Music.h Model/PlayList.h Model/PlayListItem.cpp Model/PlayListItem.h Model/User.h
 
 
 

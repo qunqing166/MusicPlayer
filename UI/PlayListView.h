@@ -2,8 +2,8 @@
 #define PLAYLISTVIEW_H
 
 #include <QListWidget>
-#include "Dtos/MusicDto.h"
-#include "UI/MoreMenu.h"
+#include "../Model/Music.h"
+#include "MoreMenu.h"
 
 //歌曲列表显示的列表
 class PlayListView:public QListWidget

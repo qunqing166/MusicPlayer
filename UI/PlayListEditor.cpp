@@ -1,5 +1,5 @@
 #include "PlayListEditor.h"
-#include "../ImageLabel.h"
+#include "ImageLabel.h"
 #include <QVBoxLayout>
 #include <QLineEdit>
 #include <QHBoxLayout>

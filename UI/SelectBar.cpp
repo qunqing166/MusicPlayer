@@ -1,5 +1,5 @@
 #include "SelectBar.h"
-#include "Dtos/UserDto.h"
+#include "../Model/User.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QScrollArea>

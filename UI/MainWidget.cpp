@@ -3,7 +3,7 @@
 #include "PlayListContentView.h"
 #include <QScrollArea>
 #include <QStackedWidget>
-#include "UI/SidePlayListBar.h"
+#include "SidePlayListBar.h"
 // #include "Service/PlayListItemService.h"
 
 PlayListContentView *MainWidget::getContentView() const

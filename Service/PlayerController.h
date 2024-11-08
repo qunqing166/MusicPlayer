@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QMediaPlayer>
 #include <QAudioOutput>
-#include "../Dtos/MusicDto.h"
+#include "../Model/Music.h"
 
 enum PlayMode
 {

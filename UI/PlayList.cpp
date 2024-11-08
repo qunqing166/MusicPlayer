@@ -9,9 +9,9 @@
 #include <QSpacerItem>
 #include <QStandardItemModel>
 #include <QPainter>
-#include "Dtos/PlayListDto.h"
-#include "Service/BaseService.h"
-#include "Service/PlayListService.h"
+#include "../Model/PlayList.h"
+#include "../Service/BaseService.h"
+#include "../Service/PlayListService.h"
 
 using namespace Service;
 using namespace UI;

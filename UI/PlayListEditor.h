@@ -1,8 +1,8 @@
 #pragma once
 
 #include <QDialog>
-#include "../Dtos/PlayListDto.h"
-#include "../ImageLabel.h"
+#include "../Model/PlayList.h"
+#include "ImageLabel.h"
 #include <QLineEdit>
 
 enum EditMode

@@ -3,10 +3,10 @@
 
 #include <QWidget>
 #include <QLabel>
-#include "Dtos/MusicDto.h"
+#include "../Model/Music.h"
 #include "ImageLabel.h"
 #include <QPushButton>
-#include "UI/MoreMenu.h"
+#include "MoreMenu.h"
 #include <QPointer>
 // #include "Service/DataBaseService.h"
 

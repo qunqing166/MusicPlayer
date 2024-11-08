@@ -1,7 +1,7 @@
 #include "PlayListItem.h"
 #include "PlayListView.h"
-#include "Service/PlayListItemService.h"
-#include "Service/PlayerController.h"
+#include "../Service/PlayListItemService.h"
+#include "../Service/PlayerController.h"
 #include <QMouseEvent>
 
 using namespace Service;

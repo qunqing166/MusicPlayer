@@ -1,11 +1,11 @@
 #pragma once
 
 #include <QWidget>
-#include "../Dtos/MusicDto.h"
+#include "../Model/Music.h"
 #include <QLabel>
-#include "../PlayListView.h"
-#include "../Dtos/PlayListDto.h"
-#include "../ImageLabel.h"
+#include "PlayListView.h"
+#include "../Model/PlayList.h"
+#include "ImageLabel.h"
 
 class IndexWidget : public QWidget
 {

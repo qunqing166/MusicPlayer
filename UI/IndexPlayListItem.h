@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../ImageLabel.h"
+#include "ImageLabel.h"
 #include <QLabel>
 #include <QWidget>
-#include "../Dtos/PlayListDto.h"
+#include "../Model/PlayList.h"
 
 class IndexPlayListItem:public QWidget
 {

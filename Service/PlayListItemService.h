@@ -4,9 +4,9 @@
 // #include "Response.h"
 #include <QSqlDatabase>
 #include "BaseService.h"
-#include "../Dtos/PlayListItemDto.h"
+#include "../Model/PlayListItem.h"
 // #include "DataBaseService.h"
-#include "../Dtos/MusicDto.h"
+#include "../Model/Music.h"
 // #include "../DataInfo/MusicInfo.h"
 
 namespace Service

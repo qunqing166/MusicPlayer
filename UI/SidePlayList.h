@@ -2,7 +2,7 @@
 #define SIDEPLAYLIST_H
 
 #include <QListWidget>
-#include "../Dtos/MusicDto.h"
+#include "../Model/Music.h"
 
 class SidePlayList:public QListWidget
 {

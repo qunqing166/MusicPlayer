@@ -9,8 +9,8 @@
 #include <QListWidget>
 #include <QStandardItemModel>
 #include <QSharedPointer>
-#include "Dtos/PlayListDto.h"
-#include "UI/PlayListEditor.h"
+#include "../Model/PlayList.h"
+#include "PlayListEditor.h"
 #include <QPointer>
 
 namespace UI

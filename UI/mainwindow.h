@@ -6,7 +6,7 @@
 #include <QVBoxLayout>
 #include "CentralWidget.h"
 // #include "DataInfo/MusicInfo.h"
-#include "Service/DataBaseSerice.h"
+#include "../Service/DataBaseSerice.h"
 #include <QMediaPlayer>
 #include <QAudioOutput>
 // #include "Service/PlayerController.h"

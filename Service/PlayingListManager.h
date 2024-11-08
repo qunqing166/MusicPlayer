@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QObject>
-#include "../Dtos/MusicDto.h"
+#include "../Model/Music.h"
 
 class PlayingListManager:public QObject
 {

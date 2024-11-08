@@ -4,8 +4,8 @@
 #include <QWidget>
 #include "PlayListContentView.h"
 #include <QStackedWidget>
-#include "UI/SidePlayListBar.h"
-#include "UI/IndexWidget.h"
+#include "SidePlayListBar.h"
+#include "IndexWidget.h"
 #include <QStackedLayout>
 
 class MainWidget:public QWidget

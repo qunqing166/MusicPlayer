@@ -3,11 +3,11 @@
 
 #include <QWidget>
 #include <QLabel>
-#include "Dtos/MusicDto.h"
+#include "../Model/Music.h"
 #include "ImageLabel.h"
 #include "ProgressBar.h"
 #include <QPushButton>
-#include "Service/PlayerController.h"
+#include "../Service/PlayerController.h"
 #include <QSlider>
 
 //播放控制栏

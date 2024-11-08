@@ -2,8 +2,8 @@
 #define PLAYLISTSERVISE_H
 
 #include "BaseService.h"
-#include "../Dtos/PlayListDto.h"
-#include "../Dtos/MusicDto.h"
+#include "../Model/PlayList.h"
+#include "../Model/Music.h"
 
 namespace Service
 {

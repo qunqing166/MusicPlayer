@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseDto.h"
+#include "Base.h"
 
 namespace Model
 {

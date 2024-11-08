@@ -2,9 +2,9 @@
 #define SIDEPLAYLISTITEM_H
 
 #include <QWidget>
-#include "../ImageLabel.h"
+#include "ImageLabel.h"
 #include <QPushButton>
-#include "../Dtos/MusicDto.h"
+#include "../Model/Music.h"
 
 class SidePlayListItem:public QWidget
 {

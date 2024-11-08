@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseService.h"
-#include "../Dtos/UserDto.h"
+#include "../Model/User.h"
 
 namespace Service
 {

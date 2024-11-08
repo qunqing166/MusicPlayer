@@ -2,7 +2,7 @@
 #ifndef MUSICDTO_H
 #define MUSICDTO_H
 
-#include "BaseDto.h"
+#include "Base.h"
 #include <QString>
 #include <QJsonArray>
 #include <QJsonDocument>

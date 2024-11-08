@@ -5,8 +5,8 @@
 #include <QLabel>
 // #include "MoreMenu.h"
 #include <QVBoxLayout>
-#include "../ImageLabel.h"
-#include "../PlayListView.h"
+#include "ImageLabel.h"
+#include "PlayListView.h"
 #include "../Service/PlayListItemService.h"
 #include "../Service/PlayListService.h"
 #include "../Service/PlayerController.h"

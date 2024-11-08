@@ -1,5 +1,5 @@
-#ifndef BASEDTO_H
-#define BASEDTO_H
+#ifndef BASE_H
+#define BASE_H
 
 #include <QDateTime>
 #include <QMetaObject>

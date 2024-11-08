@@ -1,6 +1,6 @@
 #include "IndexPlayListItem.h"
 #include <QVBoxLayout>
-#include "../Dtos/UserDto.h"
+#include "../Model/User.h"
 
 using namespace Model;
 using namespace Service;

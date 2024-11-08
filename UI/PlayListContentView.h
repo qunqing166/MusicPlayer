@@ -2,13 +2,13 @@
 #define PLAYLISTCONTENTVIEW_H
 
 #include <QWidget>
-#include "Dtos/PlayListDto.h"
+#include "../Model/PlayList.h"
 #include "ImageLabel.h"
 #include <QLabel>
 #include <QPushButton>
 #include <QListWidget>
 #include "PlayListView.h"
-#include "UI/PlayListEditor.h"
+#include "PlayListEditor.h"
 #include <QPointer>
 
 //歌单内容界面, 包括歌单创建信息和包括的歌曲列表

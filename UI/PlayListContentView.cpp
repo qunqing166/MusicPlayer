@@ -5,11 +5,11 @@
 #include "PlayListView.h"
 #include <QFileDialog>
 #include <QMediaPlayer>
-#include "Service/BaseService.h"
+#include "../Service/BaseService.h"
 #include "taglib/tag.h"
-#include "Dtos/UserDto.h"
+#include "../Model/User.h"
 #include "taglib/fileref.h"
-#include "UI/PlayListEditor.h"
+#include "PlayListEditor.h"
 
 using namespace Model;
 using namespace Service;

@@ -3,7 +3,7 @@
 #include <QDir>
 #include <QFile>
 #include <QApplication>
-#include "../Dtos/UserDto.h"
+#include "../Model/User.h"
 
 using namespace Model;
 using namespace Service;
